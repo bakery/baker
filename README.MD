@@ -76,3 +76,7 @@ Component generator has the following options:
 Container generator is built upon a component generator and includes all of it's options above in addition to the following option:
 
 - **creating a reducer**: you can choose to create a reducer + actions + constants modules to associate with your container (defaults to true)
+
+## Sample apps built using Baker
+
+- [TodoMVC](https://github.com/thebakeryio/todomvc-react-native)
