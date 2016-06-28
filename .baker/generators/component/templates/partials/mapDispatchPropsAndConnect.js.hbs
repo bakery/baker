@@ -1,0 +1,23 @@
+{{#if isContainer}}
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+{{/if}}
+
+{{#if selectorName}}
+export default connect(
+  createSelector({{selectorName}}, ({{reducerName}}) => ({ {{reducerName}} })),
+  mapDispatchToProps{{#if mergeProps}}, mergeProps{{/if}}
+)({{componentName}});
+{{else}}
+  {{#if isContainer}}
+function mapStateToProps(state) {
+  return {}; 
+}
+export default connect(mapStateToProps, mapDispatchToProps{{#if mergeProps}}, mergeProps{{/if}})({{componentName}});
+  {{else}}
+export default {{componentName}};
+  {{/if}}
+{{/if}}
