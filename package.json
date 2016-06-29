@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "setup": "npm install --save --save-exact react-native && node babel-node --presets es2015 ./.baker/generate.js app",
+    "setup": "npm install --save --save-exact react react-native && babel-node --presets es2015 ./.baker/generate.js app",
     "generate": "babel-node --presets es2015 ./.baker/generate.js",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "android": "node node_modules/react-native/local-cli/cli.js run-android"
@@ -20,7 +20,6 @@
     "reselect": "^2.4.0"
   },
   "devDependencies": {
-    "ast-query": "^1.2.0",
     "babel-eslint": "^6.0.2",
     "babel-polyfill": "^6.7.4",
     "babel-preset-es2015": "^6.9.0",
@@ -38,7 +37,6 @@
     "mkdirp": "^0.5.1",
     "remote-redux-devtools": "^0.1.6",
     "shelljs": "^0.6.0",
-    "underscore.string": "^3.3.4",
     "yeoman-environment": "^1.6.1",
     "yeoman-generator": "^0.22.0",
     "yosay": "^1.0.2"
