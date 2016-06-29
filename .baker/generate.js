@@ -7,14 +7,26 @@ var generators = [
   'app', 'component', 'container', 'list', 'reducer'
 ];
 
-function runCommand() {
-  console.log('@@ running generator');
-  
-  generators.forEach(generator => {
-    env.register(`./.baker/generators/${generator}`, `rn:${generator}`); 
-  });
+generators.forEach(function(generator) {
+  env.register('./.baker/generators/' + generator, 'rn:' + generator); 
+})
 
-  env.run('rn:component');
+function runCommand() {
+  if (argv._.length !== 0) {
+    var command = argv._[0];
+
+    if (supportedCommands.indexOf(command) === -1) {
+      return;
+    }
+
+    switch (command) {
+      case 'app':
+        env.run('rn', {baker: 'baker'});
+        break;
+    }
+  } else {
+    env.run('rn:list');
+  }
 }
 
 runCommand();
