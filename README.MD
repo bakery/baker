@@ -11,8 +11,6 @@ git clone https://github.com/thebakeryio/baker.git MyReactNativeApp
 cd MyReactNativeApp && npm install && npm run setup 
 ```
 
-**Note:** Npm will sometimes [fail to install all the deps](http://stackoverflow.com/a/18618876/320419). If you encounter an error with a module resolution, just rerun ```npm install``` again and it should work.
-
 Running your app on iOS
 
 ```sh
