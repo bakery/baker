@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "setup": "npm install --save --save-exact react-native && node ./cli/baker.js generate:app",
+    "setup": "npm install --save --save-exact react-native && node babel-node --presets es2015 ./.baker/generate.js app",
     "generate": "babel-node --presets es2015 ./.baker/generate.js",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "android": "node node_modules/react-native/local-cli/cli.js run-android"
