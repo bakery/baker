@@ -1,7 +1,7 @@
 var argv = require('minimist')(process.argv.slice(2));
 var yeoman = require('yeoman-environment');
 var env = yeoman.createEnv();
-var supportedCommands = ['generate','generate:app'];
+var supportedCommands = ['app'];
 
 var generators = [
   'app', 'component', 'container', 'list', 'reducer'
