@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
