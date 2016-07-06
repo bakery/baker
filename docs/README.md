@@ -1,11 +1,9 @@
-# Table of Contents
+## Table of Contents
 
 * [Read Me](/README.md)
 * [Introduction](/docs/introduction/README.md)
-   * [Scaffolding](/docs/introduction/Scaffolding.md)
-   * [Components VS Containers](/docs/introduction/ComponentsVsContainers.md)
+  * [Scaffolding](/docs/introduction/scaffolding.md)
+  * [Containers VS Components](/docs/introduction/ContainersVsComponents.md)
 * [Components](/docs/components/README.md)
-   * [Tabs Navigation](/docs/components/TabsNavigation.md)
-   * [Card Navigation](/docs/components/CardNavigation.md)
-* [Creating a Component Boilerplate](/docs/CreatingBoilerplates.md)
-
+  * [Tabs Navigation](/docs/components/TabsNavigation.md)
+  * [Card Navigation](/docs/components/CardNavigation.md)
