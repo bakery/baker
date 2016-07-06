@@ -19,13 +19,12 @@ describe('generator-rn:reducer', () => {
     before(done => {
       helpers.run(path.join(__dirname, '../src/generators/reducer'))
       .withOptions({
-        container
+        container,
       }).withPrompts({
         appDirectory,
-        container
+        container,
       })
-      .on('ready', function (generator) {
-      }).on('end', done);
+      .on('end', done);
     });
 
     it('creates reducer files', () => {
@@ -34,7 +33,7 @@ describe('generator-rn:reducer', () => {
         'reducer.test.js',
         'actions.js',
         'actions.test.js',
-        'constants.js'
+        'constants.js',
       ].map(f => `${appDirectory}/components/${container}/${f}`));
     });
 
@@ -45,21 +44,21 @@ describe('generator-rn:reducer', () => {
         `import comments from './components/${container}/reducer'`
       );
       assert.fileContent(reducersModulePath,
-        `comments: comments`
+        'comments: comments'
       );
     });
 
     it('default exports newly created reducer ', () => {
       const reducerModulePath = `${appDirectory}/components/${container}/reducer.js`;
       assert.fileContent(reducerModulePath,
-        `export default comments`
+        'export default comments'
       );
     });
 
     it('exports a selector for the newly created reducer ', () => {
       const reducerModulePath = `${appDirectory}/components/${container}/reducer.js`;
       assert.fileContent(reducerModulePath,
-        `export function selectComments(state) {`
+        'export function selectComments(state) {'
       );
     });
   });

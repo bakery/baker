@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
-    BaseGenerator.apply(this, arguments);
+    BaseGenerator.call(this, args, options);
 
     if (!options || !options.container) {
       // XX: reducer generator is currently only meant
@@ -24,7 +24,7 @@ module.exports = BaseGenerator.extend({
         'actions.test.js.hbs',
         'constants.js.hbs',
         'reducer.js.hbs',
-        'reducer.test.js.hbs'
+        'reducer.test.js.hbs',
       ];
     },
 
@@ -32,14 +32,13 @@ module.exports = BaseGenerator.extend({
       if (this.boilerplateName) {
         this.boilerplate = this._renderBoilerplate(this.boilerplateName);
       }
-    }
+    },
   },
 
   writing: {
     everything() {
-      this.files.forEach(f => {
-        this.template(f, `${this.appDirectory}/components/${this.container}/${this._dropHBSExtension(f)}`);
-      });
+      this.files.forEach(f => this.template(f,
+        `${this.appDirectory}/components/${this.container}/${this._dropHBSExtension(f)}`));
     },
 
     updateRootReducersModule() {
@@ -57,7 +56,8 @@ module.exports = BaseGenerator.extend({
         // reducersModule = esprima.parse(reducersModuleContent, this.esprimaOptions);
         reducersModule = this.parseJSSource(reducersModuleContent);
       } catch (e) {
-        this.env.error(`There seems to be an issue with your reducers module (${this.destinationPath(reducersModulePath)})`, e);
+        const path = this.destinationPath(reducersModulePath);
+        this.env.error(`There seems to be an issue with your reducers module (${path})`, e);
         return;
       }
 
@@ -70,45 +70,44 @@ module.exports = BaseGenerator.extend({
             type: 'ImportDefaultSpecifier',
             local: {
               type: 'Identifier',
-              name: `${this.reducerName}`
+              name: `${this.reducerName}`,
             },
             imported: {
               type: 'Identifier',
-              name: `${this.reducerName}`
-            }
-          }
+              name: `${this.reducerName}`,
+            },
+          },
         ],
         source: {
           type: 'Literal',
           value: `./components/${this.container}/reducer`,
-          raw: `'./components/${this.container}/reducer'`
-        }
+          raw: `'./components/${this.container}/reducer'`,
+        },
       }, ...reducersModule.body];
 
       // add new reducer to the module export
       // find top level var called applicationReducers
       // add new reducer to init.properties
 
-      let applicationReducersVar = _.find(reducersModule.body, d => {
-        return d.type === 'VariableDeclaration' &&
-          d.declarations[0].id.name === 'applicationReducers';
-      });
+      const applicationReducersVar = _.find(reducersModule.body,
+        d => d.type === 'VariableDeclaration' && d.declarations[0].id.name === 'applicationReducers'
+      );
 
       if (applicationReducersVar) {
         applicationReducersVar.declarations[0].init.properties.push({
           type: 'Property',
           key: {
             type: 'Identifier',
-            name: this.reducerName
+            name: this.reducerName,
           },
           computed: false,
           value: {
             type: 'Identifier',
-            name: this.reducerName
+            name: this.reducerName,
           },
           kind: 'init',
           method: false,
-          shorthand: false
+          shorthand: false,
         });
       } else {
         // XX: this should not happen normally
@@ -122,6 +121,6 @@ module.exports = BaseGenerator.extend({
       } catch (e) {
         console.error('error generating reducers.js', e);
       }
-    }
-  }
+    },
+  },
 });

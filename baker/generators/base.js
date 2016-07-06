@@ -11,8 +11,8 @@ import namingConventions from './naming';
 import shell from 'shelljs';
 
 module.exports = yeoman.Base.extend({
-  constructor() {
-    yeoman.Base.apply(this, arguments);
+  constructor(...args) {
+    yeoman.Base.apply(this, args);
 
     this.appDirectory = 'app';
     this.platforms = ['ios', 'android'];
@@ -62,12 +62,10 @@ module.exports = yeoman.Base.extend({
   _listAvailableBoilerPlates() {
     const boilerplatesPath = this.templatePath('./boilerplates');
     return _.uniq(
-      shell.find(boilerplatesPath).filter(function (file) {
-        return file.match(/\.js.hbs$/i);
-      }).map(file => {
-        return (/\/([a-zA-Z0-9\/]+)(\.ios|\.android)?\.js\.hbs$/ig).exec(
-          file.split(boilerplatesPath)[1])[1];
-      })
+      shell.find(boilerplatesPath).filter(file => file.match(/\.js.hbs$/i))
+        .map(file => (/\/([a-zA-Z0-9\/]+)(\.ios|\.android)?\.js\.hbs$/ig).exec(
+          file.split(boilerplatesPath)[1])[1]
+        )
     );
   },
 
@@ -96,5 +94,5 @@ module.exports = yeoman.Base.extend({
 
   dummyMethod() {
     // XX: keep this here so tests can run against base generator
-  }
+  },
 });

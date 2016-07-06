@@ -23,15 +23,14 @@ describe('generator-rn:container', () => {
         .withPrompts({
           containerName,
           boilerplateName: boilerplate,
-          addReducer: false
-        }).on('ready', function (generator) {
+          addReducer: false,
         }).on('end', done);
     });
 
     it('sets up all container jazz', () => {
       assert.file([
         'index.js',
-        'test.js'
+        'test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
 
       assert.noFile([
@@ -39,7 +38,7 @@ describe('generator-rn:container', () => {
         'actions.test.js',
         'constants.js',
         'reducer.js',
-        'reducer.test.js'
+        'reducer.test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
     });
 
@@ -53,7 +52,7 @@ describe('generator-rn:container', () => {
     });
 
     it('includes reference to the stylesheet', () => {
-      assert.fileContent(containerModule, `import styles from './styles';`);
+      assert.fileContent(containerModule, 'import styles from \'./styles\';');
     });
   });
 
@@ -61,13 +60,13 @@ describe('generator-rn:container', () => {
     before(done => {
       helpers.run(path.join(__dirname, '../src/generators/container'))
         .withOptions({
-          boilerplateName: boilerplate
+          boilerplateName: boilerplate,
         })
         .withPrompts({
           containerName,
-          addReducer: true
-        }).on('ready', function (generator) {
-        }).on('end', done);
+          addReducer: true,
+        })
+        .on('end', done);
     });
 
     it('generates reducer related files', () => {
@@ -76,19 +75,19 @@ describe('generator-rn:container', () => {
         'actions.test.js',
         'constants.js',
         'reducer.js',
-        'reducer.test.js'
+        'reducer.test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
     });
 
     it('imports selector from the reducer module', () => {
       assert.fileContent(`${appDirectory}/components/${containerName}/index.js`,
-        `import { selectMyContainer } from './reducer';`
+        'import { selectMyContainer } from \'./reducer\';'
       );
     });
 
     it('references imported reducer in the connect set up', () => {
       assert.fileContent(`${appDirectory}/components/${containerName}/index.js`,
-        `createSelector(selectMyContainer, (myContainer) => ({ myContainer }))`
+        'createSelector(selectMyContainer, (myContainer) => ({ myContainer }))'
       );
     });
   });

@@ -1,3 +1,4 @@
+/* eslint max-len: "off" */
 /* globals which: false */
 
 import BaseGenerator from '../base';
@@ -34,10 +35,8 @@ module.exports = BaseGenerator.extend({
         name: 'name',
         message: 'What should your app be called?',
         default: 'MyReactApp',
-        validate: value => {
-          return (/^[$A-Z_][0-9A-Z_$]*$/i).test(value);
-        }
-      }
+        validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
+      },
     ];
 
     this.prompt(prompts, answers => {
@@ -65,24 +64,24 @@ module.exports = BaseGenerator.extend({
       const packageJSON = {
         name: this.applicationName,
         engines: {
-          node: '>=4.3'
+          node: '>=4.3',
         },
         scripts: {
           'build-ios': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform "ios" --assets-dest ./  --dev false --reset-cache',
           'build-android': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform "android" --assets-dest ./  --dev false --reset-cache',
-          'ios': 'node node_modules/react-native/local-cli/cli.js run-ios',
-          'android': 'node node_modules/react-native/local-cli/cli.js run-android'
+          ios: 'node node_modules/react-native/local-cli/cli.js run-ios',
+          android: 'node node_modules/react-native/local-cli/cli.js run-android',
         },
         dependencies: {
-          'react': '^15.1.0',
+          react: '^15.1.0',
           'react-native': '^0.28.0',
           'react-redux': '^4.4.5',
-          'redux': '^3.5.2',
-          'immutable': '^3.8.1',
+          redux: '^3.5.2',
+          immutable: '^3.8.1',
           'redux-immutable': '^3.0.6',
-          'reselect': '^2.5.1',
-          'react-native-navigation-redux-helpers': '^0.2.1'
-        }
+          reselect: '^2.5.1',
+          'react-native-navigation-redux-helpers': '^0.2.1',
+        },
       };
 
       try {
@@ -105,7 +104,7 @@ module.exports = BaseGenerator.extend({
         // no package.json in the target directory
         this.fs.writeJSON(packageJSONPath, packageJSON);
       }
-    }
+    },
   },
 
   install: {
@@ -114,9 +113,9 @@ module.exports = BaseGenerator.extend({
         bower: false,
         callback: () => {
           this._initRN();
-        }
+        },
       });
-    }
+    },
   },
 
   end() {
@@ -125,7 +124,7 @@ module.exports = BaseGenerator.extend({
     ['ios', 'android'].forEach(platform => {
       this.template('index.js.hbs', `index.${platform}.js`,
         {
-          applicationName: this.applicationName
+          applicationName: this.applicationName,
         }
       );
     });
@@ -136,10 +135,10 @@ module.exports = BaseGenerator.extend({
         componentName: 'App',
         destinationRoot: this.destinationPath('.'),
         boilerplateName: 'Vanila',
-        platformSpecific: false
-      }
+        platformSpecific: false,
+      },
     }, {
-      local: require.resolve('../component')
+      local: require.resolve('../component'),
     });
   },
 
@@ -151,7 +150,7 @@ module.exports = BaseGenerator.extend({
     this.spawnCommandSync('node', [
       this.templatePath('setup-rn.js'),
       this.destinationRoot(),
-      this.applicationName
+      this.applicationName,
     ]);
   },
 
@@ -166,5 +165,5 @@ module.exports = BaseGenerator.extend({
 
   _abortSetup() {
     this.env.error('Yo! Looks like you are trying to run the app generator in a directory that already has a RN app.');
-  }
+  },
 });

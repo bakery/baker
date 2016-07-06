@@ -22,8 +22,7 @@ describe('generator-rn:component', () => {
       helpers.run(path.join(__dirname, '../src/generators/component'))
       .withPrompts({
         componentName,
-        boilerplateName: boilerplate
-      }).on('ready', function (generator) {
+        boilerplateName: boilerplate,
       }).on('end', done);
     });
 
@@ -31,7 +30,7 @@ describe('generator-rn:component', () => {
       assert.file([
         'index.js',
         'test.js',
-        'styles.js'
+        'styles.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
     });
 
@@ -44,7 +43,7 @@ describe('generator-rn:component', () => {
     });
 
     it('includes reference to the stylesheet', () => {
-      assert.fileContent(componentModule, `import styles from './styles';`);
+      assert.fileContent(componentModule, 'import styles from \'./styles\';');
     });
   });
 
@@ -54,15 +53,14 @@ describe('generator-rn:component', () => {
       .withPrompts({
         componentName,
         boilerplateName: boilerplate,
-        platformSpecific: true
-      }).on('ready', function (generator) {
+        platformSpecific: true,
       }).on('end', done);
     });
 
     it('sets up .ios and .android versions of the component', () => {
       assert.file([
         'index.ios.js',
-        'index.android.js'
+        'index.android.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
     });
   });

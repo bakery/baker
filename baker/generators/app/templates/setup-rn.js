@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* eslint no-var: "off" */
+
 // XX: Not really a template
 // usage: node setup-rn.js /path/to/project/root projectName
 
