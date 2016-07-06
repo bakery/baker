@@ -1,41 +1,36 @@
 {
   "name": "baker",
-  "version": "1.0.0",
-  "description": "React Native app powered by Baker",
-  "author": "",
-  "license": "ISC",
-  "scripts": {
-    "setup": "npm install --save --save-exact react react-native && babel-node --presets es2015 ./.baker/generate.js app",
-    "generate": "babel-node --presets es2015 ./.baker/generate.js",
-    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android"
-  },
   "engines": {
     "node": ">=4.3"
   },
-  "dependencies": {
-    "react-redux": "^4.4.5",
-    "redux": "^3.5.2",
-    "redux-immutable": "^3.0.6",
-    "reselect": "^2.4.0"
+  "scripts": {
+    "setup": "npm install && ./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app",
+    "generate": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js",
+    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "test": "echo testing",
+    "build-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform \"ios\" --assets-dest ./  --dev false --reset-cache",
+    "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform \"android\" --assets-dest ./  --dev false --reset-cache",
+    "lint": "./node_modules/.bin/eslint app baker"
   },
   "devDependencies": {
-    "babel-eslint": "^6.0.2",
-    "babel-polyfill": "^6.7.4",
+    "babel-cli": "^6.10.1",
+    "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
-    "chalk": "^1.0.0",
     "change-case": "^2.3.1",
     "escodegen": "^1.8.0",
-    "eslint": "^2.8.0",
-    "eslint-loader": "^1.3.0",
-    "eslint-plugin-react": "^4.3.0",
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.10.2",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-plugin-react": "^5.2.2",
     "esprima": "^2.7.2",
     "fs-extra": "^0.28.0",
     "handlebars": "^4.0.5",
     "lodash": "^4.11.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "remote-redux-devtools": "^0.1.6",
+    "remote-redux-devtools": "^0.3.3",
     "shelljs": "^0.6.0",
     "yeoman-environment": "^1.6.1",
     "yeoman-generator": "^0.22.0",

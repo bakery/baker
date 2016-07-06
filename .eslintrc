@@ -1,0 +1,59 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/prefer-stateless-function": "off"
+  },
+  "globals": {
+    "__BUNDLE_START_TIME__": false,
+    "__DEV__": true,
+    "__dirname": false,
+    "__filename": false,
+    "__fbBatchedBridgeConfig": false,
+    "alert": false,
+    "cancelAnimationFrame": false,
+    "clearImmediate": true,
+    "clearInterval": false,
+    "clearTimeout": false,
+    "console": false,
+    "document": false,
+    "escape": false,
+    "exports": false,
+    "global": false,
+    "jest": false,
+    "pit": false,
+    "Map": true,
+    "module": false,
+    "navigator": false,
+    "process": false,
+    "Promise": false,
+    "requestAnimationFrame": true,
+    "require": false,
+    "Set": true,
+    "setImmediate": true,
+    "setInterval": false,
+    "setTimeout": false,
+    "window": false,
+    "FormData": true,
+    "XMLHttpRequest": false,
+
+    // Flow "known-globals" annotations:
+    "ReactElement": false,
+    "ReactClass": false,
+    "Class": false
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

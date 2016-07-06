@@ -1,7 +1,6 @@
 /* globals which: false */
 
 import BaseGenerator from '../base';
-import chalk from 'chalk';
 import yosay from 'yosay';
 import 'shelljs/global';
 import fs from 'fs';
@@ -20,7 +19,7 @@ module.exports = BaseGenerator.extend({
     }
 
     this.log(yosay(
-      'Welcome to the sublime ' + chalk.red('Reactive Native') + ' generator!'
+      'Welcome to the sublime Reactive Native generator!'
     ));
 
     this.option('baker');
@@ -76,19 +75,13 @@ module.exports = BaseGenerator.extend({
         },
         dependencies: {
           'react': '^15.1.0',
-          'react-native': '^0.27.2',
+          'react-native': '^0.28.0',
           'react-redux': '^4.4.5',
           'redux': '^3.5.2',
+          'immutable': '^3.8.1',
           'redux-immutable': '^3.0.6',
-          'reselect': '^2.4.0'
-        },
-        devDependencies: {
-          'babel-eslint': '^6.0.2',
-          'babel-polyfill': '^6.7.4',
-          'eslint': '^2.8.0',
-          'eslint-loader': '^1.3.0',
-          'eslint-plugin-react': '^4.3.0',
-          'remote-redux-devtools': '^0.1.6'
+          'reselect': '^2.5.1',
+          'react-native-navigation-redux-helpers': '^0.2.1'
         }
       };
 
@@ -102,7 +95,7 @@ module.exports = BaseGenerator.extend({
           packageJSON, {
             scripts: Object.assign({}, originalPackageJSON.scripts, packageJSON.scripts),
             dependencies: Object.assign({}, originalPackageJSON.dependencies, packageJSON.dependencies),
-            devDependencies: Object.assign({}, originalPackageJSON.devDependencies, packageJSON.devDependencies)
+            devDependencies: originalPackageJSON.devDependencies,
           }
         );
 
@@ -112,26 +105,17 @@ module.exports = BaseGenerator.extend({
         // no package.json in the target directory
         this.fs.writeJSON(packageJSONPath, packageJSON);
       }
-    },
-
-    eslint() {
-      this.template('eslintrc', '.eslintrc');
     }
   },
 
   install: {
     setupRN() {
-      const needsNpmInstall = !this.options.baker;
-      if (needsNpmInstall) {
-        this.installDependencies({
-          bower: false,
-          callback: () => {
-            this._initRN();
-          }
-        });
-      } else {
-        this._initRN();
-      }
+      this.installDependencies({
+        bower: false,
+        callback: () => {
+          this._initRN();
+        }
+      });
     }
   },
 
