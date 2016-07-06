@@ -1,0 +1,61 @@
+import { NavigationExperimental } from 'react-native';
+
+const { CardStack: NavigationCardStack } = NavigationExperimental;
+
+class {{componentName}} extends Component {
+  constructor(props) {
+    super(props);
+
+    this._renderScene = this._renderScene.bind(this);
+    this._renderOverlay = this._renderOverlay.bind(this);
+  }
+
+  render() {
+    return (
+      <NavigationCardStack
+        direction={ 'vertical' }
+        style={styles.main}
+        navigationState={ this.props.{{reducerName}} }
+        renderOverlay={this._renderOverlay}
+        renderScene={this._renderScene}
+      />
+    );
+  }
+
+  _renderScene(props) {
+    // check *props.scene.route.key* to figure out
+    // which scene shoud be rendered, for example
+    //
+    // if (props.scene.route.key === 'applicationTabs') {
+    //  return (
+    //    <View>
+    //      <ApplicationTabs />
+    //    </View>
+    //  );
+    // }
+    //
+    // To navigate around use pushRoute and popRoute actions:
+    // import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
+    // const {
+    //  popRoute,
+    //  pushRoute
+    // } = navigationActions;
+    // 
+    // pushRoute({ key: 'route smth'}, this.props.{{reducerName}}.key);
+    // popRoute(this.props.{{reducerName}}.key);
+
+
+    return (
+      <View style={ styles.container }>
+        <Text>Generic scene in {{componentName}}</Text>
+      </View>
+    );
+  }
+
+  _renderOverlay(props) {
+    return null;
+  }
+}
+
+
+{{> mapDispatchAndPropsAndConnect }}

@@ -1,9 +1,9 @@
 import { TouchableHighlight, NavigationExperimental } from 'react-native';
 import DrawerLayoutAndroid from 'DrawerLayoutAndroid';
 import ToolbarAndroid from 'ToolbarAndroid';
+import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
 
-const { Reducer: NavigationReducer } = NavigationExperimental;
-const { JumpToAction } = NavigationReducer.TabsReducer;
+const { jumpTo } = navigationActions;
 
 const androidToolbarStyle = {
   backgroundColor: '#E9EAED',
@@ -12,17 +12,18 @@ const androidToolbarStyle = {
 
 class {{componentName}} extends Component {
   render() {
+    const { {{reducerName}}, dispatch } = this.props;
     const onNavigate = (action) => {
       this.drawer.closeDrawer();
-      this.props.onNavigate(action);
+      dispatch(action);
     };
 
     const navigationView = (
       <View style={ styles.container }>
-        {this.props.{{reducerName}}.children.map( (t, i) => {
+        { {{reducerName}}.routes.map( (t, i) => {
           return (
             <TouchableHighlight
-              onPress={ () => onNavigate(JumpToAction(i)) }
+              onPress={ () => onNavigate(jumpTo(i, {{reducerName}}.key)) }
               key={ t.key }>
               <Text>{ t.title }</Text>
             </TouchableHighlight>
@@ -57,7 +58,7 @@ class {{componentName}} extends Component {
   }
 
   _renderContent() {
-    const selectedTab = this.props.{{reducerName}}.children[this.props.{{reducerName}}.index];
+    const selectedTab = this.props.{{reducerName}}.routes[this.props.{{reducerName}}.index];
     const navigationIcon = { uri: 'http://placehold.it/56x56' };
     return (
       <View style={ styles.container }>
@@ -73,16 +74,4 @@ class {{componentName}} extends Component {
   }
 }
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  return Object.assign({}, dispatchProps, stateProps, {
-    onNavigate: (action) => {
-      dispatchProps.dispatch(
-        Object.assign(action, {
-          scope: action.scope || stateProps.{{reducerName}}.key
-        })
-      );
-    }
-  });
-};
-
-{{> mapDispatchAndPropsAndConnect mergeProps=true }}
+{{> mapDispatchAndPropsAndConnect }}

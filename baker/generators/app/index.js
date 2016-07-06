@@ -76,19 +76,20 @@ module.exports = BaseGenerator.extend({
         },
         dependencies: {
           'react': '^15.1.0',
-          'react-native': '^0.27.2',
+          'react-native': '^0.28.0',
           'react-redux': '^4.4.5',
           'redux': '^3.5.2',
           'redux-immutable': '^3.0.6',
-          'reselect': '^2.4.0'
+          'reselect': '^2.5.1',
+          'react-native-navigation-redux-helpers': '^0.2.1'
         },
         devDependencies: {
-          'babel-eslint': '^6.0.2',
-          'babel-polyfill': '^6.7.4',
-          'eslint': '^2.8.0',
+          'babel-eslint': '^6.1.0',
+          'babel-polyfill': '^6.9.1',
+          'eslint': '^2.13.1',
           'eslint-loader': '^1.3.0',
-          'eslint-plugin-react': '^4.3.0',
-          'remote-redux-devtools': '^0.1.6'
+          'eslint-plugin-react': '^5.2.2',
+          'remote-redux-devtools': '^0.3.3'
         }
       };
 
@@ -114,9 +115,9 @@ module.exports = BaseGenerator.extend({
       }
     },
 
-    eslint() {
-      this.template('eslintrc', '.eslintrc');
-    }
+    // eslint() {
+    //   this.template('eslintrc', '.eslintrc');
+    // }
   },
 
   install: {
