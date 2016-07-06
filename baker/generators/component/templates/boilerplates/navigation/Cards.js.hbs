@@ -6,23 +6,11 @@ class {{componentName}} extends Component {
   constructor(props) {
     super(props);
 
-    this._renderScene = this._renderScene.bind(this);
-    this._renderOverlay = this._renderOverlay.bind(this);
+    this.renderScene = this.renderScene.bind(this);
+    this.renderOverlay = this.renderOverlay.bind(this);
   }
 
-  render() {
-    return (
-      <NavigationCardStack
-        direction={ 'vertical' }
-        style={styles.main}
-        navigationState={ this.props.{{reducerName}} }
-        renderOverlay={this._renderOverlay}
-        renderScene={this._renderScene}
-      />
-    );
-  }
-
-  _renderScene(props) {
+  renderScene(props) {
     // check *props.scene.route.key* to figure out
     // which scene shoud be rendered, for example
     //
@@ -40,20 +28,32 @@ class {{componentName}} extends Component {
     //  popRoute,
     //  pushRoute
     // } = navigationActions;
-    // 
+    //
     // pushRoute({ key: 'route smth'}, this.props.{{reducerName}}.key);
     // popRoute(this.props.{{reducerName}}.key);
 
 
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <Text>Generic scene in {{componentName}}</Text>
       </View>
     );
   }
 
-  _renderOverlay(props) {
+  renderOverlay() {
     return null;
+  }
+
+  render() {
+    return (
+      <NavigationCardStack
+        direction={'vertical'}
+        style={styles.main}
+        navigationState={ this.props.{{reducerName}} }
+        renderOverlay={this.renderOverlay}
+        renderScene={this.renderScene}
+      />
+    );
   }
 }
 
