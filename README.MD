@@ -36,7 +36,7 @@ npm run generate
   * [Containers VS Components](/docs/introduction/ContainersVsComponents.md)
 * [Components](/docs/components/README.md)
   * [Tabs Navigation](/docs/components/TabsNavigation.md)
-  * [Card Navigation](/docs/components/CardsNavigation.md)
+  * [Card Navigation](/docs/components/CardNavigation.md)
 * [Creating Boilerplates](/docs/CreatingBoilerplates.md)
 
 ## Sample apps built using Baker

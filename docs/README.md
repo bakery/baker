@@ -6,4 +6,4 @@
   * [Containers VS Components](/docs/introduction/ContainersVsComponents.md)
 * [Components](/docs/components/README.md)
   * [Tabs Navigation](/docs/components/TabsNavigation.md)
-  * [Card Navigation](/docs/components/CarsNavigation.md)
+  * [Card Navigation](/docs/components/CardNavigation.md)
