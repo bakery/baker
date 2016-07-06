@@ -6,7 +6,7 @@ const escodegenOptions = {
       style: '  ',
       base: 0,
       adjustMultilineComment: false,
-      preserveBlankLines: true
+      preserveBlankLines: true,
     },
     newline: '\n',
     space: ' ',
@@ -18,12 +18,12 @@ const escodegenOptions = {
     compact: false,
     parentheses: true,
     semicolons: true,
-    safeConcatenation: false
+    safeConcatenation: false,
   },
   moz: {
     starlessGenerator: false,
     parenthesizedComprehensionBlock: false,
-    comprehensionExpressionStartsWithAssignment: false
+    comprehensionExpressionStartsWithAssignment: false,
   },
   parse: esprima.parse,
   comment: true,
@@ -33,7 +33,7 @@ const escodegenOptions = {
   file: undefined,
   // sourceContent: originalSource,
   directive: false,
-  verbatim: undefined
+  verbatim: undefined,
 };
 
 export default escodegenOptions;

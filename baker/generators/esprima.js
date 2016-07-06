@@ -4,7 +4,7 @@ const esprimaOptions = {
   range: true,
   loc: true,
   tokens: true,
-  raw: false
+  raw: false,
 };
 
 export default esprimaOptions;

@@ -2,7 +2,7 @@ import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
-    BaseGenerator.apply(this, arguments);
+    BaseGenerator.call(this, args, options);
 
     this.containerName = options.name;
     this.selectorName = null;
@@ -19,9 +19,7 @@ module.exports = BaseGenerator.extend({
         name: 'containerName',
         message: 'What should your container be called?',
         default: 'MyNewContainer',
-        validate: value => {
-          return this.namingConventions.componentName.regEx.test(value);
-        }
+        validate: value => this.namingConventions.componentName.regEx.test(value),
       });
     }
 
@@ -29,22 +27,16 @@ module.exports = BaseGenerator.extend({
       type: 'confirm',
       name: 'addReducer',
       message: 'Do you want a reducer + actions + constants generated?',
-      default: true
+      default: true,
     });
 
     prompts.push({
       type: 'input',
       name: 'selectorName',
       message: 'What is the name for the new selector?',
-      default: answers => {
-        return this.namingConventions.selectorName.clean(
-          answers.containerName
-        );
-      },
-      validate: value => {
-        return (/^[$A-Z_][0-9A-Z_$]*$/i).test(value);
-      },
-      when: answers => answers.containerSelectorName === 'New Selector'
+      default: answers => this.namingConventions.selectorName.clean(answers.containerName),
+      validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
+      when: answers => answers.containerSelectorName === 'New Selector',
     });
 
     if (prompts.length === 0) {
@@ -69,9 +61,9 @@ module.exports = BaseGenerator.extend({
 
       this.files = [
         'index.js',
-        'test.js'
+        'test.js',
       ];
-    }
+    },
   },
 
   writing: {
@@ -82,11 +74,11 @@ module.exports = BaseGenerator.extend({
           isContainer: true,
           addReducer: this.addReducer,
           selectorName: this.selectorName,
-          boilerplateName: this.boilerplateName
-        }
+          boilerplateName: this.boilerplateName,
+        },
       }, {
-        local: require.resolve('../component')
+        local: require.resolve('../component'),
       });
-    }
-  }
+    },
+  },
 });

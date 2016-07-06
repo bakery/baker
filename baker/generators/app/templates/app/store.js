@@ -7,9 +7,9 @@ function configureStore(initialState = fromJS({})) {
   if (__DEV__) {
     const createStoreWithMiddleware = compose(devTools())(createStore);
     return createStoreWithMiddleware(createReducer(), initialState);
-  } else {
-    return createStore(createReducer(), initialState);
   }
+
+  return createStore(createReducer(), initialState);
 }
 
 module.exports = configureStore;

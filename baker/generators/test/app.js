@@ -1,5 +1,3 @@
-/* eslint no-unused-vars: 0, no-unused-expressions:0 */
-
 import path from 'path';
 import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
@@ -27,7 +25,7 @@ describe('generator-rn:app', () => {
     '.eslintrc',
     'index.ios.js',
     'index.android.js',
-    'package.json'
+    'package.json',
   ];
 
   const _stubThings = generator => {
@@ -68,14 +66,14 @@ describe('generator-rn:app', () => {
   describe('running generator in a non-empty directory', () => {
     before(done => {
       helpers.run(path.join(__dirname, '../src/generators/app'))
-        .inTmpDir(function (dir) {
+        .inTmpDir(dir => {
           fsExtra.copySync(
             path.join(__dirname, './fixtures/random-file.txt'),
             path.join(dir, 'random-file.txt')
           );
         })
         .withPrompts({
-          name: applicationName
+          name: applicationName,
         })
         .on('ready', _stubThings)
         .on('end', done);
@@ -92,7 +90,7 @@ describe('generator-rn:app', () => {
   describe('running generator in a non-empty directory with something that looks like a RN app', () => {
     before(done => {
       helpers.run(path.join(__dirname, '../src/generators/app'))
-        .inTmpDir(function (dir) {
+        .inTmpDir(dir => {
           // XX: make it look like a directory with some RN artifacts
           fs.mkdirSync(path.join(dir, 'android'));
           fs.mkdirSync(path.join(dir, 'ios'));
@@ -100,7 +98,7 @@ describe('generator-rn:app', () => {
           fs.writeFileSync(path.join(dir, 'index.android.js'), '00000000');
         })
         .withPrompts({
-          name: applicationName
+          name: applicationName,
         })
         .on('ready', _stubThings)
         .on('end', done);
@@ -118,7 +116,7 @@ describe('generator-rn:app', () => {
 
     before(done => {
       helpers.run(path.join(__dirname, '../src/generators/app'))
-        .inTmpDir(function (dir) {
+        .inTmpDir(dir => {
           fsExtra.copySync(
             path.join(__dirname, './fixtures/random-file.txt'),
             path.join(dir, 'random-file.txt')
@@ -129,9 +127,9 @@ describe('generator-rn:app', () => {
           );
           originalPackageJSON = fsExtra.readJsonSync(path.join(__dirname, './fixtures/package.json'));
         })
-        .withOptions({baker: 'baker'})
+        .withOptions({ baker: 'baker' })
         .withPrompts({
-          name: applicationName
+          name: applicationName,
         })
         .on('ready', _stubThings)
         .on('end', done);
@@ -157,7 +155,7 @@ describe('generator-rn:app', () => {
         'react-redux',
         'redux',
         'redux-immutable',
-        'reselect'
+        'reselect',
       ]);
 
       expect(packageJSON.devDependencies).to.contain.all.keys([
@@ -166,7 +164,7 @@ describe('generator-rn:app', () => {
         'eslint',
         'eslint-loader',
         'eslint-plugin-react',
-        'remote-redux-devtools'
+        'remote-redux-devtools',
       ]);
 
       expect(packageJSON.name).to.equal(applicationName);

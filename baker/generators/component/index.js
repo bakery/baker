@@ -2,7 +2,7 @@ import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
-    BaseGenerator.apply(this, arguments);
+    BaseGenerator.call(this, args, options);
 
     this.componentName = options.componentName;
     this.isContainer = options.isContainer;
@@ -30,9 +30,7 @@ module.exports = BaseGenerator.extend({
         name: 'componentName',
         message: 'What should your component be called?',
         default: 'MyNewComponent',
-        validate: value => {
-          return this.namingConventions.componentName.regEx.test(value);
-        }
+        validate: value => this.namingConventions.componentName.regEx.test(value),
       });
     }
 
@@ -42,9 +40,7 @@ module.exports = BaseGenerator.extend({
         name: 'boilerplateName',
         message: 'Which boilerplate do you want to use?',
         default: 'Vanila',
-        choices: () => {
-          return this._listAvailableBoilerPlates();
-        }
+        choices: () => this._listAvailableBoilerPlates(),
       });
     }
 
@@ -57,7 +53,7 @@ module.exports = BaseGenerator.extend({
           const boilerplateName = this.boilerplateName || answers.boilerplateName;
           return !this._isBoilerplatePlatformSpecific(boilerplateName);
         },
-        default: false
+        default: false,
       });
     }
 
@@ -97,7 +93,7 @@ module.exports = BaseGenerator.extend({
 
       this.files = [
         'test.js.hbs',
-        'styles.js.hbs'
+        'styles.js.hbs',
       ];
     },
 
@@ -113,7 +109,7 @@ module.exports = BaseGenerator.extend({
           this.componentName
         );
       }
-    }
+    },
   },
 
   writing: {
@@ -122,10 +118,10 @@ module.exports = BaseGenerator.extend({
         this.composeWith('rn:reducer', {
           options: {
             container: this.componentName,
-            boilerplateName: this.boilerplateName
-          }
+            boilerplateName: this.boilerplateName,
+          },
         }, {
-          local: require.resolve('../reducer')
+          local: require.resolve('../reducer'),
         });
       }
     },
@@ -138,19 +134,21 @@ module.exports = BaseGenerator.extend({
 
       if (this.platformSpecific) {
         this.platforms.forEach(platform => {
-          this.template('index.js.hbs', `${this.appDirectory}/components/${this.componentName}/index.${platform}.js`,
+          const path = `${this.appDirectory}/components/${this.componentName}/index.${platform}.js`;
+          this.template('index.js.hbs', path,
             Object.assign({}, this, {
-              boilerplate: this._renderBoilerplate(this.boilerplateName, platform)
+              boilerplate: this._renderBoilerplate(this.boilerplateName, platform),
             })
           );
         });
       } else {
-        this.template('index.js.hbs', `${this.appDirectory}/components/${this.componentName}/index.js`,
+        const path = `${this.appDirectory}/components/${this.componentName}/index.js`;
+        this.template('index.js.hbs', path,
           Object.assign({}, this, {
-            boilerplate: this._renderBoilerplate(this.boilerplateName)
+            boilerplate: this._renderBoilerplate(this.boilerplateName),
           })
         );
       }
-    }
-  }
+    },
+  },
 });
