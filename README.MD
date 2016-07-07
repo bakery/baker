@@ -1,5 +1,7 @@
 # 🍰 Baker - Delicious React Native Apps 
 
+[![Build Status](https://travis-ci.org/thebakeryio/baker.svg?branch=master)](https://travis-ci.org/thebakeryio/baker)
+
 Baker helps you kickstart your React Native app development and helps you type less and do more 
 
 ## Quickstart
