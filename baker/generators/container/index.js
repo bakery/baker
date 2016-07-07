@@ -7,6 +7,7 @@ module.exports = BaseGenerator.extend({
     this.containerName = options.name;
     this.selectorName = null;
     this.boilerplateName = options.boilerplateName;
+    this.addReducer = options.addReducer;
   },
 
   prompting() {
@@ -23,12 +24,14 @@ module.exports = BaseGenerator.extend({
       });
     }
 
-    prompts.push({
-      type: 'confirm',
-      name: 'addReducer',
-      message: 'Do you want a reducer + actions + constants generated?',
-      default: true,
-    });
+    if (typeof this.addReducer === 'undefined') {
+      prompts.push({
+        type: 'confirm',
+        name: 'addReducer',
+        message: 'Do you want a reducer + actions + constants generated?',
+        default: true,
+      });
+    }
 
     prompts.push({
       type: 'input',
@@ -49,7 +52,9 @@ module.exports = BaseGenerator.extend({
         this.containerName = answers.containerName;
       }
 
-      this.addReducer = answers.addReducer;
+      if (typeof this.addReducer === 'undefined') {
+        this.addReducer = answers.addReducer;
+      }
 
       done();
     });
