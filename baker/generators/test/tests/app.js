@@ -9,6 +9,7 @@ import fs from 'fs';
 import _ from 'lodash';
 
 const expect = chai.expect;
+const appGeneratorModule = path.join(__dirname, '../../app');
 
 describe('generator-rn:app', () => {
   let _generator;
@@ -42,7 +43,7 @@ describe('generator-rn:app', () => {
 
   describe('simple generator', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(appGeneratorModule)
         .on('ready', _stubThings)
         .on('end', done);
     });
@@ -64,7 +65,7 @@ describe('generator-rn:app', () => {
 
   describe('running generator in a non-empty directory', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(appGeneratorModule)
         .inTmpDir(dir => {
           fsExtra.copySync(
             path.join(__dirname, './fixtures/random-file.txt'),
@@ -88,7 +89,7 @@ describe('generator-rn:app', () => {
 
   describe('running generator in a non-empty directory with something that looks like a RN app', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(appGeneratorModule)
         .inTmpDir(dir => {
           // XX: make it look like a directory with some RN artifacts
           fs.mkdirSync(path.join(dir, 'android'));
@@ -114,7 +115,7 @@ describe('generator-rn:app', () => {
     let originalPackageJSON;
 
     before(done => {
-      helpers.run(path.join(__dirname, '../app'))
+      helpers.run(appGeneratorModule)
         .inTmpDir(dir => {
           fsExtra.copySync(
             path.join(__dirname, './fixtures/random-file.txt'),
