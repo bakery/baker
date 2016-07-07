@@ -1,4 +1,11 @@
 {{#if isContainer}}
+{{componentName}}.propTypes = {
+  {{reducerName}}: React.PropTypes.object.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+};
+{{/if}}
+
+{{#if isContainer}}
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
