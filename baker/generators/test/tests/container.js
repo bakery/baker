@@ -9,6 +9,7 @@ import sinonChai from 'sinon-chai';
 import yeoman from 'yeoman-generator';
 
 const expect = chai.expect;
+const containerGeneratorModule = path.join(__dirname, '../../container');
 
 describe('generator-rn:container', () => {
   const containerName = 'MyContainer';
@@ -19,7 +20,7 @@ describe('generator-rn:container', () => {
 
   describe('simple container', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../src/generators/container'))
+      helpers.run(containerGeneratorModule)
         .withPrompts({
           containerName,
           boilerplateName: boilerplate,
@@ -58,7 +59,7 @@ describe('generator-rn:container', () => {
 
   describe('container with a reducer', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../src/generators/container'))
+      helpers.run(containerGeneratorModule)
         .withOptions({
           boilerplateName: boilerplate,
         })

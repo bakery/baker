@@ -9,6 +9,7 @@ import sinonChai from 'sinon-chai';
 import yeoman from 'yeoman-generator';
 
 const expect = chai.expect;
+const componentGeneratorModule = path.join(__dirname, '../../component');
 
 describe('generator-rn:component', () => {
   const componentName = 'MyComponent';
@@ -19,7 +20,7 @@ describe('generator-rn:component', () => {
 
   describe('simple component', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../src/generators/component'))
+      helpers.run(componentGeneratorModule)
       .withPrompts({
         componentName,
         boilerplateName: boilerplate,
@@ -49,7 +50,7 @@ describe('generator-rn:component', () => {
 
   describe('platform specific component', () => {
     before(done => {
-      helpers.run(path.join(__dirname, '../src/generators/component'))
+      helpers.run(componentGeneratorModule)
       .withPrompts({
         componentName,
         boilerplateName: boilerplate,
