@@ -1,5 +1,5 @@
 {
-  "name": "baker",
+  "name": "Something",
   "engines": {
     "node": ">=4.3"
   },
@@ -12,12 +12,13 @@
     "build-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform \"ios\" --assets-dest ./  --dev false --reset-cache",
     "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform \"android\" --assets-dest ./  --dev false --reset-cache",
     "lint": "./node_modules/.bin/eslint app baker",
-    "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/**/*.js -R spec -r babel-core/register"
+    "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
+    "babel-register": "^6.9.0",
     "chai": "^3.5.0",
     "change-case": "^2.3.1",
     "escodegen": "^1.8.0",
