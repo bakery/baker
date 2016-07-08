@@ -48,10 +48,11 @@ class {{componentName}} extends Component {
       this.drawer.closeDrawer();
       dispatch(action);
     };
+    const routes = {{reducerName}}.routes;
 
     const navigationView = (
       <View style={styles.container}>
-        {superTabs.routes.map((t, i) =>
+        {routes.map((t, i) =>
           (
           <TouchableHighlight
             onPress={() => onNavigate(jumpTo(i, {{reducerName}}.key))}
