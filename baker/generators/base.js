@@ -18,6 +18,13 @@ module.exports = yeoman.Base.extend({
     this.platforms = ['ios', 'android'];
     this.namingConventions = namingConventions;
     this.Handlebars = Handlebars;
+    // XX: navigation generator needs these to
+    // list available navigation boilerplates
+    // since they are explicitly excluded from component generator
+    this.navigationBoilerplates = [
+      'navigation/Cards',
+      'navigation/Tabs',
+    ];
 
     this.Handlebars.registerHelper('uppercaseFirst', text => changeCase.upperCaseFirst(text));
     this.Handlebars.registerHelper('pascalCase', text => changeCase.pascalCase(text));
@@ -60,13 +67,17 @@ module.exports = yeoman.Base.extend({
   },
 
   _listAvailableBoilerPlates() {
+    const excludeBoilerplates = [...this.navigationBoilerplates];
     const boilerplatesPath = this.templatePath('./boilerplates');
-    return _.uniq(
+
+    const boilerplates = _.uniq(
       shell.find(boilerplatesPath).filter(file => file.match(/\.js.hbs$/i))
         .map(file => (/\/([a-zA-Z0-9\/]+)(\.ios|\.android)?\.js\.hbs$/ig).exec(
           file.split(boilerplatesPath)[1])[1]
         )
     );
+
+    return boilerplates.filter(b => excludeBoilerplates.indexOf(b) === -1);
   },
 
   _renderBoilerplate(boilerplate, platform) {

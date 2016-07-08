@@ -1,5 +1,5 @@
-import { NavigationExperimental } from 'react-native';
 
+const { View, Text, NavigationExperimental } = ReactNative;
 const { CardStack: NavigationCardStack } = NavigationExperimental;
 
 class {{componentName}} extends Component {
@@ -10,6 +10,9 @@ class {{componentName}} extends Component {
     this.renderOverlay = this.renderOverlay.bind(this);
   }
 
+  // XX: get rid of this eslint-disable thingy once you set up
+  // proper rendering for your scene
+  // eslint-disable-next-line no-unused-vars
   renderScene(props) {
     // check *props.scene.route.key* to figure out
     // which scene shoud be rendered, for example
@@ -45,13 +48,15 @@ class {{componentName}} extends Component {
   }
 
   render() {
+    const navigationState = this.props.{{reducerName}};
     return (
       <NavigationCardStack
         direction={'vertical'}
         style={styles.main}
-        navigationState={ this.props.{{reducerName}} }
+        navigationState={navigationState}
         renderOverlay={this.renderOverlay}
         renderScene={this.renderScene}
+        onNavigate={() => {}}
       />
     );
   }
