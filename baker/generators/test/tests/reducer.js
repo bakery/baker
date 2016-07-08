@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import mkdirp from 'mkdirp';
 import fs from 'fs-extra';
+import mockery from 'mockery';
 
 const expect = chai.expect;
 const reducerGeneratorModule = path.join(__dirname, '../../reducer');
@@ -15,17 +16,37 @@ const reducerGeneratorModule = path.join(__dirname, '../../reducer');
 describe('generator-rn:reducer', () => {
   const appDirectory = 'app';
   const container = 'Comments';
+  const boilerplate = 'Vanila';
+
+  let runBoilerplateBeforeHookSpy;
+  let runBoilerplateAfterHookSpy;
 
   describe('without existing reducers module', () => {
     before(done => {
+      runBoilerplateBeforeHookSpy = sinon.spy();
+      runBoilerplateAfterHookSpy = sinon.spy();
+
+      mockery.enable();
+      mockery.warnOnUnregistered(false);
+      mockery.registerMock('./boilerplates', {
+        runBoilerplateBeforeHook: runBoilerplateBeforeHookSpy,
+        runBoilerplateAfterHook: runBoilerplateAfterHookSpy,
+      });
+
       helpers.run(reducerGeneratorModule)
       .withOptions({
         container,
+        boilerplateName: boilerplate,
       }).withPrompts({
         appDirectory,
         container,
       })
       .on('end', done);
+    });
+
+    after(() => {
+      mockery.deregisterAll();
+      mockery.disable();
     });
 
     it('creates reducer files', () => {
@@ -61,6 +82,13 @@ describe('generator-rn:reducer', () => {
       assert.fileContent(reducerModulePath,
         'export function selectComments(state) {'
       );
+    });
+
+    it('calls boilerplate hooks', () => {
+      expect(runBoilerplateBeforeHookSpy.calledOnce).to.be.ok;
+      expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
+      expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
+      expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
     });
   });
 });
