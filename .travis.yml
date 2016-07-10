@@ -4,4 +4,4 @@ node_js:
   - "5"
   - "stable"
 sudo: false
-script: "npm run ci"
+script: "npm install -g react-native-cli && npm run ci"
