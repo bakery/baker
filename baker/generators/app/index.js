@@ -73,14 +73,14 @@ module.exports = BaseGenerator.extend({
           android: 'node node_modules/react-native/local-cli/cli.js run-android',
         },
         dependencies: {
-          react: '^15.1.0',
-          'react-native': '^0.28.0',
+          react: '~15.2.0',
+          'react-native': '^0.29.0',
           'react-redux': '^4.4.5',
           redux: '^3.5.2',
           immutable: '^3.8.1',
           'redux-immutable': '^3.0.6',
           reselect: '^2.5.1',
-          'react-native-navigation-redux-helpers': '^0.2.1',
+          'react-native-navigation-redux-helpers': '^0.3.0',
         },
       };
 
