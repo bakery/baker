@@ -24,25 +24,32 @@ module.exports = BaseGenerator.extend({
     ));
 
     this.option('baker');
+    this.option('name');
   },
 
   prompting() {
     const done = this.async();
 
-    const prompts = [
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What should your app be called?',
-        default: 'MyReactApp',
-        validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
-      },
-    ];
+    this.applicationName = this.options.name;
 
-    this.prompt(prompts, answers => {
-      this.applicationName = answers.name;
+    if (!this.applicationName) {
+      const prompts = [
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What should your app be called?',
+          default: 'MyReactApp',
+          validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
+        },
+      ];
+
+      this.prompt(prompts, answers => {
+        this.applicationName = answers.name;
+        done();
+      });
+    } else {
       done();
-    });
+    }
   },
 
   makeSureDestinationDirectoryIsNotOccupiedAlready() {
