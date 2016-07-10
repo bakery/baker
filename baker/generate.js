@@ -13,6 +13,14 @@ function defaultCommand() {
   env.run('rn:list');
 }
 
+function setupApp() {
+  const ops = { baker: 'baker' };
+  if (argv._.length >= 2) {
+    ops.name = argv._[1];
+  }
+  env.run('rn', ops);
+}
+
 function runCommand() {
   if (argv._.length !== 0) {
     const command = argv._[0];
@@ -23,7 +31,7 @@ function runCommand() {
 
     switch (command) {
       case 'app':
-        env.run('rn', { baker: 'baker' });
+        setupApp();
         break;
       default:
         defaultCommand();
