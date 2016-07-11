@@ -158,16 +158,73 @@ describe('generator-rn:app', () => {
         'reselect',
       ]);
 
-      // expect(packageJSON.devDependencies).to.contain.all.keys([
-      //   'babel-eslint',
-      //   'babel-polyfill',
-      //   'eslint',
-      //   'eslint-loader',
-      //   'eslint-plugin-react',
-      //   'remote-redux-devtools',
-      // ]);
-
       expect(packageJSON.name).to.equal(applicationName);
+    });
+  });
+
+  describe('app with server setup', () => {
+    before(done => {
+      helpers.run(appGeneratorModule)
+        .withPrompts({
+          name: applicationName,
+          addServer: true,
+        })
+        .on('ready', _stubThings)
+        .on('end', done);
+    });
+
+    after(_unstubThings);
+
+    it('adds server folder with all the setup', () => {
+      assert.file([
+        'server/index.js',
+        'server/graphql/index.js',
+        'server/graphql/schema.js',
+        'server/models/example.js',
+        'server/parse-server/index.js',
+        'server/public/images/logo.png',
+      ]);
+    });
+
+    it('adds server deps to package.json', () => {
+      const packageJSON = fsExtra.readJsonSync(_generator.destinationPath('package.json'));
+      expect(packageJSON.dependencies).to.contain.all.keys([
+        'express',
+        'graphql',
+        'parse',
+        'parse-dashboard',
+        'parse-graphql-client',
+        'parse-graphql-server',
+        'parse-server',
+      ]);
+
+      expect(packageJSON.devDependencies).to.contain.all.keys([
+        'mongodb-runner',
+        'babel-watch',
+      ]);
+    });
+
+    it('adds server related commands to package.json', () => {
+      const packageJSON = fsExtra.readJsonSync(_generator.destinationPath('package.json'));
+      expect(packageJSON.scripts).to.contain.all.keys([
+        'mongo',
+        'server',
+        'server-debug',
+      ]);
+    });
+
+    it('adds settings folder to the project with dev settings', () => {
+      assert.file([
+        'settings/development.json',
+        'settings/development.ios.json',
+        'settings/development.android.json',
+      ]);
+    });
+
+    it('adds settings.js to the app directory', () => {
+      assert.file([
+        'app/settings.js',
+      ]);
     });
   });
 });

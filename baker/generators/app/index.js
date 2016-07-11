@@ -8,6 +8,12 @@ import fs from 'fs';
 import fsExtra from 'fs-extra';
 
 module.exports = BaseGenerator.extend({
+  constructor(args, options) {
+    BaseGenerator.call(this, args, options);
+
+    this.applicationName = this.options.name;
+    this.addServer = this.options.addServer;
+  },
 
   initializing() {
     // XX: check if current directory has smth resembling a bootstrapped RN application
@@ -24,31 +30,45 @@ module.exports = BaseGenerator.extend({
     ));
 
     this.option('baker');
-    this.option('name');
   },
 
   prompting() {
-    const done = this.async();
+    const prompts = [];
 
     this.applicationName = this.options.name;
 
     if (!this.applicationName) {
-      const prompts = [
-        {
-          type: 'input',
-          name: 'name',
-          message: 'What should your app be called?',
-          default: 'MyReactApp',
-          validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
-        },
-      ];
+      prompts.push({
+        type: 'input',
+        name: 'name',
+        message: 'What should your app be called?',
+        default: 'MyReactApp',
+        validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
+      });
+    }
 
+    if (typeof this.addServer === 'undefined') {
+      prompts.push({
+        type: 'confirm',
+        name: 'addServer',
+        message: 'Do you want a Parse Server setup for this app?',
+        default: false,
+      });
+    }
+
+    if (prompts.length !== 0) {
+      const done = this.async();
       this.prompt(prompts, answers => {
-        this.applicationName = answers.name;
+        if (typeof this.applicationName === 'undefined') {
+          this.applicationName = answers.name;
+        }
+
+        if (typeof this.addServer === 'undefined') {
+          this.addServer = answers.addServer;
+        }
+
         done();
       });
-    } else {
-      done();
     }
   },
 
@@ -89,7 +109,32 @@ module.exports = BaseGenerator.extend({
           reselect: '^2.5.1',
           'react-native-navigation-redux-helpers': '^0.3.0',
         },
+        devDependencies: {
+        },
       };
+
+      if (this.addServer) {
+        Object.assign(packageJSON.dependencies, {
+          express: '^4.13.4',
+          graphql: '^0.6.0',
+          parse: '1.8.5',
+          'parse-dashboard': '^1.0.13',
+          'parse-graphql-client': '^0.2.0',
+          'parse-graphql-server': '^0.3.0',
+          'parse-server': '^2.2.11',
+        });
+
+        Object.assign(packageJSON.devDependencies, {
+          'babel-watch': '^2.0.2',
+          'mongodb-runner': '^3.3.2',
+        });
+
+        Object.assign(packageJSON.scripts, {
+          mongo: 'node ./node_modules/mongodb-runner/bin/mongodb-runner start --name=dev --purge false',
+          server: 'npm run mongo && NODE_ENV=development babel-watch ./server --presets es2015 --plugins transform-object-rest-spread --watch ./server/**/*.js',
+          'server-debug': 'npm run mongo && NODE_ENV=development ./node_modules/babel-cli/bin/babel-node.js --presets es2015 --debug -- ./server',
+        });
+      }
 
       try {
         fs.statSync(packageJSONPath);
@@ -101,7 +146,7 @@ module.exports = BaseGenerator.extend({
           packageJSON, {
             scripts: Object.assign({}, originalPackageJSON.scripts, packageJSON.scripts),
             dependencies: Object.assign({}, originalPackageJSON.dependencies, packageJSON.dependencies),
-            devDependencies: originalPackageJSON.devDependencies,
+            devDependencies: Object.assign({}, originalPackageJSON.devDependencies, packageJSON.devDependencies),
           }
         );
 
@@ -111,6 +156,16 @@ module.exports = BaseGenerator.extend({
         // no package.json in the target directory
         this.fs.writeJSON(packageJSONPath, packageJSON);
       }
+    },
+
+    serverFiles() {
+      if (!this.addServer) {
+        return;
+      }
+
+      this.bulkDirectory('server', this.serverDirectory);
+      this.bulkDirectory('settings', this.settingsDirectory);
+      this.copy('settings.js', `${this.appDirectory}/settings.js`);
     },
   },
 
