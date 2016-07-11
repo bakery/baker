@@ -18,7 +18,7 @@ run('npm install');
 
 console.log('running app generator...');
 // eslint-disable-next-line max-len
-const r = run('./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app TestApplication');
+const r = run('./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app TestApplication --server');
 console.log(r.toString());
 
 console.log('building for iOS...');
