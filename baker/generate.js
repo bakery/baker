@@ -19,6 +19,11 @@ function setupApp() {
   if (argv._.length >= 2) {
     ops.name = argv._[1];
   }
+
+  if (argv.server) {
+    Object.assign(ops, { addServer: true });
+  }
+
   env.run('rn', ops);
 }
 
