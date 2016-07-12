@@ -209,6 +209,7 @@ describe('generator-rn:app', () => {
       expect(packageJSON.scripts).to.contain.all.keys([
         'mongo',
         'server',
+        'server-watch',
         'server-debug',
       ]);
     });

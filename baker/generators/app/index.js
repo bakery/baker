@@ -131,8 +131,9 @@ module.exports = BaseGenerator.extend({
 
         Object.assign(packageJSON.scripts, {
           mongo: 'node ./node_modules/mongodb-runner/bin/mongodb-runner start --name=dev --purge false',
-          server: 'npm run mongo && NODE_ENV=development babel-watch ./server --presets es2015 --plugins transform-object-rest-spread --watch ./server/**/*.js',
-          'server-debug': 'npm run mongo && NODE_ENV=development ./node_modules/babel-cli/bin/babel-node.js --presets es2015 --debug -- ./server',
+          server: 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js',
+          'server-debug': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --debug',
+          'server-watch': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --watch',
         });
       }
 
