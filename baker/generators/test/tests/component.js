@@ -7,6 +7,7 @@ import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import yeoman from 'yeoman-generator';
+import mockery from 'mockery';
 
 const expect = chai.expect;
 const componentGeneratorModule = path.join(__dirname, '../../component');
@@ -18,13 +19,32 @@ describe('generator-rn:component', () => {
   const componentModule = `${appDirectory}/components/${componentName}/index.js`;
   const stylesheetModule = `${appDirectory}/components/${componentName}/styles.js`;
 
+  let runBoilerplateBeforeHookSpy;
+  let runBoilerplateAfterHookSpy;
+
+
   describe('simple component', () => {
     before(done => {
+      runBoilerplateBeforeHookSpy = sinon.spy();
+      runBoilerplateAfterHookSpy = sinon.spy();
+
+      mockery.enable();
+      mockery.warnOnUnregistered(false);
+      mockery.registerMock('./boilerplates', {
+        runBoilerplateBeforeHook: runBoilerplateBeforeHookSpy,
+        runBoilerplateAfterHook: runBoilerplateAfterHookSpy,
+      });
+
       helpers.run(componentGeneratorModule)
       .withPrompts({
         componentName,
         boilerplateName: boilerplate,
       }).on('end', done);
+    });
+
+    after(() => {
+      mockery.deregisterAll();
+      mockery.disable();
     });
 
     it('sets up all component jazz', () => {
@@ -45,6 +65,13 @@ describe('generator-rn:component', () => {
 
     it('includes reference to the stylesheet', () => {
       assert.fileContent(componentModule, 'import styles from \'./styles\';');
+    });
+
+    it('calls boilerplate hooks', () => {
+      expect(runBoilerplateBeforeHookSpy.calledOnce).to.be.ok;
+      expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
+      expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
+      expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
     });
   });
 

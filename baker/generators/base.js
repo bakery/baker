@@ -15,6 +15,12 @@ module.exports = yeoman.Base.extend({
   constructor(...args) {
     yeoman.Base.apply(this, args);
 
+    // eslint-disable-next-line global-require
+    const boilerplates = require('./boilerplates');
+    this.runBoilerplateHook = boilerplates.runBoilerplateHook;
+    this.runBoilerplateBeforeHook = boilerplates.runBoilerplateBeforeHook;
+    this.runBoilerplateAfterHook = boilerplates.runBoilerplateAfterHook;
+
     this.appDirectory = 'app';
     this.serverDirectory = 'server';
     this.settingsDirectory = 'settings';

@@ -29,16 +29,18 @@ module.exports = BaseGenerator.extend({
     },
 
     boilerplate() {
-      if (this.boilerplateName) {
-        this.boilerplate = this._renderBoilerplate(this.boilerplateName);
-      }
+      this.boilerplate = this._renderBoilerplate(this.boilerplateName);
     },
   },
 
   writing: {
     everything() {
+      this.runBoilerplateBeforeHook(this.boilerplateName);
+
       this.files.forEach(f => this.template(f,
         `${this.appDirectory}/components/${this.container}/${this._dropHBSExtension(f)}`));
+
+      this.runBoilerplateAfterHook(this.boilerplateName);
     },
 
     updateRootReducersModule() {

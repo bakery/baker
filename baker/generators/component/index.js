@@ -132,6 +132,8 @@ module.exports = BaseGenerator.extend({
           `${this.appDirectory}/components/${this.componentName}/${this._dropHBSExtension(f)}`);
       });
 
+      this.runBoilerplateBeforeHook(this.boilerplateName);
+
       if (this.platformSpecific) {
         this.platforms.forEach(platform => {
           const path = `${this.appDirectory}/components/${this.componentName}/index.${platform}.js`;
@@ -149,6 +151,8 @@ module.exports = BaseGenerator.extend({
           })
         );
       }
+
+      this.runBoilerplateAfterHook(this.boilerplateName);
     },
   },
 });
