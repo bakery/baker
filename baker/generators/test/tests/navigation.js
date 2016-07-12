@@ -20,7 +20,9 @@ describe('generator-rn:navigation', () => {
         componentName,
         boilerplateName,
       })
-      .on('ready', generator => { _generator = generator; })
+      .on('ready', generator => {
+        _generator = generator;
+      })
       .on('end', done);
   });
 

@@ -13,7 +13,7 @@
     "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform \"android\" --assets-dest ./  --dev false --reset-cache",
     "lint": "./node_modules/.bin/eslint app baker",
     "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup",
-    "ci": "npm run test:baker && ./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js" 
+    "ci": "npm run test:baker && ./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -35,6 +35,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.5.3",
+    "mockery": "^1.7.0",
     "remote-redux-devtools": "^0.3.3",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.4",
