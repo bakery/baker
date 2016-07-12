@@ -23,6 +23,7 @@ describe('generator-rn:app', () => {
     'app/store.js',
     'app/components/App/index.js',
     'app/components/App/styles.js',
+    'app/sagas/index.js',
     'index.ios.js',
     'index.android.js',
     'package.json',
@@ -155,6 +156,7 @@ describe('generator-rn:app', () => {
         'react-redux',
         'redux',
         'redux-immutable',
+        'redux-saga',
         'reselect',
       ]);
 

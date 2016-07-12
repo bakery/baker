@@ -11,6 +11,7 @@ module.exports = BaseGenerator.extend({
       { name: 'Component', value: 'component' },
       { name: 'Container', value: 'container' },
       { name: 'Navigation', value: 'navigation' },
+      { name: 'Saga', value: 'saga' },
     ];
 
     return this.prompt([{

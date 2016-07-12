@@ -108,6 +108,7 @@ module.exports = BaseGenerator.extend({
           'redux-immutable': '^3.0.6',
           reselect: '^2.5.1',
           'react-native-navigation-redux-helpers': '^0.3.0',
+          'redux-saga': '^0.11.0',
         },
         devDependencies: {
         },
