@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import yeoman from 'yeoman-generator';
 import _ from 'lodash';
 import changeCase from 'change-case';
@@ -21,6 +22,8 @@ module.exports = yeoman.Base.extend({
     this.runBoilerplateAfterHook = boilerplates.runBoilerplateAfterHook;
 
     this.appDirectory = 'app';
+    this.serverDirectory = 'server';
+    this.settingsDirectory = 'settings';
     this.platforms = ['ios', 'android'];
     this.namingConventions = namingConventions;
     this.Handlebars = Handlebars;

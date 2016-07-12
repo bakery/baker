@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import yeoman from 'yeoman-environment';
 
 const argv = require('minimist')(process.argv.slice(2));
@@ -18,6 +19,11 @@ function setupApp() {
   if (argv._.length >= 2) {
     ops.name = argv._[1];
   }
+
+  if (argv.server) {
+    Object.assign(ops, { addServer: true });
+  }
+
   env.run('rn', ops);
 }
 
