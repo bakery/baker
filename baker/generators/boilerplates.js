@@ -16,7 +16,7 @@ module.exports = {
           throw new Error('Invalid hook type', hookType);
       }
     } catch (e) {
-      // console.log(`This boilerplate does not seem to have ${hookType} hook defined`, e);
+      // no hooks
     }
   },
 

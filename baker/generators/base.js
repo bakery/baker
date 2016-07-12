@@ -37,6 +37,7 @@ module.exports = yeoman.Base.extend({
 
     this.Handlebars.registerHelper('uppercaseFirst', text => changeCase.upperCaseFirst(text));
     this.Handlebars.registerHelper('pascalCase', text => changeCase.pascalCase(text));
+    this.Handlebars.registerHelper('constantCase', text => changeCase.constantCase(text));
 
     this.template = (source, destination, data) => {
       // XX: override Yo's standard template method to use Handlebars templates

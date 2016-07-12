@@ -55,6 +55,48 @@ describe('generator-rn:saga', () => {
     });
   });
 
+  describe('with boilerplate selected', () => {
+    before(done => {
+      helpers.run(path.join(__dirname, '../../saga'))
+      .withPrompts({
+        sagaName,
+        boilerplateName: 'MethodCall',
+      })
+      .on('end', done);
+    });
+
+    it('creates a saga file', () => {
+      assert.file([
+        `${appDirectory}/sagas/${sagaName}.js`,
+      ]);
+    });
+
+    it('eports a saga within saga file', () => {
+      assert.fileContent(`${appDirectory}/sagas/${sagaName}.js`,
+        `export function* ${sagaName}()`
+      );
+    });
+
+    it('creates sagas index file', () => {
+      assert.file(`${appDirectory}/sagas/index.js`);
+    });
+
+    it('imports new saga in sagas/index.js', () => {
+      assert.fileContent(`${appDirectory}/sagas/index.js`,
+        `import { ${sagaName} } from './${sagaName}';`
+      );
+    });
+
+    it('exports new saga in sagas/index.js', () => {
+      assert.fileContent(`${appDirectory}/sagas/index.js`,
+        `const sagas = [${sagaName}];`
+      );
+      assert.fileContent(`${appDirectory}/sagas/index.js`,
+        'module.exports = sagas;'
+      );
+    });
+  });
+
   describe('with existing saga index file', () => {
     before(done => {
       helpers.run(path.join(__dirname, '../../saga'))
