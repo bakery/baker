@@ -13,7 +13,9 @@
     "build-android": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform \"android\" --assets-dest ./  --dev false --reset-cache",
     "lint": "./node_modules/.bin/eslint app baker",
     "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup",
-    "ci": "npm run test:baker && ./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js" 
+    "test:server": "npm run mongo && NODE_ENV=development ./baker/scripts/server.js --test-run",
+    "test:setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js",
+    "ci": "npm run test:baker && npm run test:setup && npm run test:server"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -29,6 +31,7 @@
     "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
     "esprima": "^2.7.2",
+    "forever-monitor": "^1.7.0",
     "fs-extra": "^0.28.0",
     "handlebars": "^4.0.5",
     "lodash": "^4.11.1",
