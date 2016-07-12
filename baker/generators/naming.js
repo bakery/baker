@@ -13,6 +13,11 @@ const namingConventions = {
   selectorName: {
     clean: componentName => `select${changeCase.pascalCase(componentName)}`,
   },
+
+  sagaName: {
+    regEx: /^[A-Z][0-9A-Z]*$/i,
+    clean: name => changeCase.camelCase(name),
+  },
 };
 
 export default namingConventions;
