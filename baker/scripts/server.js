@@ -31,7 +31,11 @@ monitor.on('start', function onMonitorStarted() {
     setTimeout(function onAfterServerStared() {
       run('curl localhost:8000');
       monitor.stop();
-    }, 5000);
+    }, 30000);
   }
 });
+monitor.on('stderr', function onServerScriptError(error) {
+  console.error(error.toString());
+});
+
 monitor.start();
