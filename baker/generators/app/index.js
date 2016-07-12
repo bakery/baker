@@ -52,7 +52,7 @@ module.exports = BaseGenerator.extend({
         type: 'confirm',
         name: 'addServer',
         message: 'Do you want a Parse Server setup for this app?',
-        default: false,
+        default: true,
       });
     }
 
