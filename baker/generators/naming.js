@@ -18,6 +18,11 @@ const namingConventions = {
     regEx: /^[A-Z][0-9A-Z]*$/i,
     clean: name => changeCase.camelCase(name),
   },
+
+  modelName: {
+    regEx: /^[A-Z][0-9A-Z]*$/i,
+    clean: name => changeCase.pascal(name),
+  },
 };
 
 export default namingConventions;

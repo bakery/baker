@@ -2,6 +2,12 @@ import BaseGenerator from '../base';
 import _ from 'lodash';
 
 module.exports = BaseGenerator.extend({
+  constructor(args, options) {
+    BaseGenerator.call(this, args, options);
+
+    this.boilerplateName = options.boilerplateName;
+  },
+
   prompting() {
     const done = this.async();
     const prompts = [{
@@ -12,15 +18,38 @@ module.exports = BaseGenerator.extend({
       validate: value => this.namingConventions.sagaName.regEx.test(value),
     }];
 
+    if (!this.boilerplateName) {
+      prompts.push({
+        type: 'list',
+        name: 'boilerplateName',
+        message: 'Which boilerplate do you want to use?',
+        default: 'Vanila',
+        choices: () => this._listAvailableBoilerPlates(),
+      });
+    }
+
     this.prompt(prompts, answers => {
       this.sagaName = this.namingConventions.sagaName.clean(answers.sagaName);
+
+      if (typeof this.boilerplateName === 'undefined') {
+        this.boilerplateName = answers.boilerplateName;
+      }
+
       done();
     });
   },
 
   writing: {
     sagaFile() {
-      this.template('saga.js.hbs', `${this.appDirectory}/sagas/${this.sagaName}.js`);
+      this.runBoilerplateBeforeHook(this.boilerplateName);
+
+      this.template('saga.js.hbs', `${this.appDirectory}/sagas/${this.sagaName}.js`,
+        Object.assign(this, {
+          boilerplate: this._renderBoilerplate(this.boilerplateName),
+        })
+      );
+
+      this.runBoilerplateAfterHook(this.boilerplateName);
     },
 
     updateSagasIndex() {

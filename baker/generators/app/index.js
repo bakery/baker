@@ -168,6 +168,14 @@ module.exports = BaseGenerator.extend({
       this.bulkDirectory('server', this.serverDirectory);
       this.bulkDirectory('settings', this.settingsDirectory);
       this.copy('settings.js', `${this.appDirectory}/settings.js`);
+
+      this.composeWith('model', {
+        options: {
+          modelName: 'Example',
+        },
+      }, {
+        local: require.resolve('../model'),
+      });
     },
   },
 
