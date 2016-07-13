@@ -12,6 +12,7 @@ module.exports = BaseGenerator.extend({
       { name: 'Container', value: 'container' },
       { name: 'Navigation', value: 'navigation' },
       { name: 'Saga', value: 'saga' },
+      { name: 'Model', value: 'model' },
     ];
 
     return this.prompt([{

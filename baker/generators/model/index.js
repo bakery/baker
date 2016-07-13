@@ -1,5 +1,5 @@
 import BaseGenerator from '../base';
-
+import changeCase from 'change-case';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
@@ -57,8 +57,6 @@ module.exports = BaseGenerator.extend({
         return;
       }
 
-      console.log(JSON.stringify(schemaModule));
-
       // add import statement for the new model
       schemaModule.body = [{
         type: 'ImportDeclaration',
@@ -82,10 +80,69 @@ module.exports = BaseGenerator.extend({
         },
       }, ...schemaModule.body];
 
+      // include schema of a newly created model in graphql/schema module
+      const queriesDeclaration = schemaModule.body.find(
+        i => i.type === 'VariableDeclaration' && i.declarations &&
+          i.declarations[0] && i.declarations[0].id.name === 'queries'
+      );
+
+      if (!queriesDeclaration) {
+        // eslint-disable-next-line max-len
+        this.env.error(`Your ${this.serverDirectory}/graphql/schema.js module is missing queries const`);
+      }
+
+      queriesDeclaration.declarations[0].init.properties.push({
+        type: 'Property',
+        key: {
+          type: 'Identifier',
+          name: changeCase.camelCase(this.modelName),
+        },
+        computed: false,
+        value: {
+          type: 'MemberExpression',
+          computed: false,
+          object: {
+            type: 'Identifier',
+            name: this.modelName,
+          },
+          property: {
+            type: 'Identifier',
+            name: 'RootQuery',
+          },
+        },
+        kind: 'init',
+        method: false,
+        shorthand: false,
+      });
+
+      // include mutations of a newly created model in graphql/schema module
+      const mutationsDeclaration = schemaModule.body.find(
+        i => i.type === 'VariableDeclaration' && i.declarations &&
+          i.declarations[0] && i.declarations[0].id.name === 'mutations'
+      );
+
+      if (!mutationsDeclaration) {
+        // eslint-disable-next-line max-len
+        this.env.error(`Your ${this.serverDirectory}/graphql/schema.js module is missing mutations const`);
+      }
+
+      mutationsDeclaration.declarations[0].init.elements.push({
+        type: 'MemberExpression',
+        computed: false,
+        object: {
+          type: 'Identifier',
+          name: this.modelName,
+        },
+        property: {
+          type: 'Identifier',
+          name: 'Mutations',
+        },
+      });
+
       try {
         this.generateJSFile(schemaModule, graphQLSchemaModulePath);
       } catch (e) {
-        console.error('error generating reducers.js', e);
+        console.error(`error generating ${this.serverDirectory}/graphql/schema.js`, e);
       }
     },
   },

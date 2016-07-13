@@ -34,4 +34,14 @@ describe('generator-rn:model', () => {
       `import ${modelName} from '../models/${modelName}';`
     );
   });
+
+  it('references new model\'s root query in server/graphql/schema module', () => {
+    assert.fileContent(`${serverDirectory}/graphql/schema.js`, 'todo: Todo.RootQuery');
+  });
+
+  it('references new model\'s mutations in server/graphql/schema module', () => {
+    assert.fileContent(`${serverDirectory}/graphql/schema.js`,
+      `${modelName}.Mutations`
+    );
+  });
 });
