@@ -50,7 +50,6 @@ describe('generator-rn:component', () => {
     it('sets up all component jazz', () => {
       assert.file([
         'index.js',
-        'test.js',
         'styles.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
     });
@@ -72,6 +71,12 @@ describe('generator-rn:component', () => {
       expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
       expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
       expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
+    });
+
+    it('creates component test file', () => {
+      assert.file([
+        `${appDirectory}/components/${componentName}/index.test.js`,
+      ]);
     });
   });
 

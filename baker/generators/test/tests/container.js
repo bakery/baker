@@ -31,7 +31,7 @@ describe('generator-rn:container', () => {
     it('sets up all container jazz', () => {
       assert.file([
         'index.js',
-        'test.js',
+        'index.test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
 
       assert.noFile([

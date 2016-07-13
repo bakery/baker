@@ -4,7 +4,6 @@ module.exports = BaseGenerator.extend({
   constructor(args, options) {
     BaseGenerator.call(this, args, options);
 
-    this.componentName = options.componentName;
     this.isContainer = options.isContainer;
     this.componentName = options.componentName;
     this.boilerplateName = options.boilerplateName;
@@ -92,7 +91,7 @@ module.exports = BaseGenerator.extend({
       );
 
       this.files = [
-        'test.js.hbs',
+        'index.test.js.hbs',
         'styles.js.hbs',
       ];
     },
