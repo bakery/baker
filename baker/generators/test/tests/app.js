@@ -160,7 +160,20 @@ describe('generator-rn:app', () => {
         'reselect',
       ]);
 
+      expect(packageJSON.devDependencies).to.contain.all.keys([
+        'react-dom',
+        'react-native-mock',
+        'enzyme',
+      ]);
+
       expect(packageJSON.name).to.equal(applicationName);
+    });
+
+    it('adds test:app script to package.json', () => {
+      const packageJSON = fsExtra.readJsonSync(_generator.destinationPath('package.json'));
+      expect(packageJSON.scripts).to.contain.all.keys([
+        'test:app',
+      ]);
     });
   });
 
