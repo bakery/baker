@@ -182,7 +182,7 @@ describe('generator-rn:app', () => {
         'server/index.js',
         'server/graphql/index.js',
         'server/graphql/schema.js',
-        'server/models/example.js',
+        'server/models/Example.js',
         'server/parse-server/index.js',
         'server/public/images/logo.png',
       ]);
