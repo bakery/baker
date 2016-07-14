@@ -122,6 +122,7 @@ module.exports = BaseGenerator.extend({
           options: {
             container: this.componentName,
             boilerplateName: this.boilerplateName,
+            doNotGenerateTests: this.doNotGenerateTests,
           },
         }, {
           local: require.resolve('../reducer'),

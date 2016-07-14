@@ -40,5 +40,7 @@ describe('generator-rn:navigation', () => {
 
   it('does not include tests', () => {
     assert.noFile(`${appDirectory}/components/${componentName}/index.test.js`);
+    assert.noFile(`${appDirectory}/components/${componentName}/actions.test.js`);
+    assert.noFile(`${appDirectory}/components/${componentName}/reducer.test.js`);
   });
 });
