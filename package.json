@@ -15,7 +15,7 @@
     "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup",
     "test:server": "npm run mongo && NODE_ENV=development ./baker/scripts/server.js --test-run",
     "test:setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js",
-    "ci": "npm run test:baker && npm run test:setup && npm run test:server"
+    "ci": "npm run test:baker && npm run test:setup && npm run test:server && npm run test:app"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
