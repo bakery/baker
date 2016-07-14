@@ -31,6 +31,7 @@ describe('generator-rn:container', () => {
     it('sets up all container jazz', () => {
       assert.file([
         'index.js',
+        'index.test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
 
       assert.noFile([
@@ -42,9 +43,12 @@ describe('generator-rn:container', () => {
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
     });
 
-    it('exposes component wrapped into connect', () => {
+    it('exposes component wrapped into connect and original component', () => {
       assert.fileContent(containerModule,
         `export default connect(mapStateToProps, mapDispatchToProps)(${containerName});`);
+      assert.fileContent(containerModule,
+        `export class ${containerName}`
+      );
     });
 
     it('generates a stylesheet', () => {
@@ -53,11 +57,6 @@ describe('generator-rn:container', () => {
 
     it('includes reference to the stylesheet', () => {
       assert.fileContent(containerModule, 'import styles from \'./styles\';');
-    });
-
-    it('does not generate a container test file', () => {
-      // XX: still not sure how to test Redux containers with Enzyme - skipping for now
-      assert.noFile(`${appDirectory}/components/${containerName}/index.test.js`);
     });
   });
 

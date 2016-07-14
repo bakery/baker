@@ -94,7 +94,7 @@ module.exports = BaseGenerator.extend({
         'styles.js.hbs',
       ];
 
-      if (!this.isContainer && !this.platformSpecific) {
+      if (!this.platformSpecific) {
         this.files.push('index.test.js.hbs');
       }
     },
