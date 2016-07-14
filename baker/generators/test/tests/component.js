@@ -96,5 +96,15 @@ describe('generator-rn:component', () => {
         'index.android.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
     });
+
+    it('sets up .ios and .android versions of component tests', () => {
+      const componentDirectory = `${appDirectory}/components/${componentName}`;
+
+      assert.noFile(`${componentDirectory}/index.test.js`);
+      assert.file([
+        `${componentDirectory}/index.android.test.js`,
+        `${componentDirectory}/index.ios.test.js`,
+      ]);
+    });
   });
 });

@@ -91,9 +91,12 @@ module.exports = BaseGenerator.extend({
       );
 
       this.files = [
-        'index.test.js.hbs',
         'styles.js.hbs',
       ];
+
+      if (!this.isContainer && !this.platformSpecific) {
+        this.files.push('index.test.js.hbs');
+      }
     },
 
     reducer() {
@@ -135,10 +138,17 @@ module.exports = BaseGenerator.extend({
 
       if (this.platformSpecific) {
         this.platforms.forEach(platform => {
-          const path = `${this.appDirectory}/components/${this.componentName}/index.${platform}.js`;
-          this.template('index.js.hbs', path,
+          const path = `${this.appDirectory}/components/${this.componentName}`;
+
+          this.template('index.js.hbs', `${path}/index.${platform}.js`,
             Object.assign({}, this, {
               boilerplate: this._renderBoilerplate(this.boilerplateName, platform),
+            })
+          );
+
+          this.template('index.test.js.hbs', `${path}/index.${platform}.test.js`,
+            Object.assign({}, this, {
+              platform,
             })
           );
         });

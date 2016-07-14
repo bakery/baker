@@ -1,9 +1,12 @@
 import React, { Text } from 'react-native';
 import { shallow } from 'enzyme';
-
+{{#if platform}}
+import {{componentName}} from './index.{{platform}}';
+{{else}}
 import {{componentName}} from './index';
+{{/if}}
 
-describe('{{componentName}} component', () => {
+describe('{{componentName}} component{{#if platform}} - {{platform}} version{{/if}}', () => {
   it('has 1 Text element', () => {
     const wrapper = shallow(
       <{{componentName}} />
