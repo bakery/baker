@@ -36,6 +36,7 @@ module.exports = BaseGenerator.extend({
           isContainer: true,
           addReducer: true,
           boilerplateName: this.boilerplateName,
+          doNotGenerateTests: true,
         },
       }, {
         local: require.resolve('../container'),

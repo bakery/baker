@@ -31,7 +31,7 @@ describe('generator-rn:container', () => {
     it('sets up all container jazz', () => {
       assert.file([
         'index.js',
-        'test.js',
+        'index.test.js',
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
 
       assert.noFile([
@@ -43,9 +43,12 @@ describe('generator-rn:container', () => {
       ].map(f => `${appDirectory}/components/${containerName}/${f}`));
     });
 
-    it('exposes component wrapped into connect', () => {
+    it('exposes component wrapped into connect and original component', () => {
       assert.fileContent(containerModule,
         `export default connect(mapStateToProps, mapDispatchToProps)(${containerName});`);
+      assert.fileContent(containerModule,
+        `export class ${containerName}`
+      );
     });
 
     it('generates a stylesheet', () => {

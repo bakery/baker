@@ -4,12 +4,12 @@ module.exports = BaseGenerator.extend({
   constructor(args, options) {
     BaseGenerator.call(this, args, options);
 
-    this.componentName = options.componentName;
     this.isContainer = options.isContainer;
     this.componentName = options.componentName;
     this.boilerplateName = options.boilerplateName;
     this.addReducer = options.addReducer;
     this.platformSpecific = options.platformSpecific;
+    this.doNotGenerateTests = options.doNotGenerateTests;
 
     if (options.destinationRoot) {
       this.destinationRoot(options.destinationRoot);
@@ -92,9 +92,12 @@ module.exports = BaseGenerator.extend({
       );
 
       this.files = [
-        'test.js.hbs',
         'styles.js.hbs',
       ];
+
+      if (!this.platformSpecific && !this.doNotGenerateTests) {
+        this.files.push('index.test.js.hbs');
+      }
     },
 
     reducer() {
@@ -119,6 +122,7 @@ module.exports = BaseGenerator.extend({
           options: {
             container: this.componentName,
             boilerplateName: this.boilerplateName,
+            doNotGenerateTests: this.doNotGenerateTests,
           },
         }, {
           local: require.resolve('../reducer'),
@@ -136,12 +140,21 @@ module.exports = BaseGenerator.extend({
 
       if (this.platformSpecific) {
         this.platforms.forEach(platform => {
-          const path = `${this.appDirectory}/components/${this.componentName}/index.${platform}.js`;
-          this.template('index.js.hbs', path,
+          const path = `${this.appDirectory}/components/${this.componentName}`;
+
+          this.template('index.js.hbs', `${path}/index.${platform}.js`,
             Object.assign({}, this, {
               boilerplate: this._renderBoilerplate(this.boilerplateName, platform),
             })
           );
+
+          if (!this.doNotGenerateTests) {
+            this.template('index.test.js.hbs', `${path}/index.${platform}.test.js`,
+              Object.assign({}, this, {
+                platform,
+              })
+            );
+          }
         });
       } else {
         const path = `${this.appDirectory}/components/${this.componentName}/index.js`;

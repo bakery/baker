@@ -50,10 +50,22 @@
     // Flow "known-globals" annotations:
     "ReactElement": false,
     "ReactClass": false,
-    "Class": false
+    "Class": false,
+
+    // sinon + chai globals for testing
+    "expect": true,
+    "mock": true,
+    "sandbox": true,
+    "sinon": true,
+    "spy": true,
+    "stub": true,
+    "useFakeServer": true,
+    "useFakeTimers": true,
+    "useFakeXMLHttpRequest": true
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   }
 }

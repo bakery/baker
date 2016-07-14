@@ -50,7 +50,6 @@ describe('generator-rn:component', () => {
     it('sets up all component jazz', () => {
       assert.file([
         'index.js',
-        'test.js',
         'styles.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
     });
@@ -73,6 +72,12 @@ describe('generator-rn:component', () => {
       expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
       expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
     });
+
+    it('creates component test file', () => {
+      assert.file([
+        `${appDirectory}/components/${componentName}/index.test.js`,
+      ]);
+    });
   });
 
   describe('platform specific component', () => {
@@ -90,6 +95,16 @@ describe('generator-rn:component', () => {
         'index.ios.js',
         'index.android.js',
       ].map(f => `${appDirectory}/components/${componentName}/${f}`));
+    });
+
+    it('sets up .ios and .android versions of component tests', () => {
+      const componentDirectory = `${appDirectory}/components/${componentName}`;
+
+      assert.noFile(`${componentDirectory}/index.test.js`);
+      assert.file([
+        `${componentDirectory}/index.android.test.js`,
+        `${componentDirectory}/index.ios.test.js`,
+      ]);
     });
   });
 });

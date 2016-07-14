@@ -37,4 +37,10 @@ describe('generator-rn:navigation', () => {
       'reducer.js',
     ].map(f => `${appDirectory}/components/${componentName}/${f}`));
   });
+
+  it('does not include tests', () => {
+    assert.noFile(`${appDirectory}/components/${componentName}/index.test.js`);
+    assert.noFile(`${appDirectory}/components/${componentName}/actions.test.js`);
+    assert.noFile(`${appDirectory}/components/${componentName}/reducer.test.js`);
+  });
 });

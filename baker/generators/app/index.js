@@ -98,6 +98,7 @@ module.exports = BaseGenerator.extend({
           'build-android': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform "android" --assets-dest ./  --dev false --reset-cache',
           ios: 'node node_modules/react-native/local-cli/cli.js run-ios',
           android: 'node node_modules/react-native/local-cli/cli.js run-android',
+          'test:app': `./node_modules/mocha/bin/mocha ${this.appDirectory}/tests.js ./app/**/*.test.js`,
         },
         dependencies: {
           react: '~15.2.0',
@@ -127,7 +128,12 @@ module.exports = BaseGenerator.extend({
 
         Object.assign(packageJSON.devDependencies, {
           'babel-watch': '^2.0.2',
+          'babel-preset-react-native': '^1.9.0',
           'mongodb-runner': '^3.3.2',
+          'react-addons-test-utils': '^15.2.1',
+          'react-dom': '^15.2.1',
+          'react-native-mock': '^0.2.4',
+          enzyme: '^2.4.1',
         });
 
         Object.assign(packageJSON.scripts, {

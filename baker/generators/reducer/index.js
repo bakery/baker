@@ -15,17 +15,24 @@ module.exports = BaseGenerator.extend({
     this.container = options.container;
     this.reducerName = this.namingConventions.reducerName.clean(this.container);
     this.boilerplateName = options.boilerplateName || 'Vanila';
+    this.doNotGenerateTests = options.doNotGenerateTests;
   },
 
   configuring: {
     files() {
       this.files = [
         'actions.js.hbs',
-        'actions.test.js.hbs',
         'constants.js.hbs',
         'reducer.js.hbs',
-        'reducer.test.js.hbs',
       ];
+
+      if (!this.doNotGenerateTests) {
+        this.files = [
+          'actions.test.js.hbs',
+          'reducer.test.js.hbs',
+          ...this.files,
+        ];
+      }
     },
 
     boilerplate() {
