@@ -128,6 +128,7 @@ module.exports = BaseGenerator.extend({
 
         Object.assign(packageJSON.devDependencies, {
           'babel-watch': '^2.0.2',
+          'babel-preset-react-native': '^1.9.0',
           'mongodb-runner': '^3.3.2',
           'react-dom': '^15.2.1',
           'react-native-mock': '^0.2.4',

@@ -21,6 +21,7 @@ describe('generator-rn:app', () => {
     'app/reducers.js',
     'app/setup.js',
     'app/store.js',
+    'app/tests.js',
     'app/components/App/index.js',
     'app/components/App/styles.js',
     'app/sagas/index.js',
