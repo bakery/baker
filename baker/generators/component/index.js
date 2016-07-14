@@ -9,6 +9,7 @@ module.exports = BaseGenerator.extend({
     this.boilerplateName = options.boilerplateName;
     this.addReducer = options.addReducer;
     this.platformSpecific = options.platformSpecific;
+    this.doNotGenerateTests = options.doNotGenerateTests;
 
     if (options.destinationRoot) {
       this.destinationRoot(options.destinationRoot);
@@ -94,7 +95,7 @@ module.exports = BaseGenerator.extend({
         'styles.js.hbs',
       ];
 
-      if (!this.platformSpecific) {
+      if (!this.platformSpecific && !this.doNotGenerateTests) {
         this.files.push('index.test.js.hbs');
       }
     },
@@ -146,11 +147,13 @@ module.exports = BaseGenerator.extend({
             })
           );
 
-          this.template('index.test.js.hbs', `${path}/index.${platform}.test.js`,
-            Object.assign({}, this, {
-              platform,
-            })
-          );
+          if (!this.doNotGenerateTests) {
+            this.template('index.test.js.hbs', `${path}/index.${platform}.test.js`,
+              Object.assign({}, this, {
+                platform,
+              })
+            );
+          }
         });
       } else {
         const path = `${this.appDirectory}/components/${this.componentName}/index.js`;
