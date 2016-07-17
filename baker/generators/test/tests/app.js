@@ -7,6 +7,7 @@ import sinonChai from 'sinon-chai';
 import fsExtra from 'fs-extra';
 import fs from 'fs';
 import _ from 'lodash';
+import mockery from 'mockery';
 
 const expect = chai.expect;
 const appGeneratorModule = path.join(__dirname, '../../app');
@@ -16,9 +17,12 @@ describe('generator-rn:app', () => {
   let _checkIfRNIsInstalledStub = null;
   let _initRNSpy = null;
   let _abortSetupStub = null;
+  let _execSyncSpy = null;
+
   const applicationName = 'MyReactApp';
   const applicationFiles = [
     'app/src/reducers.js',
+    'app/src/settings.js',
     'app/src/setup.js',
     'app/src/store.js',
     'app/src/tests.js',
@@ -43,6 +47,25 @@ describe('generator-rn:app', () => {
     _abortSetupStub && _abortSetupStub.restore();
   };
 
+  before(() => {
+    mockery.enable({
+      // warnOnReplace: false,
+      warnOnUnregistered: false,
+    });
+
+    _execSyncSpy = sinon.spy();
+
+    mockery.registerMock('child_process', {
+      execSync(...args) {
+        _execSyncSpy.apply(this, args);
+      },
+    });
+  });
+
+  after(() => {
+    mockery.disable();
+  });
+
   describe('simple generator', () => {
     before(done => {
       helpers.run(appGeneratorModule)
@@ -62,6 +85,13 @@ describe('generator-rn:app', () => {
 
     it('sets up all the app files', () => {
       assert.file(applicationFiles);
+    });
+
+    it('calls child_process.execSync to install app deps', () => {
+      expect(_execSyncSpy).to.have.been.calledOnce;
+      expect(_execSyncSpy).to.have.been.calledWith('npm install', {
+        cwd: _generator.destinationPath('app'),
+      });
     });
   });
 
@@ -120,12 +150,6 @@ describe('generator-rn:app', () => {
         'settings/development.json',
         'settings/development.ios.json',
         'settings/development.android.json',
-      ]);
-    });
-
-    it('adds settings.js to the app directory', () => {
-      assert.file([
-        'app/settings.js',
       ]);
     });
   });

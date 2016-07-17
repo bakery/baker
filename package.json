@@ -4,10 +4,10 @@
     "node": ">=4.3"
   },
   "scripts": {
-    "generate": "node ./cli/baker.js generate",
+    "generate": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js",
     "lint": "./node_modules/.bin/eslint app baker server",
     "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup",
-    "setup": "node ./cli/baker.js generate:app"
+    "setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
