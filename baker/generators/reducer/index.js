@@ -45,13 +45,13 @@ module.exports = BaseGenerator.extend({
       this.runBoilerplateBeforeHook(this.boilerplateName);
 
       this.files.forEach(f => this.template(f,
-        `${this.appDirectory}/components/${this.container}/${this._dropHBSExtension(f)}`));
+        `${this.appDirectory}/src/components/${this.container}/${this._dropHBSExtension(f)}`));
 
       this.runBoilerplateAfterHook(this.boilerplateName);
     },
 
     updateRootReducersModule() {
-      const reducersModulePath = `${this.appDirectory}/reducers.js`;
+      const reducersModulePath = `${this.appDirectory}/src/reducers.js`;
       let reducersModuleContent;
       let reducersModule;
 

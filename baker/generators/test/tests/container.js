@@ -15,8 +15,8 @@ describe('generator-rn:container', () => {
   const containerName = 'MyContainer';
   const boilerplate = 'Vanila';
   const appDirectory = 'app';
-  const containerModule = `${appDirectory}/components/${containerName}/index.js`;
-  const stylesheetModule = `${appDirectory}/components/${containerName}/styles.js`;
+  const containerModule = `${appDirectory}/src/components/${containerName}/index.js`;
+  const stylesheetModule = `${appDirectory}/src/components/${containerName}/styles.js`;
 
   describe('simple container', () => {
     before(done => {
@@ -32,7 +32,7 @@ describe('generator-rn:container', () => {
       assert.file([
         'index.js',
         'index.test.js',
-      ].map(f => `${appDirectory}/components/${containerName}/${f}`));
+      ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
 
       assert.noFile([
         'actions.js',
@@ -40,7 +40,7 @@ describe('generator-rn:container', () => {
         'constants.js',
         'reducer.js',
         'reducer.test.js',
-      ].map(f => `${appDirectory}/components/${containerName}/${f}`));
+      ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
     });
 
     it('exposes component wrapped into connect and original component', () => {
@@ -80,17 +80,17 @@ describe('generator-rn:container', () => {
         'constants.js',
         'reducer.js',
         'reducer.test.js',
-      ].map(f => `${appDirectory}/components/${containerName}/${f}`));
+      ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
     });
 
     it('imports selector from the reducer module', () => {
-      assert.fileContent(`${appDirectory}/components/${containerName}/index.js`,
+      assert.fileContent(`${appDirectory}/src/components/${containerName}/index.js`,
         'import { selectMyContainer } from \'./reducer\';'
       );
     });
 
     it('references imported reducer in the connect set up', () => {
-      assert.fileContent(`${appDirectory}/components/${containerName}/index.js`,
+      assert.fileContent(`${appDirectory}/src/components/${containerName}/index.js`,
         'createSelector(selectMyContainer, (myContainer) => ({ myContainer }))'
       );
     });

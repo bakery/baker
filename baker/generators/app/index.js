@@ -86,84 +86,92 @@ module.exports = BaseGenerator.extend({
   },
 
   writing: {
-    packageJSON() {
-      const packageJSONPath = this.destinationPath('package.json');
-      const packageJSON = {
-        name: this.applicationName,
-        engines: {
-          node: '>=4.3',
-        },
-        scripts: {
-          'build-ios': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform "ios" --assets-dest ./  --dev false --reset-cache',
-          'build-android': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform "android" --assets-dest ./  --dev false --reset-cache',
-          ios: 'node node_modules/react-native/local-cli/cli.js run-ios',
-          android: 'node node_modules/react-native/local-cli/cli.js run-android',
-          'test:app': `./node_modules/mocha/bin/mocha ${this.appDirectory}/tests.js ./app/**/*.test.js`,
-        },
-        dependencies: {
-          react: '~15.2.0',
-          'react-native': '^0.29.0',
-          'react-redux': '^4.4.5',
-          redux: '^3.5.2',
-          immutable: '^3.8.1',
-          'redux-immutable': '^3.0.6',
-          reselect: '^2.5.1',
-          'react-native-navigation-redux-helpers': '^0.3.0',
-          'redux-saga': '^0.11.0',
-        },
-        devDependencies: {
-        },
-      };
 
-      if (this.addServer) {
-        Object.assign(packageJSON.dependencies, {
-          express: '^4.13.4',
-          graphql: '^0.6.0',
-          parse: '1.8.5',
-          'parse-dashboard': '^1.0.13',
-          'parse-graphql-client': '^0.2.0',
-          'parse-graphql-server': '^0.3.0',
-          'parse-server': '^2.2.11',
-        });
 
-        Object.assign(packageJSON.devDependencies, {
-          'babel-watch': '^2.0.2',
-          'babel-preset-react-native': '^1.9.0',
-          'mongodb-runner': '^3.3.2',
-          'react-addons-test-utils': '^15.2.1',
-          'react-dom': '^15.2.1',
-          'react-native-mock': '^0.2.4',
-          enzyme: '^2.4.1',
-        });
+    // packageJSON() {
+    //   const packageJSONPath = this.destinationPath('package.json');
+    //   const packageJSON = {
+    //     name: this.applicationName,
+    //     engines: {
+    //       node: '>=4.3',
+    //     },
+    //     scripts: {
+    //       'build-ios': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.ios.js --bundle-output iOS/main.jsbundle --platform "ios" --assets-dest ./  --dev false --reset-cache',
+    //       'build-android': 'node node_modules/react-native/local-cli/cli.js bundle --entry-file index.android.js --bundle-output iOS/main.jsbundle --platform "android" --assets-dest ./  --dev false --reset-cache',
+    //       ios: 'node node_modules/react-native/local-cli/cli.js run-ios',
+    //       android: 'node node_modules/react-native/local-cli/cli.js run-android',
+    //       'test:app': `./node_modules/mocha/bin/mocha ${this.appDirectory}/tests.js ./app/**/*.test.js`,
+    //     },
+    //     dependencies: {
+    //       react: '~15.2.0',
+    //       'react-native': '^0.29.0',
+    //       'react-redux': '^4.4.5',
+    //       redux: '^3.5.2',
+    //       immutable: '^3.8.1',
+    //       'redux-immutable': '^3.0.6',
+    //       reselect: '^2.5.1',
+    //       'react-native-navigation-redux-helpers': '^0.3.0',
+    //       'redux-saga': '^0.11.0',
+    //     },
+    //     devDependencies: {
+    //     },
+    //   };
 
-        Object.assign(packageJSON.scripts, {
-          mongo: 'node ./node_modules/mongodb-runner/bin/mongodb-runner start --name=dev --purge false',
-          server: 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js',
-          'server-debug': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --debug',
-          'server-watch': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --watch',
-        });
-      }
+    //   if (this.addServer) {
+    //     Object.assign(packageJSON.dependencies, {
+    //       express: '^4.13.4',
+    //       graphql: '^0.6.0',
+    //       parse: '1.8.5',
+    //       'parse-dashboard': '^1.0.13',
+    //       'parse-graphql-client': '^0.2.0',
+    //       'parse-graphql-server': '^0.3.0',
+    //       'parse-server': '^2.2.11',
+    //     });
 
-      try {
-        fs.statSync(packageJSONPath);
+    //     Object.assign(packageJSON.devDependencies, {
+    //       'babel-watch': '^2.0.2',
+    //       'babel-preset-react-native': '^1.9.0',
+    //       'mongodb-runner': '^3.3.2',
+    //       'react-addons-test-utils': '^15.2.1',
+    //       'react-dom': '^15.2.1',
+    //       'react-native-mock': '^0.2.4',
+    //       enzyme: '^2.4.1',
+    //     });
 
-        // merge current package.json in the dest directory with packageJSON
-        const originalPackageJSON = fsExtra.readJsonSync(packageJSONPath);
+    //     Object.assign(packageJSON.scripts, {
+    //       mongo: 'node ./node_modules/mongodb-runner/bin/mongodb-runner start --name=dev --purge false',
+    //       server: 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js',
+    //       'server-debug': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --debug',
+    //       'server-watch': 'npm run mongo && NODE_ENV=development ./baker/scripts/server.js --watch',
+    //     });
+    //   }
 
-        const json = Object.assign(
-          packageJSON, {
-            scripts: Object.assign({}, originalPackageJSON.scripts, packageJSON.scripts),
-            dependencies: Object.assign({}, originalPackageJSON.dependencies, packageJSON.dependencies),
-            devDependencies: Object.assign({}, originalPackageJSON.devDependencies, packageJSON.devDependencies),
-          }
-        );
+    //   try {
+    //     fs.statSync(packageJSONPath);
 
-        this.conflicter.force = true;
-        this.fs.writeJSON(json);
-      } catch (e) {
-        // no package.json in the target directory
-        this.fs.writeJSON(packageJSONPath, packageJSON);
-      }
+    //     // merge current package.json in the dest directory with packageJSON
+    //     const originalPackageJSON = fsExtra.readJsonSync(packageJSONPath);
+
+    //     const json = Object.assign(
+    //       packageJSON, {
+    //         scripts: Object.assign({}, originalPackageJSON.scripts, packageJSON.scripts),
+    //         dependencies: Object.assign({}, originalPackageJSON.dependencies, packageJSON.dependencies),
+    //         devDependencies: Object.assign({}, originalPackageJSON.devDependencies, packageJSON.devDependencies),
+    //       }
+    //     );
+
+    //     this.conflicter.force = true;
+    //     this.fs.writeJSON(json);
+    //   } catch (e) {
+    //     // no package.json in the target directory
+    //     this.fs.writeJSON(packageJSONPath, packageJSON);
+    //   }
+    // },
+
+    appPackageJSON() {
+      this.template('package.json.hbs', `${this.appDirectory}/package.json`, {
+        applicationName: this.applicationName,
+      });
     },
 
     serverFiles() {
@@ -200,7 +208,7 @@ module.exports = BaseGenerator.extend({
     this.conflicter.force = true;
 
     ['ios', 'android'].forEach(platform => {
-      this.template('index.js.hbs', `index.${platform}.js`,
+      this.template('index.js.hbs', `${this.appDirectory}/index.${platform}.js`,
         {
           applicationName: this.applicationName,
         }

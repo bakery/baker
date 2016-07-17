@@ -35,12 +35,12 @@ describe('generator-rn:navigation', () => {
       'index.js',
       'styles.js',
       'reducer.js',
-    ].map(f => `${appDirectory}/components/${componentName}/${f}`));
+    ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
   });
 
   it('does not include tests', () => {
-    assert.noFile(`${appDirectory}/components/${componentName}/index.test.js`);
-    assert.noFile(`${appDirectory}/components/${componentName}/actions.test.js`);
-    assert.noFile(`${appDirectory}/components/${componentName}/reducer.test.js`);
+    assert.noFile(`${appDirectory}/src/components/${componentName}/index.test.js`);
+    assert.noFile(`${appDirectory}/src/components/${componentName}/actions.test.js`);
+    assert.noFile(`${appDirectory}/src/components/${componentName}/reducer.test.js`);
   });
 });
