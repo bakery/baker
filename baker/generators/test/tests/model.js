@@ -23,24 +23,24 @@ describe('generator-rn:model', () => {
     .on('end', done);
   });
 
-  it('creates a model file in server/models directory', () => {
+  it('creates a model file in server/src/models directory', () => {
     assert.file([
-      `${serverDirectory}/models/Todo.js`,
+      `${serverDirectory}/src/models/Todo.js`,
     ]);
   });
 
-  it('imports newly created model in server/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/graphql/schema.js`,
+  it('imports newly created model in server/src/graphql/schema module', () => {
+    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`,
       `import ${modelName} from '../models/${modelName}';`
     );
   });
 
-  it('references new model\'s root query in server/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/graphql/schema.js`, 'todo: Todo.RootQuery');
+  it('references new model\'s root query in server/src/graphql/schema module', () => {
+    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`, 'todo: Todo.RootQuery');
   });
 
-  it('references new model\'s mutations in server/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/graphql/schema.js`,
+  it('references new model\'s mutations in server/src/graphql/schema module', () => {
+    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`,
       `${modelName}.Mutations`
     );
   });

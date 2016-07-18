@@ -15,7 +15,7 @@ function defaultCommand() {
 }
 
 function setupApp() {
-  const ops = { baker: 'baker' };
+  const ops = {};
   if (argv._.length >= 2) {
     ops.name = argv._[1];
   }

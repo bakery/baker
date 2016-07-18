@@ -29,8 +29,6 @@ module.exports = BaseGenerator.extend({
       'Welcome to the sublime Reactive Native generator!'
     ));
 
-    this.option('baker');
-
     this.originalDestination = this.destinationPath('.');
   },
 
@@ -74,19 +72,6 @@ module.exports = BaseGenerator.extend({
     }
   },
 
-  makeSureDestinationDirectoryIsNotOccupiedAlready() {
-    // check to see if destination directory is empty or not
-    // if it's empty -> go ahead and do the thing
-    // if not empty -> create a folder and use it as cwd
-    // except if this.options.baker is on
-
-    const filesInDestinationDirectory = fs.readdirSync(this.destinationPath('.'));
-    if (filesInDestinationDirectory.length !== 0 && !this.options.baker) {
-      fs.mkdirSync(this.destinationPath(this.applicationName));
-      this.destinationRoot(this.destinationPath(this.applicationName));
-    }
-  },
-
   writing: {
     appPackageJSON() {
       this.template('package.json.hbs', `${this.appDirectory}/package.json`, {
@@ -100,26 +85,25 @@ module.exports = BaseGenerator.extend({
       }
 
       this.bulkDirectory('server', this.serverDirectory);
-      this.bulkDirectory('settings', this.settingsDirectory);
-
-      this.composeWith('model', {
-        options: {
-          modelName: 'Example',
-        },
-      }, {
-        local: require.resolve('../model'),
-      });
     },
   },
 
   install: {
     installAppDepsAndRunRNSetup() {
-      console.log('destination is', this.destinationPath('.'));
-
       execSync('npm install', {
         cwd: this.destinationPath(this.appDirectory),
       });
       this._initRN();
+
+      if (this.originalDestination !== this.destinationPath('.')) {
+        this.destinationRoot(this.originalDestination);
+      }
+
+      if (this.addServer) {
+        execSync('npm install', {
+          cwd: this.destinationPath(this.serverDirectory),
+        });
+      }
     },
   },
 
@@ -127,8 +111,6 @@ module.exports = BaseGenerator.extend({
     if (this.originalDestination !== this.destinationPath('.')) {
       this.destinationRoot(this.originalDestination);
     }
-
-    console.log('destination is', this.destinationPath('.'));
 
     this.conflicter.force = true;
 
@@ -141,16 +123,29 @@ module.exports = BaseGenerator.extend({
     });
 
     this.bulkDirectory('src', `${this.appDirectory}/src`);
+    this.bulkDirectory('settings', this.appSettingsDirectory);
+    // link to app settings from the project root
+    execSync(`ln -s ${this.appDirectory}/settings ./settings`, {
+      cwd: this.destinationPath('.'),
+    });
+
 
     this.composeWith('component', {
       options: {
         componentName: 'App',
-        // destinationRoot: this.destinationPath('.'),
         boilerplateName: 'Vanila',
         platformSpecific: false,
       },
     }, {
       local: require.resolve('../component'),
+    });
+
+    this.composeWith('model', {
+      options: {
+        modelName: 'Example',
+      },
+    }, {
+      local: require.resolve('../model'),
     });
   },
 

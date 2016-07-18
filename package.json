@@ -7,7 +7,11 @@
     "generate": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js",
     "lint": "./node_modules/.bin/eslint app baker server",
     "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/setup.js ./baker/generators/test/tests/**/*.js -R spec",
-    "setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app"
+    "setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app",
+    "test:server": "cd server && npm run server-test",
+    "test:setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/ci/run-tests.js",
+    "test:app": "cd app && npm test",
+    "ci": "npm run test:baker && npm run test:setup && npm run test:server && npm run test:app"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

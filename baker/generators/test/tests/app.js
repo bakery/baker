@@ -88,10 +88,38 @@ describe('generator-rn:app', () => {
     });
 
     it('calls child_process.execSync to install app deps', () => {
-      expect(_execSyncSpy).to.have.been.calledOnce;
-      expect(_execSyncSpy).to.have.been.calledWith('npm install', {
-        cwd: _generator.destinationPath('app'),
-      });
+      expect(_execSyncSpy.getCall(0).args).to.eql([
+        'npm install', {
+          cwd: _generator.destinationPath('app'),
+        },
+      ]);
+    });
+
+    it('calls child_process.execSync to install server deps', () => {
+      expect(_execSyncSpy.getCall(1).args).to.eql([
+        'npm install', {
+          cwd: _generator.destinationPath('server'),
+        },
+      ]);
+    });
+
+    it('calls child_process.execSync to link to app settings', () => {
+      expect(_execSyncSpy.getCall(2).args).to.eql([
+        'ln -s app/settings ./settings', {
+          cwd: _generator.destinationPath('.'),
+        },
+      ]);
+    });
+
+    it('adds settings directory to the app directory', () => {
+      assert.file([
+        'app/settings/development/base.json',
+        'app/settings/development/android.json',
+        'app/settings/development/ios.json',
+        'app/settings/production/base.json',
+        'app/settings/production/android.json',
+        'app/settings/production/ios.json',
+      ]);
     });
   });
 
@@ -134,22 +162,16 @@ describe('generator-rn:app', () => {
 
     it('adds server folder with all the setup', () => {
       assert.file([
-        'server/index.js',
+        'server/src/index.js',
         'server/package.json',
         'server/Procfile',
-        'server/graphql/index.js',
-        'server/graphql/schema.js',
-        'server/models/Example.js',
-        'server/parse-server/index.js',
+        'server/src/graphql/index.js',
+        'server/src/graphql/schema.js',
+        'server/src/models/Example.js',
+        'server/src/parse-server/index.js',
         'server/public/images/logo.png',
-      ]);
-    });
-
-    it('adds settings folder to the project with dev settings', () => {
-      assert.file([
-        'settings/development.json',
-        'settings/development.ios.json',
-        'settings/development.android.json',
+        'server/scripts/server-deploy.js',
+        'server/scripts/server.js',
       ]);
     });
   });

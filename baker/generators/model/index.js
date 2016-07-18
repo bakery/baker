@@ -35,11 +35,11 @@ module.exports = BaseGenerator.extend({
   writing: {
     serverModel() {
       this.template('server/models/index.js.hbs',
-        `${this.serverDirectory}/models/${this.modelName}.js`);
+        `${this.serverDirectory}/src/models/${this.modelName}.js`);
     },
 
     updateGraphQLSchemaFile() {
-      const graphQLSchemaModulePath = `${this.serverDirectory}/graphql/schema.js`;
+      const graphQLSchemaModulePath = `${this.serverDirectory}/src/graphql/schema.js`;
       let schemaModuleContent;
       let schemaModule;
 
@@ -88,7 +88,7 @@ module.exports = BaseGenerator.extend({
 
       if (!queriesDeclaration) {
         // eslint-disable-next-line max-len
-        this.env.error(`Your ${this.serverDirectory}/graphql/schema.js module is missing queries const`);
+        this.env.error(`Your ${this.serverDirectory}/src/graphql/schema.js module is missing queries const`);
       }
 
       queriesDeclaration.declarations[0].init.properties.push({
@@ -123,7 +123,7 @@ module.exports = BaseGenerator.extend({
 
       if (!mutationsDeclaration) {
         // eslint-disable-next-line max-len
-        this.env.error(`Your ${this.serverDirectory}/graphql/schema.js module is missing mutations const`);
+        this.env.error(`Your ${this.serverDirectory}/src/graphql/schema.js module is missing mutations const`);
       }
 
       mutationsDeclaration.declarations[0].init.elements.push({
@@ -142,7 +142,7 @@ module.exports = BaseGenerator.extend({
       try {
         this.generateJSFile(schemaModule, graphQLSchemaModulePath);
       } catch (e) {
-        console.error(`error generating ${this.serverDirectory}/graphql/schema.js`, e);
+        console.error(`error generating ${this.serverDirectory}/src/graphql/schema.js`, e);
       }
     },
   },
