@@ -128,6 +128,14 @@ describe('generator-rn:app', () => {
       ]);
       assert.fileContent('app/settings/production/.gitignore', '*');
     });
+
+    it('creates a fastlane directory with fastlane config + Gemfile', () => {
+      assert.file([
+        'app/fastlane/Gemfile',
+        'app/fastlane/Fastfile',
+        'app/fastlane/Matchfile',
+      ]);
+    });
   });
 
   describe('running generator in a non-empty directory with something that looks like a RN app', () => {
