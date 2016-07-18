@@ -124,6 +124,8 @@ module.exports = BaseGenerator.extend({
 
     this.bulkDirectory('src', `${this.appDirectory}/src`);
     this.bulkDirectory('settings', this.appSettingsDirectory);
+    // XX: make sure production settings never get checked into the repository
+    this.write(`${this.appDirectory}/settings/production/.gitignore`, '*');
     // link to app settings from the project root
     execSync(`ln -s ${this.appDirectory}/settings ./settings`, {
       cwd: this.destinationPath('.'),

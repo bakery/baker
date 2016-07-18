@@ -121,6 +121,13 @@ describe('generator-rn:app', () => {
         'app/settings/production/ios.json',
       ]);
     });
+
+    it('adds .gitignore with * in app/settings/production', () => {
+      assert.file([
+        'app/settings/production/.gitignore',
+      ]);
+      assert.fileContent('app/settings/production/.gitignore', '*');
+    });
   });
 
   describe('running generator in a non-empty directory with something that looks like a RN app', () => {
