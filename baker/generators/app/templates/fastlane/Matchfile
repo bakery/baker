@@ -1,0 +1,10 @@
+# XX: this is super secret and it must be private
+git_url "https://github.com/YOURORG/CERTS-REPOSITORY.git"
+
+type "development"
+shallow_clone "false"
+
+# Bundle ID you've created in iTunes Connect
+app_identifier "come.YOURCOMPANYNAME.YOURAPPNAME"
+# Apple ID for your Team
+username "DEVS@YOURCOMPANY.COM"

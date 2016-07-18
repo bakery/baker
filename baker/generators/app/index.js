@@ -149,6 +149,13 @@ module.exports = BaseGenerator.extend({
     }, {
       local: require.resolve('../model'),
     });
+
+    // Setup Fastlane jazz
+    this.template('fastlane/Gemfile', `${this.appDirectory}/fastlane/Gemfile`);
+    this.template('fastlane/Fastfile', `${this.appDirectory}/fastlane/Fastfile`, {
+      applicationName: this.applicationName,
+    });
+    this.template('fastlane/Matchfile', `${this.appDirectory}/fastlane/Matchfile`);
   },
 
   _checkIfRNIsInstalled() {
