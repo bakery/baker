@@ -6,7 +6,7 @@
   "scripts": {
     "generate": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js",
     "lint": "./node_modules/.bin/eslint app baker server",
-    "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/tests/**/*.js -R spec -r baker/generators/test/setup",
+    "test:baker": "./node_modules/mocha/bin/mocha ./baker/generators/test/setup.js ./baker/generators/test/tests/**/*.js -R spec",
     "setup": "./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app"
   },
   "devDependencies": {
