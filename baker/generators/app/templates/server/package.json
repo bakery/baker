@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "mongodb-runner": "^3.3.2",
-    "forever-monitor": "^1.7.0"
+    "forever-monitor": "^1.7.0",
+    "minimist": "^1.2.0"
   }
 }
