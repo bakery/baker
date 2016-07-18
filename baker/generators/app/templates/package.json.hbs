@@ -6,7 +6,8 @@
   "license": "ISC",
   "scripts": {
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android"
+    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "test": "./node_modules/mocha/bin/mocha ./src/tests.js ./src/**/*.test.js"
   },
   "engines": {
     "node": ">=4.3"
