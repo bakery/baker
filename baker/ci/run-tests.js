@@ -14,15 +14,7 @@ const packageName = packageJSON.name;
 // XX: only try running setup tests if we are testing original
 // boilerplate package (baker) and not the app built on top of it
 if (packageName === 'baker') {
-  console.log('removing current node_modules directory...');
-  run('rm -rf node_modules');
-
-  console.log('trying to set up project');
-
-  console.log('installing deps...');
-  run('npm install');
-
-  console.log('running app generator...');
+  console.log('running app generator...', process.cwd());
   // eslint-disable-next-line max-len
   const r = run('./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app TestApplication --server');
   console.log(r.toString());
@@ -31,8 +23,11 @@ if (packageName === 'baker') {
 }
 
 console.log('building for iOS...');
-run('react-native bundle --entry-file index.ios.js --platform ios --bundle-output ./bundle.ios.js');
+
+// eslint-disable-next-line max-len
+run('react-native bundle --entry-file index.ios.js --platform ios --bundle-output ./bundle.ios.js', { cwd: './app' });
 
 console.log('building for Android...');
+
 // eslint-disable-next-line max-len
-run('react-native bundle --entry-file index.android.js --platform android --bundle-output ./bundle.android.js');
+run('react-native bundle --entry-file index.android.js --platform android --bundle-output ./bundle.android.js', { cwd: './app' });

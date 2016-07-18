@@ -23,7 +23,7 @@ module.exports = yeoman.Base.extend({
 
     this.appDirectory = 'app';
     this.serverDirectory = 'server';
-    this.settingsDirectory = 'settings';
+    this.appSettingsDirectory = `${this.appDirectory}/settings`;
     this.platforms = ['ios', 'android'];
     this.namingConventions = namingConventions;
     this.Handlebars = Handlebars;
@@ -55,6 +55,7 @@ module.exports = yeoman.Base.extend({
 
     this.generateJSFile = (ast, path) => {
       const content = escodegen.generate(ast, escodegenOptions);
+      // this.conflicter.force = true;
       this.write(path, content);
     };
   },

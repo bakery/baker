@@ -27,7 +27,7 @@ export default {
           appName,
           iconName: 'logo.png',
         }],
-        iconsFolder: 'server/public/images',
+        iconsFolder: 'public/images',
         users: settings.parseServerDashboardUsers,
       }, allowInsecureHTTPInParseDashboard)
     );

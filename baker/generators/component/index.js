@@ -133,14 +133,14 @@ module.exports = BaseGenerator.extend({
     everything() {
       this.files.forEach(f => {
         this.template(f,
-          `${this.appDirectory}/components/${this.componentName}/${this._dropHBSExtension(f)}`);
+          `${this.appDirectory}/src/components/${this.componentName}/${this._dropHBSExtension(f)}`);
       });
 
       this.runBoilerplateBeforeHook(this.boilerplateName);
 
       if (this.platformSpecific) {
         this.platforms.forEach(platform => {
-          const path = `${this.appDirectory}/components/${this.componentName}`;
+          const path = `${this.appDirectory}/src/components/${this.componentName}`;
 
           this.template('index.js.hbs', `${path}/index.${platform}.js`,
             Object.assign({}, this, {
@@ -157,7 +157,7 @@ module.exports = BaseGenerator.extend({
           }
         });
       } else {
-        const path = `${this.appDirectory}/components/${this.componentName}/index.js`;
+        const path = `${this.appDirectory}/src/components/${this.componentName}/index.js`;
         this.template('index.js.hbs', path,
           Object.assign({}, this, {
             boilerplate: this._renderBoilerplate(this.boilerplateName),

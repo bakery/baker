@@ -16,8 +16,8 @@ describe('generator-rn:component', () => {
   const componentName = 'MyComponent';
   const boilerplate = 'Vanila';
   const appDirectory = 'app';
-  const componentModule = `${appDirectory}/components/${componentName}/index.js`;
-  const stylesheetModule = `${appDirectory}/components/${componentName}/styles.js`;
+  const componentModule = `${appDirectory}/src/components/${componentName}/index.js`;
+  const stylesheetModule = `${appDirectory}/src/components/${componentName}/styles.js`;
 
   let runBoilerplateBeforeHookSpy;
   let runBoilerplateAfterHookSpy;
@@ -51,7 +51,7 @@ describe('generator-rn:component', () => {
       assert.file([
         'index.js',
         'styles.js',
-      ].map(f => `${appDirectory}/components/${componentName}/${f}`));
+      ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
     });
 
     it('exports component as-is without container wrapping', () => {
@@ -75,7 +75,7 @@ describe('generator-rn:component', () => {
 
     it('creates component test file', () => {
       assert.file([
-        `${appDirectory}/components/${componentName}/index.test.js`,
+        `${appDirectory}/src/components/${componentName}/index.test.js`,
       ]);
     });
   });
@@ -94,11 +94,11 @@ describe('generator-rn:component', () => {
       assert.file([
         'index.ios.js',
         'index.android.js',
-      ].map(f => `${appDirectory}/components/${componentName}/${f}`));
+      ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
     });
 
     it('sets up .ios and .android versions of component tests', () => {
-      const componentDirectory = `${appDirectory}/components/${componentName}`;
+      const componentDirectory = `${appDirectory}/src/components/${componentName}`;
 
       assert.noFile(`${componentDirectory}/index.test.js`);
       assert.file([

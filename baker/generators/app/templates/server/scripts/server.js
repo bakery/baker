@@ -15,7 +15,7 @@ var options = {
 if (argv.watch) {
   console.log('watching');
   options.watch = true;
-  options.watchDirectory = './server';
+  options.watchDirectory = './src';
 }
 
 if (argv.debug) {
@@ -23,7 +23,7 @@ if (argv.debug) {
   options.args.push('--debug');
 }
 
-var monitor = new (forever.Monitor)('./server', options);
+var monitor = new (forever.Monitor)('./src', options);
 
 monitor.on('start', function onMonitorStarted() {
   if (argv['test-run']) {

@@ -12,4 +12,5 @@ var clipath = path.resolve(process.argv[2],
   'cli.js'
 );
 var cli = require(clipath);
+
 cli.init(process.argv[2], process.argv[3]);
