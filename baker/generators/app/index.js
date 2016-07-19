@@ -142,13 +142,15 @@ module.exports = BaseGenerator.extend({
       local: require.resolve('../component'),
     });
 
-    this.composeWith('model', {
-      options: {
-        modelName: 'Example',
-      },
-    }, {
-      local: require.resolve('../model'),
-    });
+    if (this.addServer) {
+      this.composeWith('model', {
+        options: {
+          modelName: 'Example',
+        },
+      }, {
+        local: require.resolve('../model'),
+      });
+    }
 
     // Setup Fastlane jazz
     this.template('fastlane/Gemfile', `${this.appDirectory}/fastlane/Gemfile`);
@@ -156,6 +158,13 @@ module.exports = BaseGenerator.extend({
       applicationName: this.applicationName,
     });
     this.template('fastlane/Matchfile', `${this.appDirectory}/fastlane/Matchfile`);
+
+    // Put default icons and splash images
+    // into ios project
+    this.bulkDirectory('AppIcon.appiconset',
+      `${this.appDirectory}/ios/${this.applicationName}/Images.xcassets/AppIcon.appiconset`);
+    this.bulkDirectory('LaunchImage.launchimage',
+      `${this.appDirectory}/ios/${this.applicationName}/Images.xcassets/LaunchImage.launchimage`);
   },
 
   _checkIfRNIsInstalled() {

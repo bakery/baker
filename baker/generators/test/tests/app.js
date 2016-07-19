@@ -136,6 +136,38 @@ describe('generator-rn:app', () => {
         'app/fastlane/Matchfile',
       ]);
     });
+
+    it('sets up icons and launch images for ios', () => {
+      assert.file([
+        'AppIcon.appiconset/Contents.json',
+        'AppIcon.appiconset/Icon-App-40x40@1x.png',
+        'AppIcon.appiconset/Icon-App-60x60@2x.png',
+        'AppIcon.appiconset/Icon-App-76x76@3x.png',
+        'AppIcon.appiconset/Icon-App-29x29@1x.png',
+        'AppIcon.appiconset/Icon-App-40x40@2x.png',
+        'AppIcon.appiconset/Icon-App-60x60@3x.png',
+        'AppIcon.appiconset/Icon-App-83.5x83.5@2x.png',
+        'AppIcon.appiconset/Icon-App-29x29@2x.png',
+        'AppIcon.appiconset/Icon-App-40x40@3x.png',
+        'AppIcon.appiconset/Icon-App-76x76@1x.png',
+        'AppIcon.appiconset/Icon-App-29x29@3x.png',
+        'AppIcon.appiconset/Icon-App-60x60@1x.png',
+        'AppIcon.appiconset/Icon-App-76x76@2x.png',
+        'LaunchImage.launchimage/Contents.json',
+        'LaunchImage.launchimage/Default-Landscape-736h@3x.png',
+        'LaunchImage.launchimage/Default-Portrait-736h@3x.png',
+        'LaunchImage.launchimage/Default.png',
+        'LaunchImage.launchimage/Default@2x-1.png',
+        'LaunchImage.launchimage/Default-568h@2x-1.png',
+        'LaunchImage.launchimage/Default-568h@2x.png',
+        'LaunchImage.launchimage/Default-Landscape.png',
+        'LaunchImage.launchimage/Default-Portrait.png',
+        'LaunchImage.launchimage/Default@2x.png',
+        'LaunchImage.launchimage/Default-667h@2x.png',
+        'LaunchImage.launchimage/Default-Landscape@2x.png',
+        'LaunchImage.launchimage/Default-Portrait@2x.png',
+      ].map(p => `app/ios/${applicationName}/Images.xcassets/${p}`));
+    });
   });
 
   describe('running generator in a non-empty directory with something that looks like a RN app', () => {
