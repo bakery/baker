@@ -12,5 +12,5 @@
 * App directory
 
 ## Getting started
-* Overview
+* [Overview](overview.md)
 
