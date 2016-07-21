@@ -1,5 +1,7 @@
 # Summary
 
+# Getting started
+
 * [Read Me](README.md)
 * [Introduction](docs/introduction/README.md)
    * [Scaffolding](/docs/introduction/Scaffolding.md)
@@ -9,4 +11,4 @@
    * [Card Navigation](docs/components/CardNavigation.md)
 * [Creating a Component Boilerplate](/docs/CreatingBoilerplates.md)
 
-
+# Project structure 
