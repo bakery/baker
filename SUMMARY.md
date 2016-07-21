@@ -9,7 +9,7 @@
     * [Tabs Navigation](docs/components/TabsNavigation.md)
     * [Card Navigation](docs/components/CardNavigation.md)
 * [Creating a Component Boilerplate](docs/CreatingBoilerplates.md)
-* App directory
+* [App directory](app-directory.md)
 
 ## Getting started
 * [Overview](overview.md)
