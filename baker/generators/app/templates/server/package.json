@@ -7,6 +7,7 @@
   "scripts": {
     "deploy": "./node_modules/babel-cli/bin/babel-node.js ./scripts/server-deploy.js --presets es2015",
     "start": "node ./build/index.js",
+    "test": "./node_modules/mocha/bin/mocha ./tests/setup.js ./tests/**/*.js",
     "heroku-postbuild": "./node_modules/.bin/babel src --presets es2015 -d build",
     "mongo": "node ./node_modules/mongodb-runner/bin/mongodb-runner start --name=dev --purge false",
     "server": "npm run mongo && NODE_ENV=development ./scripts/server.js",
@@ -30,8 +31,13 @@
     "babel-preset-es2015": "^6.9.0"
   },
   "devDependencies": {
+    "babel-register": "^6.9.0",
+    "chai": "^3.5.0",
     "mongodb-runner": "^3.3.2",
     "forever-monitor": "^1.7.0",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "mocha": "^2.5.3",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
   }
 }

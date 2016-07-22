@@ -219,6 +219,9 @@ describe('generator-rn:app', () => {
         'server/public/images/logo.png',
         'server/scripts/server-deploy.js',
         'server/scripts/server.js',
+        'server/tests/.eslintrc',
+        'server/tests/example.js',
+        'server/tests/setup.js',
       ]);
     });
   });
