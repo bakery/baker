@@ -42,7 +42,6 @@
     "yeoman-assert": "^2.2.1",
     "yeoman-environment": "^1.6.1",
     "yeoman-generator": "^0.22.0",
-    "yeoman-test": "^1.4.0",
-    "yosay": "^1.0.2"
+    "yeoman-test": "^1.4.0"
   }
 }

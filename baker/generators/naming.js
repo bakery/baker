@@ -1,6 +1,11 @@
 import changeCase from 'change-case';
 
 const namingConventions = {
+  applicationName: {
+    regEx: /^[A-Z][0-9A-Z]*$/i,
+    clean: name => changeCase.pascal(name),
+  },
+
   componentName: {
     regEx: /^[A-Z][0-9A-Z]*$/i,
     clean: name => changeCase.pascal(name),

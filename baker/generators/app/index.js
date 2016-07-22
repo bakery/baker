@@ -2,9 +2,9 @@
 /* globals which: false */
 
 import BaseGenerator from '../base';
-import yosay from 'yosay';
 import 'shelljs/global';
 import fs from 'fs';
+import path from 'path';
 import { execSync } from 'child_process';
 
 module.exports = BaseGenerator.extend({
@@ -12,7 +12,13 @@ module.exports = BaseGenerator.extend({
     BaseGenerator.call(this, args, options);
 
     this.applicationName = this.options.name;
-    this.addServer = this.options.addServer;
+
+    if (!this.applicationName) {
+      // Use current directory name as the app name
+      this.applicationName = path.basename(this.destinationPath('./'));
+    }
+
+    this.applicationName = this.namingConventions.applicationName.clean(this.applicationName);
   },
 
   initializing() {
@@ -25,51 +31,7 @@ module.exports = BaseGenerator.extend({
       this.env.error('No React Native found: start by installing it https://facebook.github.io/react-native/docs/getting-started.html#quick-start');
     }
 
-    this.log(yosay(
-      'Welcome to the sublime Reactive Native generator!'
-    ));
-
     this.originalDestination = this.destinationPath('.');
-  },
-
-  prompting() {
-    const prompts = [];
-
-    this.applicationName = this.options.name;
-
-    if (!this.applicationName) {
-      prompts.push({
-        type: 'input',
-        name: 'name',
-        message: 'What should your app be called?',
-        default: 'MyReactApp',
-        validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
-      });
-    }
-
-    if (typeof this.addServer === 'undefined') {
-      prompts.push({
-        type: 'confirm',
-        name: 'addServer',
-        message: 'Do you want a Parse Server setup for this app?',
-        default: true,
-      });
-    }
-
-    if (prompts.length !== 0) {
-      const done = this.async();
-      this.prompt(prompts, answers => {
-        if (typeof this.applicationName === 'undefined') {
-          this.applicationName = answers.name;
-        }
-
-        if (typeof this.addServer === 'undefined') {
-          this.addServer = answers.addServer;
-        }
-
-        done();
-      });
-    }
   },
 
   writing: {
@@ -80,10 +42,6 @@ module.exports = BaseGenerator.extend({
     },
 
     serverFiles() {
-      if (!this.addServer) {
-        return;
-      }
-
       this.bulkDirectory('server', this.serverDirectory);
     },
   },
@@ -99,11 +57,9 @@ module.exports = BaseGenerator.extend({
         this.destinationRoot(this.originalDestination);
       }
 
-      if (this.addServer) {
-        execSync('npm install', {
-          cwd: this.destinationPath(this.serverDirectory),
-        });
-      }
+      execSync('npm install', {
+        cwd: this.destinationPath(this.serverDirectory),
+      });
     },
   },
 
@@ -142,15 +98,13 @@ module.exports = BaseGenerator.extend({
       local: require.resolve('../component'),
     });
 
-    if (this.addServer) {
-      this.composeWith('model', {
-        options: {
-          modelName: 'Example',
-        },
-      }, {
-        local: require.resolve('../model'),
-      });
-    }
+    this.composeWith('model', {
+      options: {
+        modelName: 'Example',
+      },
+    }, {
+      local: require.resolve('../model'),
+    });
 
     // Setup Fastlane jazz
     this.template('fastlane/Gemfile', `${this.appDirectory}/fastlane/Gemfile`);

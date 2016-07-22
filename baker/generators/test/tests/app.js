@@ -69,6 +69,9 @@ describe('generator-rn:app', () => {
   describe('simple generator', () => {
     before(done => {
       helpers.run(appGeneratorModule)
+        .withOptions({
+          name: applicationName,
+        })
         .on('ready', _stubThings)
         .on('end', done);
     });
@@ -168,44 +171,6 @@ describe('generator-rn:app', () => {
         'LaunchImage.launchimage/Default-Portrait@2x.png',
       ].map(p => `app/ios/${applicationName}/Images.xcassets/${p}`));
     });
-  });
-
-  describe('running generator in a non-empty directory with something that looks like a RN app', () => {
-    before(done => {
-      helpers.run(appGeneratorModule)
-        .inTmpDir(dir => {
-          // XX: make it look like a directory with some RN artifacts
-          fs.mkdirSync(path.join(dir, 'android'));
-          fs.mkdirSync(path.join(dir, 'ios'));
-          fs.writeFileSync(path.join(dir, 'index.ios.js'), '00000000');
-          fs.writeFileSync(path.join(dir, 'index.android.js'), '00000000');
-        })
-        .withPrompts({
-          name: applicationName,
-        })
-        .on('ready', _stubThings)
-        .on('end', done);
-    });
-
-    after(_unstubThings);
-
-    it('bails on app generation', () => {
-      expect(_abortSetupStub.calledOnce).to.be.ok;
-    });
-  });
-
-  describe('app with server setup', () => {
-    before(done => {
-      helpers.run(appGeneratorModule)
-        .withPrompts({
-          name: applicationName,
-          addServer: true,
-        })
-        .on('ready', _stubThings)
-        .on('end', done);
-    });
-
-    after(_unstubThings);
 
     it('adds server folder with all the setup', () => {
       assert.file([
@@ -223,6 +188,30 @@ describe('generator-rn:app', () => {
         'server/tests/example.js',
         'server/tests/setup.js',
       ]);
+    });
+  });
+
+  describe('running generator in a non-empty directory with something that looks like a RN app', () => {
+    before(done => {
+      helpers.run(appGeneratorModule)
+        .inTmpDir(dir => {
+          // XX: make it look like a directory with some RN artifacts
+          fs.mkdirSync(path.join(dir, 'android'));
+          fs.mkdirSync(path.join(dir, 'ios'));
+          fs.writeFileSync(path.join(dir, 'index.ios.js'), '00000000');
+          fs.writeFileSync(path.join(dir, 'index.android.js'), '00000000');
+        })
+        .withOptions({
+          name: applicationName,
+        })
+        .on('ready', _stubThings)
+        .on('end', done);
+    });
+
+    after(_unstubThings);
+
+    it('bails on app generation', () => {
+      expect(_abortSetupStub.calledOnce).to.be.ok;
     });
   });
 });
