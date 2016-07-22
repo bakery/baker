@@ -10,7 +10,7 @@ function loadSettings() {
   try {
     return require('../../settings/development/base');
   } catch (e) {
-    return process.env;
+    return JSON.parse(process.env.APPLICATION_SETTINGS);
   }
 }
 

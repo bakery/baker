@@ -1,6 +1,5 @@
 /* eslint global-require: "off" */
 
-import assert from 'assert';
 import path from 'path';
 import { execSync as run } from 'child_process';
 
@@ -15,14 +14,6 @@ try {
   process.exit(1);
 }
 
-// Make sure settings are flat
-// Good: { setting1: 'hello', setting2: 'world' }
-// Bad: { setting1: { subsetting: 'hello', key: 'world' } }
-Object.keys(settings).forEach(k => {
-  assert(typeof settings[k] !== 'object', 'settings cannot have embedded objects/arrays');
-});
-
-
 console.log('Deploying with settings:', JSON.stringify(settings, null, ' '));
 
 try {
@@ -33,12 +24,7 @@ try {
   process.exit(1);
 }
 
-const settingsString = Object.keys(settings).reduce(
-  (previousValue, currentValue) => `${previousValue} ${currentValue}=${settings[currentValue]}`,
-  ''
-);
-
-run(`heroku config:set ${settingsString}`);
+run(`heroku config:set APPLICATION_SETTINGS='${JSON.stringify(settings)}'`);
 run('git subtree push --prefix server heroku master', {
   cwd: path.resolve('..'),
 });
