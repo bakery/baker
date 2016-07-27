@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import yeoman from 'yeoman-environment';
 
 const argv = require('minimist')(process.argv.slice(2));

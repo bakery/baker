@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import yeoman from 'yeoman-generator';
 import _ from 'lodash';
 import changeCase from 'change-case';
