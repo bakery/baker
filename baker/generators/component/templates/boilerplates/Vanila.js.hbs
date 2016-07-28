@@ -1,6 +1,6 @@
 const { View, Text } = ReactNative;
 
-{{#if isContainer}}export {{/if}}class {{componentName}} extends Component {
+{{> declareComponent}} {
   render() {
     return (
       <View style={styles.container}>

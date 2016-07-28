@@ -25,7 +25,7 @@ const loremText = {
   paddingBottom: 10,
 };
 
-{{#if isContainer}}export {{/if}}class {{componentName}} extends Component {
+{{> declareComponent}} {
   render() {
     const header = (
       <View style={headerStyle}>
