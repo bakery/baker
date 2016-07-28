@@ -1,0 +1,94 @@
+const { View, Text } = ReactNative;
+
+// XX: more info here -> https://github.com/lelandrichardson/react-native-parallax-view
+import ParallaxView from 'react-native-parallax-view';
+
+const imageUrl = 'https://placeholdit.imgix.net/~text?txtsize=85&txt=&w=1024&h=765&bg=e8117f';
+const headerStyle = {
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'flex-end',
+  paddingHorizontal: 20,
+  paddingVertical: 24,
+};
+const headerTextStyle = {
+  fontSize: 24,
+  fontWeight: 'bold',
+  color: '#ffffff',
+};
+const loremBody = {
+  paddingHorizontal: 10,
+  paddingVertical: 6,
+};
+const loremText = {
+  color: '#353535',
+  paddingBottom: 10,
+};
+
+{{#if isContainer}}export {{/if}}class {{componentName}} extends Component {
+  render() {
+    const header = (
+      <View style={headerStyle}>
+        <Text style={headerTextStyle}>
+            Parallax, Yo!
+        </Text>
+      </View>
+    );
+    const background = {
+      uri: imageUrl,
+    };
+    return (
+      <ParallaxView
+        backgroundSource={background}
+        windowHeight={300}
+        header={header}
+      >
+        <View style={loremBody}>
+          <Text style={loremText}>
+            Lorem ipsum dolor sit amet, magna assum officiis ut duo, audire elaboraret in cum.
+            Praesent periculis nam cu, an dicunt detracto nam. Nec salutandi iracundia ut,
+            mea ea probo detraxit, ferri vituperatoribus est eu. Populo nemore qualisque vis te,
+            at numquam persequeris duo.
+          </Text>
+          <Text style={loremText}>
+            Oportere indoctum scriptorem eos an, ne erant scripta repudiare est, cetero principes
+            vim ea. Unum bonorum volutpat eu mea. Per fugit democritum in, omnis dicam ignota no
+            quo. Quem justo erant sit eu, augue nulla feugiat ut mea, ex accumsan quaestio pro.
+            Eum propriae imperdiet referrentur ne. Deleniti singulis inimicus an vim,
+            ne qui mazim definitiones reprehendunt.
+          </Text>
+          <Text style={loremText}>
+            No soluta aliquip disputando sit. Porro oporteat no vim. Per ad evertitur
+            concludaturque. Ad vim brute mandamus, nostrum maluisset no quo, nostrum ancillae
+            scribentur ea sed. Quem odio consulatu vel an, ludus abhorreant sententiae id ius.
+          </Text>
+          <Text style={loremText}>
+            In mea menandri sapientem, quo gloriatur adolescens voluptatibus ei.
+            Eu detraxit adolescens ius. Usu quando mandamus dissentiet et, persius apeirian
+            dissentias in has. Pri id ignota mnesarchum honestatis, ei sed appareat sententiae
+            consequuntur. Et magna ullamcorper est, mundi nusquam te eam.
+            Graecis vivendum has in, cum appetere appellantur an.
+          </Text>
+          <Text style={loremText}>
+            Assum iisque forensibus an his, est adhuc errem aliquip ad, et ocurreret
+            accommodare pri. Ne usu nostrud minimum, option latine consectetuer quo ut.
+            Sed meis accumsan ea, ne per dolores quaerendum. Cibo aperiam repudiare at vix,
+            putant virtute instructior per in. Alii quas persius et nam.
+          </Text>
+          <Text style={loremText}>
+            Etiam intellegat sea in. Impedit vivendo imperdiet cu sea, usu cu adhuc mucius
+            necessitatibus, cu unum habemus dissentiunt vel. Reque affert vituperatoribus et per.
+            Ut vim inani veniam concludaturque, sonet elaboraret consectetuer ne eos.
+          </Text>
+          <Text style={loremText}>
+            An latine perpetua consetetur usu, novum indoctum vulputate in ius. Ad altera fierent
+            percipitur eam, saepe tation deserunt mei an. Harum primis nam no, ius no habeo dolorum
+            voluptatum. Sonet dissentias dissentiet vel in, te has discere accumsan.
+          </Text>
+        </View>
+      </ParallaxView>
+    );
+  }
+}
+
+{{> mapDispatchAndPropsAndConnect }}
