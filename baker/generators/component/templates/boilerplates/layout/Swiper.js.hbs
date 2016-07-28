@@ -1,0 +1,51 @@
+const { View, Text } = ReactNative;
+
+// XX: https://github.com/leecade/react-native-swiper
+import Swiper from 'react-native-swiper';
+
+const slide1Style = {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#9DD6EB',
+};
+
+const slide2Style = {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#97CAE5',
+};
+
+const slide3Style = {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#92BBD9',
+};
+
+const textStyle = {
+  color: '#fff',
+  fontSize: 30,
+  fontWeight: 'bold',
+};
+
+{{> declareComponent}} {
+  render() {
+    return (
+      <Swiper showsButtons>
+        <View style={slide1Style}>
+          <Text style={textStyle}>Hello Swiper</Text>
+        </View>
+        <View style={slide2Style}>
+          <Text style={textStyle}>Beautiful</Text>
+        </View>
+        <View style={slide3Style}>
+          <Text style={textStyle}>And simple</Text>
+        </View>
+      </Swiper>
+    );
+  }
+}
+
+{{> mapDispatchAndPropsAndConnect }}
