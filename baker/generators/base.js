@@ -59,21 +59,23 @@ module.exports = yeoman.Base.extend({
       this.write(path, content);
     };
 
-    this.installNPMPackage = (packageName, { saveDev }) => {
-      const options = saveDev ? '--save-dev' : '--save';
-      execSync(`npm install ${options} ${packageName}`, {
+    this.installNPMPackage = (packageName, options = { save: true }) => {
+      const ops = options.saveDev ? '--save-dev' : '--save';
+      execSync(`npm install ${ops} ${packageName}`, {
+        cwd: this.destinationPath(this.appDirectory),
         stdio: 'inherit',
       });
     };
 
-    this.installRNPMPackage = (packageName, { saveDev }) => {
+    this.installRNPMPackage = (packageName, options = { save: true }) => {
       if (!shell.which('rnpm')) {
         this.env.error('rnpm is not installed! You can install it by running: npm install rnpm -g');
         return;
       }
 
-      const options = saveDev ? '--save-dev' : '--save';
-      execSync(`rnpm install ${options} ${packageName}`, {
+      const ops = options.saveDev ? '--save-dev' : '--save';
+      execSync(`rnpm install ${ops} ${packageName}`, {
+        cwd: this.destinationPath(this.appDirectory),
         stdio: 'inherit',
       });
     };
