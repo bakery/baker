@@ -25,4 +25,12 @@ describe('base generator', () => {
   it('has appDirectory attribute', () => {
     expect(_generator.appDirectory).to.be.ok;
   });
+
+  it('has installNPMPackage method', () => {
+    expect(_generator).to.respondTo('installNPMPackage');
+  });
+
+  it('has installRNPMPackage method', () => {
+    expect(_generator).to.respondTo('installRNPMPackage');
+  });
 });

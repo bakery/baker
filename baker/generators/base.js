@@ -9,6 +9,7 @@ import escodegenOptions from './escodegen';
 import esprimaOptions from './esprima';
 import namingConventions from './naming';
 import shell from 'shelljs';
+import { execSync } from 'child_process';
 
 module.exports = yeoman.Base.extend({
   constructor(...args) {
@@ -56,6 +57,25 @@ module.exports = yeoman.Base.extend({
       const content = escodegen.generate(ast, escodegenOptions);
       // this.conflicter.force = true;
       this.write(path, content);
+    };
+
+    this.installNPMPackage = (packageName, { saveDev }) => {
+      const options = saveDev ? '--save-dev' : '--save';
+      execSync(`npm install ${options} ${packageName}`, {
+        stdio: 'inherit',
+      });
+    };
+
+    this.installRNPMPackage = (packageName, { saveDev }) => {
+      if (!shell.which('rnpm')) {
+        this.env.error('rnpm is not installed! You can install it by running: npm install rnpm -g');
+        return;
+      }
+
+      const options = saveDev ? '--save-dev' : '--save';
+      execSync(`rnpm install ${options} ${packageName}`, {
+        stdio: 'inherit',
+      });
     };
   },
 
