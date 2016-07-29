@@ -1,0 +1,56 @@
+const { View, Text, Dimensions } = ReactNative;
+
+// XX: https://github.com/lwansbrough/react-native-camera
+import Camera from 'react-native-camera';
+
+const containerStyle = {
+  flex: 1,
+};
+
+const previewStyle = {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  height: Dimensions.get('window').height,
+  width: Dimensions.get('window').width,
+};
+
+const captureStyle = {
+  flex: 0,
+  backgroundColor: '#fff',
+  borderRadius: 5,
+  color: '#000',
+  padding: 10,
+  margin: 40,
+};
+
+{{> declareComponent}} {
+  constructor(props) {
+    super(props);
+    this.takePicture = this.takePicture.bind(this);
+  }
+
+  takePicture() {
+    this.camera.capture()
+      .then((data) => console.log(data))
+      .catch(err => console.error(err));
+  }
+
+  render() {
+    return (
+      <View style={containerStyle}>
+        <Camera
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+          style={previewStyle}
+          aspect={Camera.constants.Aspect.fill}
+        >
+          <Text style={captureStyle} onPress={this.takePicture}>[CAPTURE]</Text>
+        </Camera>
+      </View>
+    );
+  }
+}
+
+{{> mapDispatchAndPropsAndConnect }}
