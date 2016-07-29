@@ -30,7 +30,7 @@ describe('base generator', () => {
     expect(_generator).to.respondTo('installNPMPackage');
   });
 
-  it('has installRNPMPackage method', () => {
-    expect(_generator).to.respondTo('installRNPMPackage');
+  it('has linkRNPMPackage method', () => {
+    expect(_generator).to.respondTo('linkRNPMPackage');
   });
 });
