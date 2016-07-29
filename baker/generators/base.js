@@ -67,14 +67,18 @@ module.exports = yeoman.Base.extend({
       });
     };
 
-    this.installRNPMPackage = (packageName, options = { save: true }) => {
+    this.checkIfRNPMIsInstalled = () => {
       if (!shell.which('rnpm')) {
-        this.env.error('rnpm is not installed! You can install it by running: npm install rnpm -g');
-        return;
+        console.log('Cannot find rnpm on your system. Installing it now...');
+        execSync('npm install rnpm -g', {
+          stdio: 'inherit',
+        });
       }
+    };
 
-      const ops = options.saveDev ? '--save-dev' : '--save';
-      execSync(`rnpm install ${ops} ${packageName}`, {
+    this.linkRNPMPackage = (packageName) => {
+      this.checkIfRNPMIsInstalled();
+      execSync(`rnpm link ${packageName}`, {
         cwd: this.destinationPath(this.appDirectory),
         stdio: 'inherit',
       });
