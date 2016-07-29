@@ -52,7 +52,7 @@ module.exports = BaseGenerator.extend({
       prompts.push({
         type: 'confirm',
         name: 'platformSpecific',
-        message: 'Do you separate versions of this component for iOS and Android?',
+        message: 'Do you need separate versions of this component for iOS and Android?',
         when: answers => {
           const boilerplateName = this.boilerplateName || answers.boilerplateName;
           return !this._isBoilerplatePlatformSpecific(boilerplateName);
