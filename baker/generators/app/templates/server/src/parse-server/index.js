@@ -14,6 +14,9 @@ export default {
       databaseURI: settings.parseServerDatabaseURI,
     });
 
+    const iconsFolder = process.env.NODE_ENV === 'development' ?
+      './server/public/images' : './public/images';
+
     app.use('/parse', api);
 
     app.use(
@@ -27,7 +30,7 @@ export default {
           appName,
           iconName: 'logo.png',
         }],
-        iconsFolder: 'public/images',
+        iconsFolder,
         users: settings.parseServerDashboardUsers,
       }, allowInsecureHTTPInParseDashboard)
     );
