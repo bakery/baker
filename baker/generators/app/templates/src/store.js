@@ -4,6 +4,13 @@ import createReducer from './reducers';
 import sagas from './sagas';
 import createSagaMiddleware from 'redux-saga';
 import devTools from 'remote-redux-devtools';
+import Settings from './settings';
+import Parse from 'parse/react-native';
+
+const settings = Settings.load();
+
+Parse.initialize(settings.parseServerApplicationId);
+Parse.serverURL = settings.parseServerURL;
 
 const sagaMiddleware = createSagaMiddleware();
 
