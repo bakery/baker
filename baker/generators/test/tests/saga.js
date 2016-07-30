@@ -60,7 +60,7 @@ describe('generator-rn:saga', () => {
       helpers.run(path.join(__dirname, '../../saga'))
       .withPrompts({
         sagaName,
-        boilerplateName: 'MethodCall',
+        boilerplateName: 'GraphQL',
       })
       .on('end', done);
     });
