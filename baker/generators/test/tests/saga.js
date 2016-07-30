@@ -25,31 +25,31 @@ describe('generator-rn:saga', () => {
 
     it('creates a saga file', () => {
       assert.file([
-        `${appDirectory}/sagas/${sagaName}.js`,
+        `${appDirectory}/src/sagas/${sagaName}.js`,
       ]);
     });
 
     it('eports a saga within saga file', () => {
-      assert.fileContent(`${appDirectory}/sagas/${sagaName}.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/${sagaName}.js`,
         `export function* ${sagaName}()`
       );
     });
 
     it('creates sagas index file', () => {
-      assert.file(`${appDirectory}/sagas/index.js`);
+      assert.file(`${appDirectory}/src/sagas/index.js`);
     });
 
     it('imports new saga in sagas/index.js', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         `import { ${sagaName} } from './${sagaName}';`
       );
     });
 
     it('exports new saga in sagas/index.js', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         `const sagas = [${sagaName}];`
       );
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         'module.exports = sagas;'
       );
     });
@@ -60,38 +60,38 @@ describe('generator-rn:saga', () => {
       helpers.run(path.join(__dirname, '../../saga'))
       .withPrompts({
         sagaName,
-        boilerplateName: 'MethodCall',
+        boilerplateName: 'GraphQL',
       })
       .on('end', done);
     });
 
     it('creates a saga file', () => {
       assert.file([
-        `${appDirectory}/sagas/${sagaName}.js`,
+        `${appDirectory}/src/sagas/${sagaName}.js`,
       ]);
     });
 
     it('eports a saga within saga file', () => {
-      assert.fileContent(`${appDirectory}/sagas/${sagaName}.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/${sagaName}.js`,
         `export function* ${sagaName}()`
       );
     });
 
     it('creates sagas index file', () => {
-      assert.file(`${appDirectory}/sagas/index.js`);
+      assert.file(`${appDirectory}/src/sagas/index.js`);
     });
 
     it('imports new saga in sagas/index.js', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         `import { ${sagaName} } from './${sagaName}';`
       );
     });
 
     it('exports new saga in sagas/index.js', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         `const sagas = [${sagaName}];`
       );
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         'module.exports = sagas;'
       );
     });
@@ -103,7 +103,7 @@ describe('generator-rn:saga', () => {
         .inTmpDir(dir => {
           fs.copySync(
             path.join(__dirname, './fixtures/sagas.index.js.template'),
-            path.join(dir, `${appDirectory}/sagas/index.js`)
+            path.join(dir, `${appDirectory}/src/sagas/index.js`)
           );
         })
         .withArguments(['--force'])
@@ -114,17 +114,17 @@ describe('generator-rn:saga', () => {
     });
 
     it('keeps original sagas', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         'import { anotherSaga } from \'./anotherSaga\';'
       );
     });
 
     it('adds new saga module', () => {
-      assert.file(`${appDirectory}/sagas/${sagaName}.js`);
+      assert.file(`${appDirectory}/src/sagas/${sagaName}.js`);
     });
 
     it('references new saga module in sagas/index.js', () => {
-      assert.fileContent(`${appDirectory}/sagas/index.js`,
+      assert.fileContent(`${appDirectory}/src/sagas/index.js`,
         `import { ${sagaName} } from './${sagaName}'`);
     });
   });

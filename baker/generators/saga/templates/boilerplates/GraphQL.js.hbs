@@ -1,6 +1,7 @@
 import { takeEvery } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
-import { apiCall } from '../api/apiCall';
+import GraphQLClient from 'parse-graphql-client';
+import Settings from '../settings';
 
 // XX: you will probably move these constants into constants module
 // associated with an appropriate reducer
@@ -8,14 +9,27 @@ const {{constantCase sagaName}}_REQUEST = 'sagas/{{constantCase sagaName}}_REQUE
 const {{constantCase sagaName}}_ERROR = 'sagas/{{constantCase sagaName}}_ERROR';
 const {{constantCase sagaName}}_SUCCESS = 'sagas/{{constantCase sagaName}}_SUCCESS';
 
+const settings = Settings.load();
+// eslint-disable-next-line global-require
+const client = new GraphQLClient(settings.graphqlURL, require('parse/react-native'));
+
+function runQuery() {
+  // XX: replace example query with your target model
+  return client.query(`
+    {
+      example {
+        id, text
+      }
+    }
+  `);
+}
+
 function* run{{pascalCase sagaName}}(action) {
   try {
-    const response = yield call(apiCall);
+    const response = yield call(runQuery);
     yield put({
       type: {{constantCase sagaName}}_SUCCESS,
-      payload: {
-        // data from the result of API call
-      },
+      payload: response,
     });
   } catch (error) {
     yield put({

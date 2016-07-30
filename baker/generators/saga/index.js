@@ -43,7 +43,7 @@ module.exports = BaseGenerator.extend({
     sagaFile() {
       this.runBoilerplateBeforeHook(this.boilerplateName);
 
-      this.template('saga.js.hbs', `${this.appDirectory}/sagas/${this.sagaName}.js`,
+      this.template('saga.js.hbs', `${this.appDirectory}/src/sagas/${this.sagaName}.js`,
         Object.assign(this, {
           boilerplate: this._renderBoilerplate(this.boilerplateName),
         })
@@ -53,7 +53,7 @@ module.exports = BaseGenerator.extend({
     },
 
     updateSagasIndex() {
-      const sagasIndex = this.destinationPath(`${this.appDirectory}/sagas/index.js`);
+      const sagasIndex = this.destinationPath(`${this.appDirectory}/src/sagas/index.js`);
       let sagasIndexContent;
       let sagasModule;
 
