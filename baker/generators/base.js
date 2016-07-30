@@ -117,13 +117,24 @@ module.exports = yeoman.Base.extend({
     return boilerplates.filter(b => excludeBoilerplates.indexOf(b) === -1);
   },
 
-  _renderBoilerplate(boilerplate, platform) {
+  _renderBoilerplate(boilerplate, platform, fallbackBoilerplate = 'Vanila') {
     let template;
     try {
       // see if there's a boiler plate for this specific platorm
       template = this.read(`./boilerplates/${boilerplate}.${platform}.js.hbs`);
     } catch (e) {
-      template = this.read(`./boilerplates/${boilerplate}.js.hbs`);
+      try {
+        template = this.read(`./boilerplates/${boilerplate}.js.hbs`);
+      } catch (anotherE) {
+        if (fallbackBoilerplate !== boilerplate) {
+          console.log(
+            `failed to locate ${boilerplate} boilerplate. Falling back to ${fallbackBoilerplate}`
+          );
+          return this._renderBoilerplate(fallbackBoilerplate, platform);
+        }
+
+        throw anotherE;
+      }
     }
 
     return Handlebars.compile(template)(this);
