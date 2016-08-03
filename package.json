@@ -1,7 +1,7 @@
 {
   "name": "baker",
   "engines": {
-    "node": ">=5"
+    "node": ">=4.3"
   },
   "scripts": {
     "android": "cd app && react-native run-android",
