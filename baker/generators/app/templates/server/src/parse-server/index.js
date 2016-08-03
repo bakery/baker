@@ -32,7 +32,7 @@ export default {
         }],
         iconsFolder,
         users: settings.parseServerDashboardUsers,
-      }, allowInsecureHTTPInParseDashboard)
+      }, true /* XX: use allowInsecureHTTPInParseDashboard, gotta use true for Heroku SSL */)
     );
   },
 };
