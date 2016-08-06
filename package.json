@@ -1,7 +1,8 @@
 {
   "name": "baker",
   "engines": {
-    "node": ">=4.3"
+    "node": ">=4.3",
+    "npm": ">=3"
   },
   "scripts": {
     "android": "cd app && react-native run-android",
@@ -11,6 +12,7 @@
     "ios": "cd app && react-native run-ios",
     "lint": "./node_modules/.bin/baker lint app baker server",
     "mongo": "./node_modules/.bin/baker mongo",
+    "preinstall": "./baker/check-npm-version.js",
     "server": "npm run mongo && ./node_modules/.bin/baker run --forever --node_dev ./server/src",
     "server:debug": "npm run mongo && ./node_modules/.bin/baker run --forever --node_dev --debug ./server/src",
     "server:watch": "npm run mongo && ./node_modules/.bin/baker run --forever --node_dev --watch ./server/src ./server/src",
