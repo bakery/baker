@@ -1,7 +1,5 @@
 {
   "parseServerApplicationId": "YOUR_PARSE_APPLICATION_ID",
-  "parseServerMasterKey": "MASTER_KEY",
-  "parseServerDatabaseURI": "MONGO_DB_DATA_BASE_URI",
   "parseServerURL": "https://HEROKU_APP_URL/parse",
   "graphqlURL": "https://HEROKU_APP_URL/graphql"
 }
