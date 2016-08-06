@@ -8,7 +8,9 @@ import parseServer from './parse-server';
 function loadSettings() {
   // try loading local settings inside shared settings directory
   try {
-    return require('../../settings/development/base');
+    const baseSettings = require('../../settings/development/base');
+    const serverSettings = require('../../settings/development/server');
+    return Object.assign(baseSettings, serverSettings);
   } catch (e) {
     return JSON.parse(process.env.APPLICATION_SETTINGS);
   }

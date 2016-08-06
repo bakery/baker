@@ -119,9 +119,11 @@ describe('generator-rn:app', () => {
         'app/settings/development/base.json',
         'app/settings/development/android.json',
         'app/settings/development/ios.json',
+        'app/settings/development/server.json',
         'app/settings/production/base.json',
         'app/settings/production/android.json',
         'app/settings/production/ios.json',
+        'app/settings/production/server.json',
       ]);
     });
 
