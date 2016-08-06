@@ -1,7 +1,7 @@
 {
   "name": "baker",
   "engines": {
-    "node": ">=4.3",
+    "node": ">=4",
     "npm": ">=3"
   },
   "scripts": {
