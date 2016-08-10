@@ -127,11 +127,11 @@ describe('generator-rn:app', () => {
       ]);
     });
 
-    it('adds .gitignore with * in app/settings/production', () => {
+    it('adds .gitignore with server.json in app/settings/production', () => {
       assert.file([
         'app/settings/production/.gitignore',
       ]);
-      assert.fileContent('app/settings/production/.gitignore', '*');
+      assert.fileContent('app/settings/production/.gitignore', 'server.json');
     });
 
     it('creates a fastlane directory with fastlane config + Gemfile', () => {
