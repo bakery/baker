@@ -1,4 +1,5 @@
 {
+  "name": "baker",
   "private": "true",
   "engines": {
     "node": ">=4",
