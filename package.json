@@ -4,6 +4,11 @@
     "node": ">=4",
     "npm": ">=3"
   },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/thebakeryio/baker.git"
+  },
+  "license": "MIT",
   "scripts": {
     "android": "cd app && react-native run-android",
     "ci": "npm run test:baker && npm run test:setup && npm run test:app && npm run test:server && npm run test:server-setup",

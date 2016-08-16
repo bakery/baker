@@ -67,18 +67,8 @@ module.exports = yeoman.Base.extend({
       });
     };
 
-    this.checkIfRNPMIsInstalled = () => {
-      if (!shell.which('rnpm')) {
-        console.log('Cannot find rnpm on your system. Installing it now...');
-        execSync('npm install rnpm -g', {
-          stdio: 'inherit',
-        });
-      }
-    };
-
     this.linkRNPMPackage = (packageName) => {
-      this.checkIfRNPMIsInstalled();
-      execSync(`rnpm link ${packageName}`, {
+      execSync(`react-native link ${packageName}`, {
         cwd: this.destinationPath(this.appDirectory),
         stdio: 'inherit',
       });
