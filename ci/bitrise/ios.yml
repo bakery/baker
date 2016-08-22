@@ -1,0 +1,87 @@
+---
+format_version: 1.2.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+app:
+  envs:
+  - opts:
+      is_expand: false
+    FASTLANE_WORK_DIR: app
+  - opts:
+      is_expand: false
+    FASTLANE_LANE: beta
+  - opts:
+      is_expand: true
+    GITHUB_USER_NAME: <GITHUB_MACHINE_USERNAME>
+  - opts:
+      is_expand: true
+    GITHUB_USER_EMAIL: <GITHUB_MACHINE_USER_EMAIL>
+trigger_map:
+- pattern: "*"
+  is_pull_request_allowed: true
+  workflow: primary
+workflows:
+  primary:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - script@1.1.2:
+        title: Configure Git user info
+        inputs:
+        - content: |-
+            #!/bin/bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            # adding Github to known hosts
+            ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+            # config git user info
+            git config --global user.email $GITHUB_USER_EMAIL
+            git config --global user.name $GITHUB_USER_NAME
+    - git-clone@3.3.3: {}
+    - script@1.1.2:
+        title: To build or not to build
+        inputs:
+        - content: |-
+            #!/bin/bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            if [[ "$BITRISE_GIT_MESSAGE" == *"[skip ci]"* ]] ; then
+              envman add --key PROCEED_WITH_DEPLOYMENT --value 0
+            else
+              envman add --key PROCEED_WITH_DEPLOYMENT --value 1
+            fi
+    - install-react-native@0.1.0:
+        run_if: '{{enveq "PROCEED_WITH_DEPLOYMENT" "1"}}'
+    - script@1.1.2:
+        title: Install app dependencies
+        run_if: '{{enveq "PROCEED_WITH_DEPLOYMENT" "1"}}'
+        inputs:
+        - content: |-
+            #!/bin/bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            # install apps deps
+            cd app && npm install
+    - fastlane@2.2.0:
+        run_if: '{{enveq "PROCEED_WITH_DEPLOYMENT" "1"}}'
+        inputs:
+        - lane: "$FASTLANE_LANE"
+        - work_dir: "$FASTLANE_WORK_DIR"
+    - script@1.1.2:
+        title: Push to git
+        run_if: '{{enveq "PROCEED_WITH_DEPLOYMENT" "1"}}'
+        inputs:
+        - content: |-
+            #!/bin/bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+            # push latest to git
+            git push origin HEAD:$BITRISE_GIT_BRANCH
+    - deploy-to-bitrise-io@1.2.4: {}
