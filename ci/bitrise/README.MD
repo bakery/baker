@@ -1,0 +1,1 @@
+There are a few things that you will need to configure to get CI to run properly. You can refer to this pretty detailed [walkthrough](http://blog.thebakery.io/continuous-integration-for-react-native-applications-with-fastlane-and-bitrise-ios-version/) for more information. 
