@@ -1,0 +1,44 @@
+permalink:           pretty
+
+# Setup
+project_name:         Baker
+title:               'Baker Documentation'
+tagline:             'React Native - Zero to MVP'
+description:         'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+url:                 'https://thebakeryio.github.io/baker'
+baseurl:             'https://thebakeryio.github.io/baker'
+
+sass:
+  style: compressed
+
+# About/contact
+author:
+  name:              The Bakery
+  url:               http://thebakery.io
+  email:             hi@thebakery.io
+
+gems:                [algoliasearch-jekyll]
+
+# Custom vars
+version:             1.0.0
+
+exclude:             [vendor]
+
+github:
+  repository_url:    https://github.com/thebakeryio/baker
+
+twitter:
+  handle:            bakeryhq
+
+algolia:
+  application_id:    'RJLGF63QKK'
+  index_name:        'docs'
+  read_only_api_key: 'c9e5cf2be0bd488a1e022c1f746f43c0'
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+      author: "The Bakery"

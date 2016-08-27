@@ -1,0 +1,71 @@
+<a class="pagination-prev hide"></a>
+<a class="pagination-next hide"></a>
+<script>
+  try {
+    var tableOfContents = JSON.parse('{{site.data.table_of_contents}}'.replace(/\=\>/g,':'));
+    var baseUrl = '{{site.baseurl}}';
+
+    function flattenTableOfContents(items) {
+      var result = [];
+
+      for(var i=0; i<items.length; i++) {
+        var item = items[i];
+
+        if (item.permalink) {
+          result.push(item);
+        } else if (item.items) {
+          var subItems = flattenTableOfContents(item.items);
+          for(var j=0; j<subItems.length; j++) {
+            result.push(subItems[j]);
+          }
+        }
+      }
+
+      return result;
+    };
+
+    function locateCurrentPageEntry(items) {
+      var permalink = baseUrl === '' ? window.location.pathname
+        : window.location.href.split(baseUrl)[1];
+
+      for(var i=0; i<items.length; i++) {
+        var item = items[i];
+        if (item.permalink === permalink) {
+          return {
+            current: item,
+            next: (i+1) < items.length ? items[i+1] : null,
+            prev: i != 0 ? items[i-1] : null
+          };
+        }
+      }
+
+      return null;
+    }
+
+    function setupLink(selector, href, title) {
+      var link = document.querySelector(selector);
+      if (!link) {
+        return;
+      }
+
+      link.classList.remove('hide');
+      link.setAttribute('href', [baseUrl, href].join(''));
+      link.innerHTML = title;
+    }
+
+    if (tableOfContents && tableOfContents.entries) {
+      var entry = locateCurrentPageEntry(flattenTableOfContents(tableOfContents.entries));
+      if (entry && entry.next) {
+        setupLink('.pagination-next',
+          entry.next.permalink, 'Next up: ' + entry.next.title);
+      }
+
+      if (entry && entry.prev) {
+        setupLink('.pagination-prev', entry.prev.permalink,
+          'Previously: ' + entry.prev.title);
+      }
+    }
+  } catch(e) {
+    // oops
+  }
+</script>

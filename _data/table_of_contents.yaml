@@ -1,0 +1,41 @@
+entries:
+  - title: Introduction
+    permalink: /introduction.html
+  - title: Getting started
+    items:
+      - title: Installation
+        permalink: /getting-started/installation.html
+      - title: Running the app
+        permalink: /getting-started/running-app-on-emulator.html
+      - title: Running the server
+        permalink: /getting-started/running-server.html
+  - title: Project Structure
+    permalink: /project-structure.html
+  - title: Configuration
+    permalink: /configuration.html
+  - title: Scaffolding
+    items:
+      - title: Introduction
+        permalink: /scaffolding/introduction.html
+      - title: Components
+        permalink: /scaffolding/components.html
+      - title: Component Boilerplates
+        permalink: /scaffolding/component-boilerplates.html
+      - title: Containers
+        permalink: /scaffolding/containers.html
+      - title: Models
+        permalink: /scaffolding/models.html
+      - title: Navigation
+        permalink: /scaffolding/navigation.html
+      - title: Sagas
+        permalink: /scaffolding/sagas.html
+  - title: Testing
+    permalink: /testing.html
+  - title: Deployment
+    permalink: /deployment.html
+  - title: CI
+    permalink: /continuous-integration.html
+  - title: Extending Baker
+    permalink: /extending-baker.html
+  - title: Repository Structure
+    permalink: /repository-structure.html

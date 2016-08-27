@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  {% include head.html %}
+
+  <body class="sidebar-overlay theme-base-08">
+
+    {% include sidebar.html %}
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
+            <small>{{ site.tagline }}</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="algolia__initial-content js-algolia__initial-content">
+          {% include edit_this_page.html %}
+          {{ content }}
+          {% include pagination.html %}
+        </div>
+
+        <div class="algolia__search-content js-algolia__search-content">
+          <h1 class="page-title">Search</h1>
+          <div class="posts algolia__results"></div>
+        </div>
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+
+
+        window.ALGOLIA_CONFIG = {
+          applicationId: '{{ site.algolia.application_id }}',
+          indexName: '{{ site.algolia.index_name }}',
+          apiKey: '{{ site.algolia.read_only_api_key }}',
+          baseurl: '{{ site.baseurl }}'
+        };
+
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+        var header = document.querySelector('.masthead');
+
+        // XX: show the bar! 🍻
+        checkbox.checked = false;
+
+        // listen for scroll event to do positioning & highlights
+        window.addEventListener('scroll', updateSidebar);
+        // window.addEventListener('resize', showSidebar);
+
+        function updateSidebar () {
+          var doc = document.documentElement;
+          var top = doc && doc.scrollTop || document.body.scrollTop;
+          var headerHeight = header.offsetHeight;
+          if (top > headerHeight) {
+            sidebar.className = 'sidebar fix-sidebar';
+          } else {
+            sidebar.className = 'sidebar';
+          }
+        }
+
+        // function showSidebar () {
+        //   if(window.innerWidth > 895){
+        //     checkbox.checked = true;
+        //   }
+        // }
+
+      })(document);
+    </script>
+    <!-- Twitter widget -->
+    <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+     
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+     
+      return t;
+    }(document, "script", "twitter-wjs"));
+    </script>
+    <script id="algolia__template" type="text/template">
+    {% raw %}
+      <div class="algolia__result">
+        <a class="algolia__result-link" href="{{ full_url }}#algolia:{{ css_selector }}">{{{ _highlightResult.title.value }}}</a>
+        {{#posted_at}}
+        <div class="algolia__result-date">{{ posted_at_readable }}</div>
+        {{/posted_at}}
+        <div class="algolia__result-text">{{{ _highlightResult.text.value }}}</div>
+      </div>
+    {% endraw %}
+    </script>
+    <script id="algolia__template--no-results" type="text/template">
+      No results found.
+    </script>
+    
+    <script src="{{ site.baseurl }}/public/js/everything.js"></script>
+  </body>
+</html>
