@@ -1,6 +1,6 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { fromJS } from 'immutable';
-import createReducer from './reducers';
+import createReducer from './state';
 import sagas from './sagas';
 import createSagaMiddleware from 'redux-saga';
 import devTools from 'remote-redux-devtools';
@@ -23,8 +23,6 @@ function configureStore(initialState = fromJS({})) {
     enhancers.push(devTools());
   }
 
-  // const createStoreWithMiddleware = compose(...middleware)(createStore);
-  // return createStoreWithMiddleware(createReducer(), initialState);
   const store = createStore(createReducer(), initialState, compose(...enhancers));
 
   sagas.forEach(saga => sagaMiddleware.run(saga));
