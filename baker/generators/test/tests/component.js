@@ -17,7 +17,6 @@ describe('generator-rn:component', () => {
   const boilerplate = 'Vanila';
   const appDirectory = 'app';
   const componentModule = `${appDirectory}/src/components/${componentName}/index.js`;
-  const stylesheetModule = `${appDirectory}/src/components/${componentName}/styles.js`;
 
   let runBoilerplateBeforeHookSpy;
   let runBoilerplateAfterHookSpy;
@@ -51,15 +50,12 @@ describe('generator-rn:component', () => {
       assert.file([
         'index.js',
         'styles.js',
+        'index.test.js',
       ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
     });
 
     it('exports component as-is without container wrapping', () => {
       assert.fileContent(componentModule, `export default ${componentName}`);
-    });
-
-    it('generates a stylesheet', () => {
-      assert.file(stylesheetModule);
     });
 
     it('includes reference to the stylesheet', () => {
@@ -71,12 +67,6 @@ describe('generator-rn:component', () => {
       expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
       expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
       expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
-    });
-
-    it('creates component test file', () => {
-      assert.file([
-        `${appDirectory}/src/components/${componentName}/index.test.js`,
-      ]);
     });
   });
 
@@ -105,6 +95,46 @@ describe('generator-rn:component', () => {
         `${componentDirectory}/index.android.test.js`,
         `${componentDirectory}/index.ios.test.js`,
       ]);
+    });
+  });
+
+  describe('connected component (container)', () => {
+    const reducerName = 'todos';
+
+    before(done => {
+      helpers.run(componentGeneratorModule).withOptions({
+        isContainer: true,
+        reducerName,
+      }).withPrompts({
+        componentName,
+        boilerplateName: boilerplate,
+      }).on('end', done);
+    });
+
+    it('sets up all component jazz', () => {
+      assert.file([
+        'index.js',
+        'styles.js',
+        'index.test.js',
+      ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
+    });
+
+    it('exposes component wrapped into connect and original component', () => {
+      const containerModule = `${appDirectory}/src/components/${componentName}/index.js`;
+
+      assert.fileContent(containerModule,
+        `export default connect(\n  createSelector(selectTodos, (${reducerName}) => ({ ${reducerName} })),\n  mapDispatchToProps\n)(${componentName});`
+      );
+
+      assert.fileContent(containerModule,
+        `export class ${componentName}`
+      );
+    });
+
+    it('imports selector from the reducer module', () => {
+      assert.fileContent(`${appDirectory}/src/components/${componentName}/index.js`,
+        `import { selectTodos } from '../../state/${reducerName}/reducer';`
+      );
     });
   });
 });

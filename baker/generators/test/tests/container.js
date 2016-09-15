@@ -10,6 +10,7 @@ import yeoman from 'yeoman-generator';
 
 const expect = chai.expect;
 const containerGeneratorModule = path.join(__dirname, '../../container');
+let composeWithSpy;
 
 describe('generator-rn:container', () => {
   const containerName = 'MyContainer';
@@ -18,14 +19,22 @@ describe('generator-rn:container', () => {
   const containerModule = `${appDirectory}/src/components/${containerName}/index.js`;
   const stylesheetModule = `${appDirectory}/src/components/${containerName}/styles.js`;
 
-  describe('simple container', () => {
+  describe('container with new reducer', () => {
+    const newReducerName = 'todos';
+
     before(done => {
       helpers.run(containerGeneratorModule)
         .withPrompts({
           containerName,
-          boilerplateName: boilerplate,
-          addReducer: false,
+          reducerName: 'Create New Reducer',
+          newReducerName,
+        }).on('ready', generator => {
+          composeWithSpy = sinon.spy(generator, 'composeWith');
         }).on('end', done);
+    });
+
+    after(() => {
+      composeWithSpy && composeWithSpy.restore();
     });
 
     it('sets up all container jazz', () => {
@@ -33,66 +42,45 @@ describe('generator-rn:container', () => {
         'index.js',
         'index.test.js',
       ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
-
-      assert.noFile([
-        'actions.js',
-        'actions.test.js',
-        'constants.js',
-        'reducer.js',
-        'reducer.test.js',
-      ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
     });
 
-    it('exposes component wrapped into connect and original component', () => {
-      assert.fileContent(containerModule,
-        `export default connect(mapStateToProps, mapDispatchToProps)(${containerName});`);
-      assert.fileContent(containerModule,
-        `export class ${containerName}`
-      );
+    it('composes with reducer generator', () => {
+      const firstComposeArgs = composeWithSpy.getCall(0).args;
+      expect(firstComposeArgs[0]).to.eql('rn:reducer');
+      expect(firstComposeArgs[1].options.reducerName).to.eql(newReducerName);
     });
 
-    it('generates a stylesheet', () => {
-      assert.file(stylesheetModule);
-    });
-
-    it('includes reference to the stylesheet', () => {
-      assert.fileContent(containerModule, 'import styles from \'./styles\';');
+    it('composes with component generator', () => {
+      const secondComposeArgs = composeWithSpy.getCall(1).args;
+      expect(secondComposeArgs[0]).to.eql('rn:component');
+      expect(secondComposeArgs[1].options.reducerName).to.equal(newReducerName);
+      expect(secondComposeArgs[1].options.componentName).to.equal(containerName);
+      expect(secondComposeArgs[1].options.isContainer).to.equal(true);
     });
   });
 
-  describe('container with a reducer', () => {
+  describe('container with an existing reducer', () => {
     before(done => {
-      helpers.run(containerGeneratorModule)
-        .withOptions({
-          boilerplateName: boilerplate,
-        })
-        .withPrompts({
-          containerName,
-          addReducer: true,
-        })
-        .on('end', done);
+      helpers.run(containerGeneratorModule).withOptions({
+      }).withPrompts({
+        containerName,
+        reducerName: 'todos',
+      }).on('ready', generator => {
+        composeWithSpy = sinon.spy(generator, 'composeWith');
+      })
+      .on('end', done);
     });
 
-    it('generates reducer related files', () => {
-      assert.file([
-        'actions.js',
-        'actions.test.js',
-        'constants.js',
-        'reducer.js',
-        'reducer.test.js',
-      ].map(f => `${appDirectory}/src/components/${containerName}/${f}`));
+    after(() => {
+      composeWithSpy && composeWithSpy.restore();
     });
 
-    it('imports selector from the reducer module', () => {
-      assert.fileContent(`${appDirectory}/src/components/${containerName}/index.js`,
-        'import { selectMyContainer } from \'./reducer\';'
-      );
-    });
-
-    it('references imported reducer in the connect set up', () => {
-      assert.fileContent(`${appDirectory}/src/components/${containerName}/index.js`,
-        'createSelector(selectMyContainer, (myContainer) => ({ myContainer }))'
-      );
+    it('composes with component generator', () => {
+      const secondComposeArgs = composeWithSpy.getCall(0).args;
+      expect(secondComposeArgs[0]).to.eql('rn:component');
+      expect(secondComposeArgs[1].options.componentName).to.equal(containerName);
+      expect(secondComposeArgs[1].options.isContainer).to.equal(true);
+      expect(secondComposeArgs[1].options.reducerName).to.equal('todos');
     });
   });
 });

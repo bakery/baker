@@ -3,10 +3,8 @@ import _ from 'lodash';
 import changeCase from 'change-case';
 import fs from 'fs';
 import Handlebars from 'handlebars';
-import esprima from 'esprima';
-import escodegen from 'escodegen';
-import escodegenOptions from './escodegen';
-import esprimaOptions from './esprima';
+import { generateJSFileContent } from './escodegen';
+import { parseJSSource } from './esprima';
 import namingConventions from './naming';
 import shell from 'shelljs';
 import { execSync } from 'child_process';
@@ -47,16 +45,11 @@ module.exports = yeoman.Base.extend({
       this.write(destination, content);
     };
 
-    this.parseJSSource = content => {
-      let tree = esprima.parse(content, esprimaOptions);
-      tree = escodegen.attachComments(tree, tree.comments, tree.tokens);
-      return tree;
-    };
+    this.parseJSSource = content => parseJSSource(content);
 
     this.generateJSFile = (ast, path) => {
-      const content = escodegen.generate(ast, escodegenOptions);
       // this.conflicter.force = true;
-      this.write(path, content);
+      this.write(path, generateJSFileContent(ast));
     };
 
     this.installNPMPackage = (packageName, options = { save: true }) => {

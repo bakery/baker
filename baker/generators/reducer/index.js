@@ -5,34 +5,45 @@ module.exports = BaseGenerator.extend({
   constructor(args, options) {
     BaseGenerator.call(this, args, options);
 
-    if (!options || !options.container) {
-      // XX: reducer generator is currently only meant
-      // to be used through composeWith
-      this.env.error('container option is required in reducer generator');
-      return;
+    this.reducerName = options.reducerName;
+    this.boilerplateName = options.boilerplateName || 'Vanila';
+  },
+
+  prompting() {
+    const prompts = [];
+
+    if (!this.reducerName) {
+      prompts.push({
+        type: 'input',
+        name: 'reducerName',
+        message: 'What should your reducer be called?',
+        default: 'newReducer',
+        validate: value => this.namingConventions.reducerName.regEx.test(value),
+      });
     }
 
-    this.container = options.container;
-    this.reducerName = this.namingConventions.reducerName.clean(this.container);
-    this.boilerplateName = options.boilerplateName || 'Vanila';
-    this.doNotGenerateTests = options.doNotGenerateTests;
+    if (prompts.length !== 0) {
+      const done = this.async();
+      this.prompt(prompts, answers => {
+        this.reducerName = this.namingConventions.reducerName.clean(answers.reducerName);
+        done();
+      });
+    }
   },
 
   configuring: {
+    containerName() {
+      this.reducerName = this.namingConventions.reducerName.clean(
+        this.reducerName);
+    },
+
     files() {
       this.files = [
         'actions.js.hbs',
-        'constants.js.hbs',
         'reducer.js.hbs',
+        'test/actions.test.js.hbs',
+        'test/reducer.test.js.hbs',
       ];
-
-      if (!this.doNotGenerateTests) {
-        this.files = [
-          'actions.test.js.hbs',
-          'reducer.test.js.hbs',
-          ...this.files,
-        ];
-      }
     },
 
     boilerplate() {
@@ -44,14 +55,18 @@ module.exports = BaseGenerator.extend({
     everything() {
       this.runBoilerplateBeforeHook(this.boilerplateName);
 
-      this.files.forEach(f => this.template(f,
-        `${this.appDirectory}/src/components/${this.container}/${this._dropHBSExtension(f)}`));
+      this.files.forEach(
+        f => this.template(
+          f,
+          `${this.appDirectory}/src/state/${this.reducerName}/${this._dropHBSExtension(f)}`
+        )
+      );
 
       this.runBoilerplateAfterHook(this.boilerplateName);
     },
 
     updateRootReducersModule() {
-      const reducersModulePath = `${this.appDirectory}/src/reducers.js`;
+      const reducersModulePath = `${this.appDirectory}/src/state/reducers.js`;
       let reducersModuleContent;
       let reducersModule;
 
@@ -89,8 +104,8 @@ module.exports = BaseGenerator.extend({
         ],
         source: {
           type: 'Literal',
-          value: `./components/${this.container}/reducer`,
-          raw: `'./components/${this.container}/reducer'`,
+          value: `./${this.reducerName}/reducer`,
+          raw: `'./${this.reducerName}/reducer'`,
         },
       }, ...reducersModule.body];
 

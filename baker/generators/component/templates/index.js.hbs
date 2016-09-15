@@ -12,7 +12,7 @@ import styles from './styles';
 import { connect } from 'react-redux';
   {{#if selectorName}}
 import { createSelector } from 'reselect';
-import { {{selectorName}} } from './reducer';
+import { {{selectorName}} } from '../../state/{{reducerName}}/reducer';
   {{/if}}
 {{/if}}
 {{{boilerplate}}}

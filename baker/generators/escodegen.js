@@ -1,4 +1,5 @@
 import esprima from 'esprima';
+import escodegen from 'escodegen';
 
 const escodegenOptions = {
   format: {
@@ -36,4 +37,8 @@ const escodegenOptions = {
   verbatim: undefined,
 };
 
-export default escodegenOptions;
+module.exports = {
+  generateJSFileContent(ast) {
+    return escodegen.generate(ast, escodegenOptions);
+  },
+};
