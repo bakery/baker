@@ -1,11 +1,11 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { fromJS } from 'immutable';
-import createReducer from './state';
-import sagas from './sagas';
 import createSagaMiddleware from 'redux-saga';
 import devTools from 'remote-redux-devtools';
-import Settings from './settings';
 import Parse from 'parse/react-native';
+import createReducer from './reducers';
+import sagas from '../sagas';
+import Settings from '../settings';
 
 const settings = Settings.load();
 
