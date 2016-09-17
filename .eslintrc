@@ -12,6 +12,7 @@
   },
   "rules": {
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-named-as-default": "off",
     "react/prefer-stateless-function": "off",
     "react/jsx-filename-extension": "off"
   },
