@@ -1,3 +1,5 @@
+/* eslint-disable object-shorthand, comma-dangle, eol-last, import/imports-first */
+
 import { combineReducers } from 'redux-immutable';
 
 // XX: Do not rename this variable if you want reducer generator
