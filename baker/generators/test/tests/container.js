@@ -83,4 +83,39 @@ describe('generator-rn:container', () => {
       expect(secondComposeArgs[1].options.reducerName).to.equal('todos');
     });
   });
+
+  describe('container-reducer interaction', () => {
+    const reducerOptions = {
+      reducerOption1: 'reducerOption1',
+      reducerOption2: 'reducerOption2',
+    };
+
+    const reducerName = 'todos';
+
+    before(done => {
+      helpers.run(containerGeneratorModule).withOptions({
+        reducerOptions,
+      }).withPrompts({
+        containerName,
+        reducerName: 'Create New Reducer',
+        newReducerName: reducerName,
+      }).on('ready', generator => {
+        composeWithSpy = sinon.spy(generator, 'composeWith');
+      })
+      .on('end', done);
+    });
+
+    after(() => {
+      composeWithSpy && composeWithSpy.restore();
+    });
+
+    it('passes reducer option down to reducer generator', () => {
+      const firstComposeArgs = composeWithSpy.getCall(0).args;
+
+      expect(firstComposeArgs[0]).to.eql('rn:reducer');
+      expect(firstComposeArgs[1].options.reducerName).to.eql(reducerName);
+      expect(firstComposeArgs[1].options.reducerOption1).to.eql('reducerOption1');
+      expect(firstComposeArgs[1].options.reducerOption2).to.eql('reducerOption2');
+    });
+  });
 });

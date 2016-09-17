@@ -7,6 +7,8 @@ module.exports = BaseGenerator.extend({
 
     this.reducerName = options.reducerName;
     this.boilerplateName = options.boilerplateName || 'Vanila';
+    this.skipActions = options.skipActions;
+    this.skipTests = options.skipTests;
   },
 
   prompting() {
@@ -39,11 +41,20 @@ module.exports = BaseGenerator.extend({
 
     files() {
       this.files = [
-        'actions.js.hbs',
         'reducer.js.hbs',
-        'test/actions.test.js.hbs',
-        'test/reducer.test.js.hbs',
       ];
+
+      if (!this.skipActions) {
+        this.files.push('actions.js.hbs');
+      }
+
+      if (!this.skipTests) {
+        this.files = [
+          ...this.files,
+          'test/actions.test.js.hbs',
+          'test/reducer.test.js.hbs',
+        ];
+      }
     },
 
     boilerplate() {

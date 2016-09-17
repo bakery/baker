@@ -83,19 +83,44 @@ const setupTest = (options, input) => {
 };
 
 describe('generator-rn:reducer', () => {
-  describe('using inputs', () => {
+  describe('normal generator using inputs', () => {
     setupTest({
       boilerplateName: boilerplate,
     }, {
-      appDirectory,
       reducerName,
     });
   });
 
-  describe('using options', () => {
+  describe('normal generator using options', () => {
     setupTest({
       boilerplateName: boilerplate,
       reducerName,
     }, {});
+  });
+
+  describe('generator without actions and tests', () => {
+    before(done => {
+      helpers.run(reducerGeneratorModule).withOptions({
+        skipActions: true,
+        skipTests: true,
+      }).withPrompts({
+        reducerName,
+        boilerplateName: boilerplate,
+      }).on('end', done);
+    });
+
+    it('creates reducer files', () => {
+      assert.file([
+        'reducer.js',
+      ].map(f => `${appDirectory}/src/state/todos/${f}`));
+    });
+
+    it('does not create actions and tests', () => {
+      assert.noFile([
+        'actions.js',
+        'test/reducer.test.js',
+        'test/actions.test.js',
+      ].map(f => `${appDirectory}/src/state/todos/${f}`));
+    });
   });
 });

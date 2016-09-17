@@ -7,6 +7,7 @@ module.exports = BaseGenerator.extend({
     this.containerName = options.name;
     this.createNewReducer = false;
     this.boilerplateName = options.boilerplateName;
+    this.reducerOptions = options.reducerOptions || {};
   },
 
   prompting() {
@@ -71,11 +72,13 @@ module.exports = BaseGenerator.extend({
   writing: {
     reducer() {
       if (this.createNewReducer) {
+        const reducerOptions = Object.assign({
+          reducerName: this.reducerName,
+          boilerplateName: this.boilerplateName,
+        }, this.reducerOptions);
+
         this.composeWith('rn:reducer', {
-          options: {
-            reducerName: this.reducerName,
-            boilerplateName: this.boilerplateName,
-          },
+          options: reducerOptions,
         }, {
           local: require.resolve('../reducer'),
         });

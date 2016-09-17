@@ -34,6 +34,10 @@ module.exports = BaseGenerator.extend({
         options: {
           name: this.componentName,
           boilerplateName: this.boilerplateName,
+          reducerOptions: {
+            skipActions: true,
+            skipTests: true,
+          },
         },
       }, {
         local: require.resolve('../container'),
