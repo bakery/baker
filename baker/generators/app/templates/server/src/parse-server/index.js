@@ -3,7 +3,7 @@ import Parse from 'parse/node';
 import ParseDashboard from 'parse-dashboard';
 
 export default {
-  setup(app, appName, settings, allowInsecureHTTPInParseDashboard = false) {
+  setup(app, appName, settings) {
     Parse.initialize(settings.parseServerApplicationId, 'js-key', settings.parseServerMasterKey);
     Parse.serverURL = settings.parseServerURL;
 
