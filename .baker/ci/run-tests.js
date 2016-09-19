@@ -16,7 +16,7 @@ const packageName = packageJSON.name;
 if (packageName === 'baker') {
   console.log('running app generator...', process.cwd());
   // eslint-disable-next-line max-len
-  const r = run('./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./baker/generate.js app TestApplication');
+  const r = run('./node_modules/babel-cli/bin/babel-node.js --presets es2015 ./.baker/generate.js app TestApplication');
   console.log(r.toString());
 } else {
   console.log('skipping setup tests since this is the app based on baker');
