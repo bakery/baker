@@ -10,9 +10,10 @@ module.exports = BaseGenerator.extend({
     const availableGenerators = [
       { name: 'Component', value: 'component' },
       { name: 'Container', value: 'container' },
-      { name: 'Navigation', value: 'navigation' },
-      { name: 'Saga', value: 'saga' },
       { name: 'Model', value: 'model' },
+      { name: 'Navigation', value: 'navigation' },
+      { name: 'Reducer', value: 'reducer' },
+      { name: 'Saga', value: 'saga' },
     ];
 
     return this.prompt([{
