@@ -7,7 +7,7 @@ const generators = [
 ];
 const supportedCommands = ['app'];
 
-generators.forEach(g => env.register(`./baker/generators/${g}`, `rn:${g}`));
+generators.forEach(g => env.register(`./.baker/generators/${g}`, `rn:${g}`));
 
 function defaultCommand() {
   env.run('rn:list');
