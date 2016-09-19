@@ -44,6 +44,7 @@ describe('generator-rn:navigation', () => {
     expect(generatorName).to.eql('rn:container');
     expect(options.name).to.eql(componentName);
     expect(options.boilerplateName).to.eql(boilerplateName);
+    expect(options.doNotGenerateTests).to.eql(true);
     expect(options.reducerOptions.skipActions).to.eql(true);
     expect(options.reducerOptions.skipTests).to.eql(true);
   });

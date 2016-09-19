@@ -8,6 +8,7 @@ module.exports = BaseGenerator.extend({
     this.createNewReducer = false;
     this.boilerplateName = options.boilerplateName;
     this.reducerOptions = options.reducerOptions || {};
+    this.doNotGenerateTests = options.doNotGenerateTests;
   },
 
   prompting() {
@@ -92,6 +93,7 @@ module.exports = BaseGenerator.extend({
           isContainer: true,
           reducerName: this.reducerName,
           boilerplateName: this.boilerplateName,
+          doNotGenerateTests: this.doNotGenerateTests,
         },
       }, {
         local: require.resolve('../component'),

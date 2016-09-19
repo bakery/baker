@@ -98,6 +98,30 @@ describe('generator-rn:component', () => {
     });
   });
 
+  describe('component without tests', () => {
+    before(done => {
+      helpers.run(componentGeneratorModule).withOptions({
+        doNotGenerateTests: true,
+      }).withPrompts({
+        componentName,
+        boilerplateName: boilerplate,
+      }).on('end', done);
+    });
+
+    it('sets up all component jazz', () => {
+      assert.file([
+        'index.js',
+        'styles.js',
+      ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
+    });
+
+    it('does not include tests', () => {
+      assert.noFile([
+        'index.test.js',
+      ].map(f => `${appDirectory}/src/components/${componentName}/${f}`));
+    });
+  });
+
   describe('connected component (container)', () => {
     const reducerName = 'todos';
 

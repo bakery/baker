@@ -34,6 +34,7 @@ module.exports = BaseGenerator.extend({
         options: {
           name: this.componentName,
           boilerplateName: this.boilerplateName,
+          doNotGenerateTests: true,
           reducerOptions: {
             skipActions: true,
             skipTests: true,
