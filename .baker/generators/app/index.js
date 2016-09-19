@@ -1,11 +1,11 @@
 /* eslint max-len: "off" */
 /* globals which: false */
 
-import BaseGenerator from '../base';
 import 'shelljs/global';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {

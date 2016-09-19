@@ -1,5 +1,5 @@
-import BaseGenerator from '../base';
 import changeCase from 'change-case';
+import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
@@ -142,6 +142,7 @@ module.exports = BaseGenerator.extend({
       try {
         this.generateJSFile(schemaModule, graphQLSchemaModulePath);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(`error generating ${this.serverDirectory}/src/graphql/schema.js`, e);
       }
     },

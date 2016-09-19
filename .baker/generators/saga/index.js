@@ -1,5 +1,5 @@
-import BaseGenerator from '../base';
 import _ from 'lodash';
+import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
@@ -66,7 +66,6 @@ module.exports = BaseGenerator.extend({
       try {
         sagasModule = this.parseJSSource(sagasIndexContent);
       } catch (e) {
-        console.error('error is', e);
         this.env.error(`There seems to be an issue with your sagas module (${sagasIndex})`, e);
         return;
       }
@@ -115,6 +114,7 @@ module.exports = BaseGenerator.extend({
       try {
         this.generateJSFile(sagasModule, sagasIndex);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error('error generating sagas/index.js', e);
       }
     },

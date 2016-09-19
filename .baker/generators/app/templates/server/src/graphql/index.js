@@ -1,5 +1,5 @@
-import schema from './schema';
 import parseGraphQLHTTP from 'parse-graphql-server';
+import schema from './schema';
 
 export default {
   setup(app, graphiql = false) {

@@ -1,6 +1,7 @@
 import yeoman from 'yeoman-environment';
 
 const argv = require('minimist')(process.argv.slice(2));
+
 const env = yeoman.createEnv();
 const generators = [
   'app', 'component', 'container', 'list', 'reducer', 'navigation',

@@ -8,6 +8,7 @@
 
 const run = require('child_process').execSync;
 const packageJSON = require('../../package');
+
 const packageName = packageJSON.name;
 
 

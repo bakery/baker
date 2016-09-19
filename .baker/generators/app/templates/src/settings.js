@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 import devBase from '../settings/development/base';
 import deviOS from '../settings/development/ios';
 import devAndroid from '../settings/development/android';
@@ -5,8 +7,6 @@ import devAndroid from '../settings/development/android';
 import productionBase from '../settings/production/base';
 import productioniOS from '../settings/production/ios';
 import productionAndroid from '../settings/production/android';
-
-import { Platform } from 'react-native';
 
 export default {
   load() {

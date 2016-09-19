@@ -1,5 +1,5 @@
-import BaseGenerator from '../base';
 import _ from 'lodash';
+import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
@@ -154,6 +154,7 @@ module.exports = BaseGenerator.extend({
       try {
         this.generateJSFile(reducersModule, reducersModulePath);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error('error generating reducers.js', e);
       }
     },

@@ -3,11 +3,11 @@ import _ from 'lodash';
 import changeCase from 'change-case';
 import fs from 'fs';
 import Handlebars from 'handlebars';
+import shell from 'shelljs';
+import { execSync } from 'child_process';
 import { generateJSFileContent } from './escodegen';
 import { parseJSSource } from './esprima';
 import namingConventions from './naming';
-import shell from 'shelljs';
-import { execSync } from 'child_process';
 
 module.exports = yeoman.Base.extend({
   constructor(...args) {
@@ -15,6 +15,7 @@ module.exports = yeoman.Base.extend({
 
     // eslint-disable-next-line global-require
     const boilerplates = require('./boilerplates');
+
     this.runBoilerplateHook = boilerplates.runBoilerplateHook;
     this.runBoilerplateBeforeHook = boilerplates.runBoilerplateBeforeHook;
     this.runBoilerplateAfterHook = boilerplates.runBoilerplateAfterHook;
@@ -110,6 +111,7 @@ module.exports = yeoman.Base.extend({
         template = this.read(`./boilerplates/${boilerplate}.js.hbs`);
       } catch (anotherE) {
         if (fallbackBoilerplate !== boilerplate) {
+          // eslint-disable-next-line no-console
           console.log(
             `failed to locate ${boilerplate} boilerplate. Falling back to ${fallbackBoilerplate}`
           );

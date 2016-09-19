@@ -6,6 +6,7 @@
 // usage: node setup-rn.js /path/to/project/root projectName
 
 var path = require('path');
+
 var clipath = path.resolve(process.argv[2],
   'node_modules',
   'react-native',

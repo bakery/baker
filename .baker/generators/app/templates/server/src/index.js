@@ -26,5 +26,6 @@ parseServer.setup(app, packageJSON.name, settings);
 graphql.setup(app, IS_DEVELOPMENT);
 
 app.listen(serverPort, () => {
+  // eslint-disable-next-line no-console
   console.log(`server running on port ${serverPort}`);
 });

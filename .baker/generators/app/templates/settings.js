@@ -1,7 +1,7 @@
+import { Platform } from 'react-native';
 import base from '../settings/development';
 import iosOverrides from '../settings/development.ios';
 import androidOverrides from '../settings/development.android';
-import { Platform } from 'react-native';
 
 export default {
   load() {
