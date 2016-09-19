@@ -12,83 +12,115 @@ import mockery from 'mockery';
 
 const expect = chai.expect;
 const reducerGeneratorModule = path.join(__dirname, '../../reducer');
+const appDirectory = 'app';
+const boilerplate = 'Vanila';
+const reducerName = 'Todos';
 
-describe('generator-rn:reducer', () => {
-  const appDirectory = 'app';
-  const container = 'Comments';
-  const boilerplate = 'Vanila';
-
+const setupTest = (options, input) => {
   let runBoilerplateBeforeHookSpy;
   let runBoilerplateAfterHookSpy;
 
-  describe('without existing reducers module', () => {
-    before(done => {
-      runBoilerplateBeforeHookSpy = sinon.spy();
-      runBoilerplateAfterHookSpy = sinon.spy();
+  before(done => {
+    runBoilerplateBeforeHookSpy = sinon.spy();
+    runBoilerplateAfterHookSpy = sinon.spy();
 
-      mockery.enable();
-      mockery.warnOnUnregistered(false);
-      mockery.registerMock('./boilerplates', {
-        runBoilerplateBeforeHook: runBoilerplateBeforeHookSpy,
-        runBoilerplateAfterHook: runBoilerplateAfterHookSpy,
-      });
-
-      helpers.run(reducerGeneratorModule)
-      .withOptions({
-        container,
-        boilerplateName: boilerplate,
-      }).withPrompts({
-        appDirectory,
-        container,
-      })
-      .on('end', done);
+    mockery.enable();
+    mockery.warnOnUnregistered(false);
+    mockery.registerMock('./boilerplates', {
+      runBoilerplateBeforeHook: runBoilerplateBeforeHookSpy,
+      runBoilerplateAfterHook: runBoilerplateAfterHookSpy,
     });
 
-    after(() => {
-      mockery.deregisterAll();
-      mockery.disable();
+    helpers.run(reducerGeneratorModule).withOptions(options)
+      .withPrompts(input).on('end', done);
+  });
+
+  after(() => {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
+
+  it('creates reducer files', () => {
+    assert.file([
+      'actions.js',
+      'reducer.js',
+      'test/reducer.test.js',
+      'test/actions.test.js',
+    ].map(f => `${appDirectory}/src/state/todos/${f}`));
+  });
+
+  it('updates root reducers file with new reducer info', () => {
+    const reducersModulePath = `${appDirectory}/src/state/reducers.js`;
+    assert.file(reducersModulePath);
+    assert.fileContent(reducersModulePath,
+      "import todos from './todos/reducer'"
+    );
+    assert.fileContent(reducersModulePath,
+      'todos: todos'
+    );
+  });
+
+  it('default exports newly created reducer ', () => {
+    const reducerModulePath = `${appDirectory}/src/state/todos/reducer.js`;
+    assert.fileContent(reducerModulePath,
+      'export default todos'
+    );
+  });
+
+  it('exports a selector for the newly created reducer ', () => {
+    const reducerModulePath = `${appDirectory}/src/state/todos/reducer.js`;
+    assert.fileContent(reducerModulePath,
+      'export function selectTodos(state) {'
+    );
+  });
+
+  it('calls boilerplate hooks', () => {
+    expect(runBoilerplateBeforeHookSpy.calledOnce).to.be.ok;
+    expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
+    expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
+    expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
+  });
+};
+
+describe('generator-rn:reducer', () => {
+  describe('normal generator using inputs', () => {
+    setupTest({
+      boilerplateName: boilerplate,
+    }, {
+      reducerName,
+    });
+  });
+
+  describe('normal generator using options', () => {
+    setupTest({
+      boilerplateName: boilerplate,
+      reducerName,
+    }, {});
+  });
+
+  describe('generator without actions and tests', () => {
+    before(done => {
+      helpers.run(reducerGeneratorModule).withOptions({
+        skipActions: true,
+        skipTests: true,
+      }).withPrompts({
+        reducerName,
+        boilerplateName: boilerplate,
+      }).on('end', done);
     });
 
     it('creates reducer files', () => {
       assert.file([
         'reducer.js',
-        'reducer.test.js',
+      ].map(f => `${appDirectory}/src/state/todos/${f}`));
+    });
+
+    it('does not create actions and tests', () => {
+      assert.noFile([
         'actions.js',
-        'actions.test.js',
-        'constants.js',
-      ].map(f => `${appDirectory}/src/components/${container}/${f}`));
-    });
-
-    it('updates root reducers file with new reducer info', () => {
-      const reducersModulePath = `${appDirectory}/src/reducers.js`;
-      assert.file(reducersModulePath);
-      assert.fileContent(reducersModulePath,
-        `import comments from './components/${container}/reducer'`
-      );
-      assert.fileContent(reducersModulePath,
-        'comments: comments'
-      );
-    });
-
-    it('default exports newly created reducer ', () => {
-      const reducerModulePath = `${appDirectory}/src/components/${container}/reducer.js`;
-      assert.fileContent(reducerModulePath,
-        'export default comments'
-      );
-    });
-
-    it('exports a selector for the newly created reducer ', () => {
-      const reducerModulePath = `${appDirectory}/src/components/${container}/reducer.js`;
-      assert.fileContent(reducerModulePath,
-        'export function selectComments(state) {'
-      );
-    });
-
-    it('calls boilerplate hooks', () => {
-      expect(runBoilerplateBeforeHookSpy.calledOnce).to.be.ok;
-      expect(runBoilerplateBeforeHookSpy.calledWith(boilerplate)).to.be.ok;
-      expect(runBoilerplateAfterHookSpy.calledOnce).to.be.ok;
-      expect(runBoilerplateAfterHookSpy.calledWith(boilerplate)).to.be.ok;
+        'test/reducer.test.js',
+        'test/actions.test.js',
+      ].map(f => `${appDirectory}/src/state/todos/${f}`));
     });
   });
 });

@@ -21,10 +21,11 @@ describe('generator-rn:app', () => {
 
   const applicationName = 'MyReactApp';
   const applicationFiles = [
-    'app/src/reducers.js',
+    'app/src/state/index.js',
+    'app/src/state/action-types.js',
+    'app/src/state/reducers.js',
     'app/src/settings.js',
     'app/src/setup.js',
-    'app/src/store.js',
     'app/src/tests.js',
     'app/src/components/App/index.js',
     'app/src/components/App/styles.js',

@@ -1,19 +1,23 @@
 import BaseGenerator from '../base';
+import { getAvailableReducers } from '../reducer/helpers';
 
 module.exports = BaseGenerator.extend({
   constructor(args, options) {
     BaseGenerator.call(this, args, options);
-
     this.containerName = options.name;
-    this.selectorName = null;
+    this.createNewReducer = false;
     this.boilerplateName = options.boilerplateName;
-    this.addReducer = options.addReducer;
+    this.reducerOptions = options.reducerOptions || {};
     this.doNotGenerateTests = options.doNotGenerateTests;
   },
 
   prompting() {
     const done = this.async();
     const prompts = [];
+    const availableReducers = getAvailableReducers(
+      this.destinationPath(`${this.appDirectory}/src/state/reducers.js`)
+    );
+    const createNewReducerOption = 'Create New Reducer';
 
     if (!this.containerName) {
       prompts.push({
@@ -25,22 +29,18 @@ module.exports = BaseGenerator.extend({
       });
     }
 
-    if (typeof this.addReducer === 'undefined') {
-      prompts.push({
-        type: 'confirm',
-        name: 'addReducer',
-        message: 'Do you want a reducer + actions + constants generated?',
-        default: true,
-      });
-    }
+    prompts.push({
+      type: 'list',
+      name: 'reducerName',
+      message: 'Which reducer do you want to use?',
+      choices: [...availableReducers, createNewReducerOption],
+    });
 
     prompts.push({
       type: 'input',
-      name: 'selectorName',
-      message: 'What is the name for the new selector?',
-      default: answers => this.namingConventions.selectorName.clean(answers.containerName),
-      validate: value => (/^[$A-Z_][0-9A-Z_$]*$/i).test(value),
-      when: answers => answers.containerSelectorName === 'New Selector',
+      name: 'newReducerName',
+      message: 'Pick a name for a new reducer',
+      when: answers => answers.reducerName === createNewReducerOption,
     });
 
     if (prompts.length === 0) {
@@ -53,8 +53,11 @@ module.exports = BaseGenerator.extend({
         this.containerName = answers.containerName;
       }
 
-      if (typeof this.addReducer === 'undefined') {
-        this.addReducer = answers.addReducer;
+      if (answers.reducerName === createNewReducerOption) {
+        this.createNewReducer = true;
+        this.reducerName = answers.newReducerName;
+      } else {
+        this.reducerName = answers.reducerName;
       }
 
       done();
@@ -62,24 +65,33 @@ module.exports = BaseGenerator.extend({
   },
 
   configuring: {
-    files() {
+    containerName() {
       this.containerName = this.namingConventions.componentName.clean(this.containerName);
-
-      this.files = [
-        'index.js',
-        'test.js',
-      ];
     },
   },
 
   writing: {
+    reducer() {
+      if (this.createNewReducer) {
+        const reducerOptions = Object.assign({
+          reducerName: this.reducerName,
+          boilerplateName: this.boilerplateName,
+        }, this.reducerOptions);
+
+        this.composeWith('rn:reducer', {
+          options: reducerOptions,
+        }, {
+          local: require.resolve('../reducer'),
+        });
+      }
+    },
+
     component() {
       this.composeWith('rn:component', {
         options: {
           componentName: this.containerName,
           isContainer: true,
-          addReducer: this.addReducer,
-          selectorName: this.selectorName,
+          reducerName: this.reducerName,
           boilerplateName: this.boilerplateName,
           doNotGenerateTests: this.doNotGenerateTests,
         },

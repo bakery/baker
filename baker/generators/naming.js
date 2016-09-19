@@ -12,11 +12,12 @@ const namingConventions = {
   },
 
   reducerName: {
+    regEx: /^[A-Z][0-9A-Z]*$/i,
     clean: name => changeCase.camelCase(name),
   },
 
   selectorName: {
-    clean: componentName => `select${changeCase.pascalCase(componentName)}`,
+    clean: reducer => `select${changeCase.pascalCase(reducer)}`,
   },
 
   sagaName: {

@@ -1,7 +1,7 @@
 /* eslint global-require: "off"  */
 
-import packageJSON from '../package';
 import express from 'express';
+import packageJSON from '../package';
 import graphql from './graphql';
 import parseServer from './parse-server';
 
@@ -10,6 +10,7 @@ function loadSettings() {
   try {
     const baseSettings = require('../../settings/development/base');
     const serverSettings = require('../../settings/development/server');
+
     return Object.assign(baseSettings, serverSettings);
   } catch (e) {
     return JSON.parse(process.env.APPLICATION_SETTINGS);

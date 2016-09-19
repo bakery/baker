@@ -7,9 +7,13 @@ module.exports = BaseGenerator.extend({
     this.isContainer = options.isContainer;
     this.componentName = options.componentName;
     this.boilerplateName = options.boilerplateName;
-    this.addReducer = options.addReducer;
     this.platformSpecific = options.platformSpecific;
     this.doNotGenerateTests = options.doNotGenerateTests;
+    this.reducerName = options.reducerName;
+
+    if (this.reducerName) {
+      this.selectorName = this.namingConventions.selectorName.clean(this.reducerName);
+    }
 
     if (options.destinationRoot) {
       this.destinationRoot(options.destinationRoot);
@@ -103,37 +107,9 @@ module.exports = BaseGenerator.extend({
         this.files.push('index.test.js.hbs');
       }
     },
-
-    reducer() {
-      this.reducerName = this.namingConventions.reducerName.clean(
-        this.componentName
-      );
-    },
-
-    selector() {
-      if (this.addReducer) {
-        this.selectorName = this.namingConventions.selectorName.clean(
-          this.componentName
-        );
-      }
-    },
   },
 
   writing: {
-    reducer() {
-      if (this.addReducer) {
-        this.composeWith('rn:reducer', {
-          options: {
-            container: this.componentName,
-            boilerplateName: this.boilerplateName,
-            doNotGenerateTests: this.doNotGenerateTests,
-          },
-        }, {
-          local: require.resolve('../reducer'),
-        });
-      }
-    },
-
     everything() {
       this.files.forEach(f => {
         this.template(f,
