@@ -107,6 +107,10 @@ module.exports = BaseGenerator.extend({
         this.files.push('index.test.js.hbs');
       }
     },
+
+    reducerDirectory() {
+      this.reducerDirectory = this.namingConventions.reducerName.clean(this.reducerName);
+    },
   },
 
   writing: {
