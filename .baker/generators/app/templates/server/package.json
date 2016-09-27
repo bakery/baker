@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "express": "^4.13.4",
-    "graphql": "^0.6.0",
+    "graphql": "^0.7.0",
     "immutable": "^3.8.1",
-    "parse": "1.8.5",
+    "parse": "1.9.2",
     "parse-dashboard": "^1.0.13",
     "parse-graphql-client": "^0.2.0",
     "parse-graphql-server": "^0.3.0",
