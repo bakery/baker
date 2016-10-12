@@ -113,6 +113,9 @@ module.exports = BaseGenerator.extend({
     });
     this.template('fastlane/Matchfile', `${this.appDirectory}/fastlane/Matchfile`);
 
+    // Setup assets folder
+    this.bulkDirectory('assets', `${this.appDirectory}/assets`);
+
     // Put default icons and splash images
     // into ios project
     this.bulkDirectory('AppIcon.appiconset',
