@@ -33,19 +33,19 @@
   },
   "devDependencies": {
     "baker-scripts": "*",
-    "change-case": "^2.3.1",
+    "change-case": "^3.0.0",
     "escodegen": "^1.8.0",
-    "esprima": "^2.7.2",
-    "fs-extra": "^0.28.0",
+    "esprima": "^3.1.0",
+    "fs-extra": "^0.30.0",
     "handlebars": "^4.0.5",
     "lodash": "^4.11.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "mockery": "^1.7.0",
-    "shelljs": "^0.6.0",
+    "mockery": "^2.0.0",
+    "shelljs": "^0.7.4",
     "yeoman-assert": "^2.2.1",
     "yeoman-environment": "^1.6.1",
-    "yeoman-generator": "^0.22.0",
+    "yeoman-generator": "^0.24.1",
     "yeoman-test": "^1.4.0"
   }
 }
