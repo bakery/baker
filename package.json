@@ -29,10 +29,12 @@
     "test:baker": "./node_modules/.bin/baker test ./.baker/generators/test/tests/**/*.js",
     "test:server": "./node_modules/.bin/baker test ./server/tests/**/*.js",
     "test:server-setup": "./node_modules/.bin/baker run --forever --test_run ./server/src",
-    "test:setup": "./node_modules/.bin/baker run ./.baker/ci/run-tests.js"
+    "test:setup": "./node_modules/.bin/baker run ./.baker/ci/run-tests.js",
+    "icons" : "./node_modules/.bin/baker run ./.baker/make-icons.js"
   },
   "devDependencies": {
     "baker-scripts": "*",
+    "mobile-icon-resizer": "git://github.com/bakery/mobile-icon-resizer.git",
     "change-case": "^2.3.1",
     "escodegen": "^1.8.0",
     "esprima": "^2.7.2",

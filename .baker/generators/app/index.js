@@ -4,7 +4,7 @@
 import 'shelljs/global';
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { exec, execSync } from 'child_process';
 import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
@@ -43,6 +43,10 @@ module.exports = BaseGenerator.extend({
 
     serverFiles() {
       this.bulkDirectory('server', this.serverDirectory);
+    },
+
+    assetsDirectory() {
+      this.bulkDirectory('assets', `${this.appDirectory}/assets`);
     },
   },
 
@@ -87,7 +91,6 @@ module.exports = BaseGenerator.extend({
       cwd: this.destinationPath('.'),
     });
 
-
     this.composeWith('component', {
       options: {
         componentName: 'App',
@@ -113,12 +116,11 @@ module.exports = BaseGenerator.extend({
     });
     this.template('fastlane/Matchfile', `${this.appDirectory}/fastlane/Matchfile`);
 
-    // Put default icons and splash images
-    // into ios project
-    this.bulkDirectory('AppIcon.appiconset',
-      `${this.appDirectory}/ios/${this.applicationName}/Images.xcassets/AppIcon.appiconset`);
-    this.bulkDirectory('LaunchImage.launchimage',
-      `${this.appDirectory}/ios/${this.applicationName}/Images.xcassets/LaunchImage.launchimage`);
+    // Generate App Icons
+    exec('npm run icons', {
+      cwd: this.destinationRoot(),
+    });
+
   },
 
   _checkIfRNIsInstalled() {
