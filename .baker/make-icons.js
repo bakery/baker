@@ -1,3 +1,5 @@
+/* eslint no-console:off */
+
 const path = require('path');
 const appName = require('../app/package.json').name;
 const makeIcons = require('../node_modules/mobile-icon-resizer');
@@ -15,11 +17,12 @@ const defaultOptions = {
 
 const options = Object.assign(defaultOptions, config);
 
-console.log(options);
-
 makeIcons(options, (err) => {
-  if (err){
+  if (err) {
     console.log(err);
+    console.log('Cannot generate icons for Android and iOS');
+    console.log('Make sure you have ImageMagick installed: https://www.imagemagick.org/script/binary-releases.php');
+    console.log('You can then try generating icons using: npm run icons');
   } else {
     console.log('App icons successfully generated');
   }
