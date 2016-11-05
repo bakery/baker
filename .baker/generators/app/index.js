@@ -43,8 +43,9 @@ module.exports = BaseGenerator.extend({
 
     serverFiles() {
       this.bulkDirectory('server', this.serverDirectory);
-      
-      // Setup assets folder
+    },
+
+    assetsDirectory() {
       this.bulkDirectory('assets', `${this.appDirectory}/assets`);
     },
   },
