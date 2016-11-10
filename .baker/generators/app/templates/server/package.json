@@ -9,7 +9,7 @@
     "heroku-postbuild": "npm install -g baker-scripts && baker build src build"
   },
   "engines": {
-    "node": ">=4.3"
+    "node": ">=4.5"
   },
   "dependencies": {
     "express": "^4.13.4",

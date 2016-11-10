@@ -52,7 +52,9 @@ module.exports = BaseGenerator.extend({
 
   install: {
     installAppDepsAndRunRNSetup() {
-      execSync('npm install', {
+      const command = which('yarn') ? 'yarn install' : 'npm install';
+
+      execSync(command, {
         cwd: this.destinationPath(this.appDirectory),
       });
       this._initRN();
@@ -61,7 +63,7 @@ module.exports = BaseGenerator.extend({
         this.destinationRoot(this.originalDestination);
       }
 
-      execSync('npm install', {
+      execSync(command, {
         cwd: this.destinationPath(this.serverDirectory),
       });
     },
