@@ -19,6 +19,6 @@
     "parse-dashboard": "^1.0.13",
     "parse-graphql-client": "^0.2.0",
     "parse-graphql-server": "^0.3.0",
-    "parse-server": "^2.2.11"
+    "parse-server": "^2.2.25-beta.1"
   }
 }
