@@ -26,7 +26,7 @@ module.exports = BaseGenerator.extend({
 
     if (prompts.length !== 0) {
       const done = this.async();
-      this.prompt(prompts, answers => {
+      this.prompt(prompts).then(answers => {
         this.reducerName = this.namingConventions.reducerName.clean(answers.reducerName);
         done();
       });

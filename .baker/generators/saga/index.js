@@ -28,7 +28,7 @@ module.exports = BaseGenerator.extend({
       });
     }
 
-    this.prompt(prompts, answers => {
+    this.prompt(prompts).then(answers => {
       this.sagaName = this.namingConventions.sagaName.clean(answers.sagaName);
 
       if (typeof this.boilerplateName === 'undefined') {

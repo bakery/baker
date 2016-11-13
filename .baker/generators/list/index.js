@@ -22,7 +22,7 @@ module.exports = BaseGenerator.extend({
       name: 'generator',
       message: 'Choose the generator to use',
       default: availableGenerators[0].value,
-    }], answers => {
+    }]).then(answers => {
       this.composeWith(`rn:${answers.generator}`, {},
         { local: require.resolve(`../${answers.generator}`) }
       );

@@ -48,7 +48,7 @@ module.exports = BaseGenerator.extend({
       return;
     }
 
-    this.prompt(prompts, answers => {
+    this.prompt(prompts).then(answers => {
       if (answers.containerName) {
         this.containerName = answers.containerName;
       }

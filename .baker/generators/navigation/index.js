@@ -21,7 +21,7 @@ module.exports = BaseGenerator.extend({
       },
     ];
 
-    this.prompt(prompts, answers => {
+    this.prompt(prompts).then(answers => {
       this.componentName = answers.componentName;
       this.boilerplateName = answers.boilerplateName;
       done();

@@ -23,7 +23,7 @@ module.exports = BaseGenerator.extend({
 
     if (prompts.length !== 0) {
       const done = this.async();
-      this.prompt(prompts, answers => {
+      this.prompt(prompts).then(answers => {
         if (!this.modelName) {
           this.modelName = answers.modelName;
         }

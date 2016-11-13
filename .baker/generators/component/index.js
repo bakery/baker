@@ -70,7 +70,7 @@ module.exports = BaseGenerator.extend({
       return;
     }
 
-    this.prompt(prompts, answers => {
+    this.prompt(prompts).then(answers => {
       if (answers.componentName) {
         this.componentName = answers.componentName;
       }
