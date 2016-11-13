@@ -59,7 +59,7 @@ describe('generator-rn:app', () => {
     mockery.registerMock('child_process', {
       execSync(...args) {
         _execSyncSpy.apply(this, args);
-      },
+      }
     });
   });
 
@@ -92,19 +92,21 @@ describe('generator-rn:app', () => {
     });
 
     it('calls child_process.execSync to install app deps', () => {
-      expect(_execSyncSpy.getCall(0).args).to.eql([
-        'npm install', {
-          cwd: _generator.destinationPath('app'),
-        },
-      ]);
+      const args = _execSyncSpy.getCall(0).args;
+
+      expect(args[0]).to.be.oneOf(['npm install', 'yarn install']);
+      expect(args[1]).to.eql({
+        cwd: _generator.destinationPath('app'),
+      });
     });
 
     it('calls child_process.execSync to install server deps', () => {
-      expect(_execSyncSpy.getCall(1).args).to.eql([
-        'npm install', {
-          cwd: _generator.destinationPath('server'),
-        },
-      ]);
+      const args = _execSyncSpy.getCall(1).args;
+
+      expect(args[0]).to.be.oneOf(['npm install', 'yarn install']);
+      expect(args[1]).to.eql({
+        cwd: _generator.destinationPath('server'),
+      });
     });
 
     it('calls child_process.execSync to link to app settings', () => {
@@ -144,35 +146,41 @@ describe('generator-rn:app', () => {
     });
 
     it('sets up icons and launch images for ios', () => {
-      assert.file([
-        'AppIcon.appiconset/Contents.json',
-        'AppIcon.appiconset/Icon-App-40x40@1x.png',
-        'AppIcon.appiconset/Icon-App-60x60@2x.png',
-        'AppIcon.appiconset/Icon-App-76x76@3x.png',
-        'AppIcon.appiconset/Icon-App-29x29@1x.png',
-        'AppIcon.appiconset/Icon-App-40x40@2x.png',
-        'AppIcon.appiconset/Icon-App-60x60@3x.png',
-        'AppIcon.appiconset/Icon-App-83.5x83.5@2x.png',
-        'AppIcon.appiconset/Icon-App-29x29@2x.png',
-        'AppIcon.appiconset/Icon-App-40x40@3x.png',
-        'AppIcon.appiconset/Icon-App-76x76@1x.png',
-        'AppIcon.appiconset/Icon-App-29x29@3x.png',
-        'AppIcon.appiconset/Icon-App-60x60@1x.png',
-        'AppIcon.appiconset/Icon-App-76x76@2x.png',
-        'LaunchImage.launchimage/Contents.json',
-        'LaunchImage.launchimage/Default-Landscape-736h@3x.png',
-        'LaunchImage.launchimage/Default-Portrait-736h@3x.png',
-        'LaunchImage.launchimage/Default.png',
-        'LaunchImage.launchimage/Default@2x-1.png',
-        'LaunchImage.launchimage/Default-568h@2x-1.png',
-        'LaunchImage.launchimage/Default-568h@2x.png',
-        'LaunchImage.launchimage/Default-Landscape.png',
-        'LaunchImage.launchimage/Default-Portrait.png',
-        'LaunchImage.launchimage/Default@2x.png',
-        'LaunchImage.launchimage/Default-667h@2x.png',
-        'LaunchImage.launchimage/Default-Landscape@2x.png',
-        'LaunchImage.launchimage/Default-Portrait@2x.png',
-      ].map(p => `app/ios/${applicationName}/Images.xcassets/${p}`));
+      expect(_execSyncSpy.getCall(3).args).to.eql([
+        'npm run icons', {
+          cwd: _generator.destinationPath('.'),
+        },
+      ]);
+      // XX: need to move this to a separate test specific to icon generator
+      // assert.file([
+      //   'AppIcon.appiconset/Contents.json',
+      //   'AppIcon.appiconset/Icon-App-40x40@1x.png',
+      //   'AppIcon.appiconset/Icon-App-60x60@2x.png',
+      //   'AppIcon.appiconset/Icon-App-76x76@3x.png',
+      //   'AppIcon.appiconset/Icon-App-29x29@1x.png',
+      //   'AppIcon.appiconset/Icon-App-40x40@2x.png',
+      //   'AppIcon.appiconset/Icon-App-60x60@3x.png',
+      //   'AppIcon.appiconset/Icon-App-83.5x83.5@2x.png',
+      //   'AppIcon.appiconset/Icon-App-29x29@2x.png',
+      //   'AppIcon.appiconset/Icon-App-40x40@3x.png',
+      //   'AppIcon.appiconset/Icon-App-76x76@1x.png',
+      //   'AppIcon.appiconset/Icon-App-29x29@3x.png',
+      //   'AppIcon.appiconset/Icon-App-60x60@1x.png',
+      //   'AppIcon.appiconset/Icon-App-76x76@2x.png',
+      //   'LaunchImage.launchimage/Contents.json',
+      //   'LaunchImage.launchimage/Default-Landscape-736h@3x.png',
+      //   'LaunchImage.launchimage/Default-Portrait-736h@3x.png',
+      //   'LaunchImage.launchimage/Default.png',
+      //   'LaunchImage.launchimage/Default@2x-1.png',
+      //   'LaunchImage.launchimage/Default-568h@2x-1.png',
+      //   'LaunchImage.launchimage/Default-568h@2x.png',
+      //   'LaunchImage.launchimage/Default-Landscape.png',
+      //   'LaunchImage.launchimage/Default-Portrait.png',
+      //   'LaunchImage.launchimage/Default@2x.png',
+      //   'LaunchImage.launchimage/Default-667h@2x.png',
+      //   'LaunchImage.launchimage/Default-Landscape@2x.png',
+      //   'LaunchImage.launchimage/Default-Portrait@2x.png',
+      // ].map(p => `app/ios/${applicationName}/Images.xcassets/${p}`));
     });
 
     it('adds server folder with all the setup', () => {

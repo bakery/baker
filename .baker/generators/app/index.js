@@ -4,7 +4,7 @@
 import 'shelljs/global';
 import fs from 'fs';
 import path from 'path';
-import { exec, execSync } from 'child_process';
+import { execSync } from 'child_process';
 import BaseGenerator from '../base';
 
 module.exports = BaseGenerator.extend({
@@ -119,10 +119,9 @@ module.exports = BaseGenerator.extend({
     this.template('fastlane/Matchfile', `${this.appDirectory}/fastlane/Matchfile`);
 
     // Generate App Icons
-    exec('npm run icons', {
+    execSync('npm run icons', {
       cwd: this.destinationRoot(),
     });
-
   },
 
   _checkIfRNIsInstalled() {
