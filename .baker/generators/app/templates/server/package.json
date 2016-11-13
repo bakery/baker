@@ -6,7 +6,8 @@
   "license": "ISC",
   "scripts": {
     "start": "node ./build/index.js",
-    "heroku-postbuild": "npm install -g baker-scripts && baker build src build"
+    "heroku-postbuild": "npm install -g baker-scripts && baker build src build",
+    "test": "jest"
   },
   "engines": {
     "node": ">=4.5"
@@ -20,5 +21,10 @@
     "parse-graphql-client": "^0.2.0",
     "parse-graphql-server": "^0.3.0",
     "parse-server": "^2.2.25-beta.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^17.0.0",
+    "babel-polyfill": "^6.16.0",
+    "jest": "^17.0.0"
   }
 }

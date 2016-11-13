@@ -194,7 +194,7 @@ describe('generator-rn:app', () => {
         'server/src/parse-server/index.js',
         'server/public/images/logo.png',
         'server/tests/.eslintrc',
-        'server/tests/example.js',
+        'server/tests/example.test.js',
       ]);
     });
   });
