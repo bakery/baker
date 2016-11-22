@@ -25,9 +25,9 @@
     "server:debug": "npm run mongo && ./node_modules/.bin/baker run --forever --node_dev --debug ./server/src",
     "server:watch": "npm run mongo && ./node_modules/.bin/baker run --forever --node_dev --watch ./server/src ./server/src",
     "setup": "./node_modules/.bin/baker run ./.baker/generate.js app",
-    "test:app": "./node_modules/.bin/baker test-react-native ./app/src/tests.js ./app/src/**/*.test.js",
+    "test:app": "cd app && npm test",
     "test:baker": "./node_modules/.bin/baker test ./.baker/generators/test/tests/**/*.js",
-    "test:server": "./node_modules/.bin/baker test ./server/tests/**/*.js",
+    "test:server": "cd server && npm test",
     "test:server-setup": "./node_modules/.bin/baker run --forever --test_run ./server/src",
     "test:setup": "./node_modules/.bin/baker run ./.baker/ci/run-tests.js",
     "icons" : "./node_modules/.bin/baker run ./.baker/make-icons.js"

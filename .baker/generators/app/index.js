@@ -122,6 +122,9 @@ module.exports = BaseGenerator.extend({
     execSync('npm run icons', {
       cwd: this.destinationRoot(),
     });
+
+    // Remove generated __tests__ directory from the root of RN project
+    rm('-rf', this.destinationPath(`${this.appDirectory}/__tests__`));
   },
 
   _checkIfRNIsInstalled() {

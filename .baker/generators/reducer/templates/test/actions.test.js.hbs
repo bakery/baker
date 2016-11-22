@@ -1,12 +1,12 @@
-import { defaultAction } from './actions';
-import { DEFAULT_ACTION } from './constants';
+import { defaultAction } from '../actions';
+import { DEFAULT_ACTION } from '../../action-types';
 
 describe('{{reducerName}} actions', () => {
   it('creates a default action', () => {
     const expectedAction = {
       type: DEFAULT_ACTION,
     };
-    expect(defaultAction()).to.eql(expectedAction);
+    expect(defaultAction()).toEqual(expectedAction);
   });
 });
 

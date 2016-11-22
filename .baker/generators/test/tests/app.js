@@ -26,7 +26,6 @@ describe('generator-rn:app', () => {
     'app/src/state/reducers.js',
     'app/src/settings.js',
     'app/src/setup.js',
-    'app/src/tests.js',
     'app/src/components/App/index.js',
     'app/src/components/App/styles.js',
     'app/src/sagas/index.js',
@@ -194,7 +193,7 @@ describe('generator-rn:app', () => {
         'server/src/parse-server/index.js',
         'server/public/images/logo.png',
         'server/tests/.eslintrc',
-        'server/tests/example.js',
+        'server/tests/example.test.js',
       ]);
     });
   });
