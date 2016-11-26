@@ -93,7 +93,7 @@ describe('generator-rn:app', () => {
     it('calls child_process.execSync to install app deps', () => {
       const args = _execSyncSpy.getCall(0).args;
 
-      expect(args[0]).to.be.oneOf(['npm install', 'yarn install']);
+      expect(args[0]).to.be.oneOf(['npm install', 'yarnpkg install']);
       expect(args[1]).to.eql({
         cwd: _generator.destinationPath('app'),
       });
@@ -102,7 +102,7 @@ describe('generator-rn:app', () => {
     it('calls child_process.execSync to install server deps', () => {
       const args = _execSyncSpy.getCall(1).args;
 
-      expect(args[0]).to.be.oneOf(['npm install', 'yarn install']);
+      expect(args[0]).to.be.oneOf(['npm install', 'yarnpkg install']);
       expect(args[1]).to.eql({
         cwd: _generator.destinationPath('server'),
       });
