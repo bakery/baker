@@ -19,11 +19,10 @@ function loadSettings() {
 
 const settings = loadSettings();
 const app = express();
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const serverPort = process.env.PORT || settings.serverPort;
 
 parseServer.setup(app, packageJSON.name, settings);
-graphql.setup(app, IS_DEVELOPMENT);
+graphql.setup(app);
 
 app.listen(serverPort, () => {
   // eslint-disable-next-line no-console

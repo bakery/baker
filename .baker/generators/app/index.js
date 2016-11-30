@@ -103,13 +103,13 @@ module.exports = BaseGenerator.extend({
       local: require.resolve('../component'),
     });
 
-    this.composeWith('model', {
-      options: {
-        modelName: 'Example',
-      },
-    }, {
-      local: require.resolve('../model'),
-    });
+    // this.composeWith('model', {
+    //   options: {
+    //     modelName: 'Example',
+    //   },
+    // }, {
+    //   local: require.resolve('../model'),
+    // });
 
     // Setup Fastlane jazz
     this.template('fastlane/Gemfile', `${this.appDirectory}/fastlane/Gemfile`);
