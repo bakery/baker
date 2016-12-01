@@ -20,7 +20,6 @@
     "graphql-tools": "^0.8.3",
     "parse": "1.9.2",
     "parse-dashboard": "^1.0.13",
-    "parse-graphql-client": "^0.2.0",
     "parse-graphql-server": "git://github.com/bakery/parse-graphql-server.git#feature/apollo",
     "parse-server": "^2.2.25-beta.1"
   },
