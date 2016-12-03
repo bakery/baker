@@ -1,27 +1,20 @@
 export default `
-type Todo {
+type Example {
   id: ID! 
   text: String!
-  isComplete: Boolean!,
-  createdAt: Float!
 }
 # the schema allows the following query:
 type Query {
-  todos(
-    isComplete: Boolean
-  ): [Todo]
+  examples: [Example]
 }
 # this schema allows the following mutation:
 type Mutation {
-  addTodo (
+  addExample (
     text: String!
-  ): Todo
-  deleteTodo (
+  ): Example
+  deleteExample (
     id: ID!
-  ): Todo
-  toggleTodoCompletion (
-    id: ID!
-  ): Todo
+  ): Example
 }
 # we need to tell the server which types represent the root query
 # and root mutation types. We call them RootQuery and RootMutation by convention.

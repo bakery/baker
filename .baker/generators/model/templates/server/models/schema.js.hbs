@@ -1,0 +1,19 @@
+export default `
+type {{modelName}} {
+  id: ID! 
+  text: String!
+}
+# the schema allows the following query:
+type Query {
+  {{camelCase modelName}}s: [{{modelName}}]
+}
+# this schema allows the following mutation:
+type Mutation {
+  add{{modelName}} (
+    text: String!
+  ): {{modelName}}
+  delete{{modelName}} (
+    id: ID!
+  ): {{modelName}}
+}
+`;

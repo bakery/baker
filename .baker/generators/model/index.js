@@ -34,12 +34,13 @@ module.exports = BaseGenerator.extend({
 
   writing: {
     serverModel() {
-      this.template('server/models/index.js.hbs',
-        `${this.serverDirectory}/src/models/${this.modelName}.js`);
+      this.template('server/models/model.js.hbs', `${this.serverDirectory}/src/api/${this.modelName}/model.js`);
+      this.template('server/models/resolver.js.hbs', `${this.serverDirectory}/src/api/${this.modelName}/resolver.js`);
+      this.template('server/models/schema.js.hbs', `${this.serverDirectory}/src/api/${this.modelName}/schema.js`);
     },
 
     updateGraphQLSchemaFile() {
-      const graphQLSchemaModulePath = `${this.serverDirectory}/src/graphql/schema.js`;
+      const graphQLSchemaModulePath = `${this.serverDirectory}/src/api/schema.js`;
       let schemaModuleContent;
       let schemaModule;
 
@@ -53,11 +54,11 @@ module.exports = BaseGenerator.extend({
         schemaModule = this.parseJSSource(schemaModuleContent);
       } catch (e) {
         const path = this.destinationPath(graphQLSchemaModulePath);
-        this.env.error(`There seems to be an issue with your reducers module (${path})`, e);
+        this.env.error(`There seems to be an issue with your schema module (${path})`, e);
         return;
       }
 
-      // add import statement for the new model
+      // add import statements for the new model: include schema + resolvers
       schemaModule.body = [{
         type: 'ImportDeclaration',
         specifiers: [
@@ -65,78 +66,71 @@ module.exports = BaseGenerator.extend({
             type: 'ImportDefaultSpecifier',
             local: {
               type: 'Identifier',
-              name: `${this.modelName}`,
+              name: `${this.modelName}Schema`,
             },
             imported: {
               type: 'Identifier',
-              name: `${this.modelName}`,
+              name: `${this.modelName}Schema`,
             },
           },
         ],
         source: {
           type: 'Literal',
-          value: `../models/${this.modelName}`,
-          raw: `'../models/${this.modelName}'`,
+          value: `./${this.modelName}/schema`,
+          raw: `'./${this.modelName}/schema'`,
+        },
+      }, {
+        type: 'ImportDeclaration',
+        specifiers: [
+          {
+            type: 'ImportDefaultSpecifier',
+            local: {
+              type: 'Identifier',
+              name: `${this.modelName}Resolvers`,
+            },
+            imported: {
+              type: 'Identifier',
+              name: `${this.modelName}Resolvers`,
+            },
+          },
+        ],
+        source: {
+          type: 'Literal',
+          value: `./${this.modelName}/resolver`,
+          raw: `'./${this.modelName}/resolver'`,
         },
       }, ...schemaModule.body];
 
       // include schema of a newly created model in graphql/schema module
       const queriesDeclaration = schemaModule.body.find(
         i => i.type === 'VariableDeclaration' && i.declarations &&
-          i.declarations[0] && i.declarations[0].id.name === 'queries'
+          i.declarations[0] && i.declarations[0].id.name === 'schemas'
       );
 
       if (!queriesDeclaration) {
         // eslint-disable-next-line max-len
-        this.env.error(`Your ${this.serverDirectory}/src/graphql/schema.js module is missing queries const`);
+        this.env.error(`Your ${this.serverDirectory}/src/api/schema.js module is missing schemas const`);
       }
 
-      queriesDeclaration.declarations[0].init.properties.push({
-        type: 'Property',
-        key: {
-          type: 'Identifier',
-          name: changeCase.camelCase(this.modelName),
-        },
-        computed: false,
-        value: {
-          type: 'MemberExpression',
-          computed: false,
-          object: {
-            type: 'Identifier',
-            name: this.modelName,
-          },
-          property: {
-            type: 'Identifier',
-            name: 'RootQuery',
-          },
-        },
-        kind: 'init',
-        method: false,
-        shorthand: false,
+      queriesDeclaration.declarations[0].init.elements.push({
+        type: 'Identifier',
+        name: `${this.modelName}Schema`
       });
 
-      // include mutations of a newly created model in graphql/schema module
-      const mutationsDeclaration = schemaModule.body.find(
+      // include resolvers of a newly created model in graphql/schema module
+      const resolversDeclaration = schemaModule.body.find(
         i => i.type === 'VariableDeclaration' && i.declarations &&
-          i.declarations[0] && i.declarations[0].id.name === 'mutations'
+          i.declarations[0] && i.declarations[0].id.name === 'resolvers'
       );
 
-      if (!mutationsDeclaration) {
+      if (!resolversDeclaration) {
         // eslint-disable-next-line max-len
-        this.env.error(`Your ${this.serverDirectory}/src/graphql/schema.js module is missing mutations const`);
+        this.env.error(`Your ${this.serverDirectory}/src/api/schema.js module is missing resolvers const`);
       }
 
-      mutationsDeclaration.declarations[0].init.elements.push({
-        type: 'MemberExpression',
-        computed: false,
-        object: {
-          type: 'Identifier',
-          name: this.modelName,
-        },
-        property: {
-          type: 'Identifier',
-          name: 'Mutations',
-        },
+      resolversDeclaration.declarations[0].init.elements.push({
+        type: 'Identifier',
+        name: `${this.modelName}Resolvers`
       });
 
       try {

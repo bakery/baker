@@ -2,7 +2,7 @@
 
 import express from 'express';
 import packageJSON from '../package';
-import graphql from './graphql';
+import api from './api';
 import parseServer from './parse-server';
 
 function loadSettings() {
@@ -22,7 +22,7 @@ const app = express();
 const serverPort = process.env.PORT || settings.serverPort;
 
 parseServer.setup(app, packageJSON.name, settings);
-graphql.setup(app);
+api.setup(app);
 
 app.listen(serverPort, () => {
   // eslint-disable-next-line no-console

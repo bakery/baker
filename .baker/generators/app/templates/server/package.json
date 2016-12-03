@@ -15,9 +15,11 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.13.4",
+    "gql-merge": "0.0.4",
     "graphql": "^0.6.2",
     "graphql-server-express": "^0.4.3",
     "graphql-tools": "^0.8.3",
+    "lodash": "^4.17.2",
     "parse": "1.9.2",
     "parse-dashboard": "^1.0.13",
     "parse-graphql-server": "git://github.com/bakery/parse-graphql-server.git#feature/apollo",
