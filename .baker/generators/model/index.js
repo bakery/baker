@@ -39,6 +39,12 @@ module.exports = BaseGenerator.extend({
       this.template('server/models/schema.js.hbs', `${this.serverDirectory}/src/api/${this.modelName}/schema.js`);
     },
 
+    clienModel() {
+      this.template('app/fragments.js.hbs', `${this.appDirectory}/src/state/${this.modelName}/fragments.js`);
+      this.template('app/mutations.js.hbs', `${this.appDirectory}/src/state/${this.modelName}/mutations.js`);
+      this.template('app/queries.js.hbs', `${this.appDirectory}/src/state/${this.modelName}/queries.js`);
+    },
+
     updateGraphQLSchemaFile() {
       const graphQLSchemaModulePath = `${this.serverDirectory}/src/api/schema.js`;
       let schemaModuleContent;

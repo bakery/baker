@@ -31,6 +31,14 @@ describe('generator-rn:model', () => {
     ]);
   });
 
+  it('creates fragments, mutations and queries modules for the model in the app state directory', () => {
+    assert.file([
+      `${appDirectory}/src/state/${modelName}/fragments.js`,
+      `${appDirectory}/src/state/${modelName}/mutations.js`,
+      `${appDirectory}/src/state/${modelName}/queries.js`
+    ]);
+  });
+
   it('imports newly created model schema and resolvers in server/src/api/schema module', () => {
     const module = `${serverDirectory}/src/api/schema.js`;
     assert.fileContent(module,

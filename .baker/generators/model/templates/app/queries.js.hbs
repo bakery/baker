@@ -1,0 +1,19 @@
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { {{modelName}}Fields } from './fragments';
+
+const all{{modelName}}sQuery = gql`
+  query all{{modelName}} { 
+    {{camelCase modelName}}s { ...{{modelName}}Fields }
+  }
+  ${ {{modelName}}Fields }
+`;
+
+const basicQueryConfig = {
+  props: ({ data: { loading, {{camelCase modelName}}s } }) => ({
+    loading,
+    {{camelCase modelName}}s,
+  }),
+};
+
+export const withAll{{modelName}}s = graphql(all{{modelName}}sQuery, basicQueryConfig);

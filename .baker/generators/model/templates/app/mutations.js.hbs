@@ -1,0 +1,76 @@
+import update from 'react-addons-update';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { {{modelName}}Fields } from './fragments';
+
+function updateQueryAfterCreate(prev, { mutationResult }) {
+  const new{{modelName}} = mutationResult.data.add{{modelName}};
+  return update(prev, {
+    {{camelCase modelName}}s: {
+      $unshift: [new{{modelName}}],
+    },
+  });
+}
+
+const add{{modelName}}Mutation = gql`
+  mutation add{{modelName}}($text: String!) {
+    add{{modelName}}(text: $text) {
+      ...{{modelName}}Fields
+    }
+  }
+  ${ {{modelName}}Fields }
+`;
+
+export const withAdd{{modelName}} = graphql(add{{modelName}}Mutation, {
+  props: ({ mutate }) => ({
+    add{{modelName}}: ({ text }) => mutate({
+      variables: { text },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        add{{modelName}}: {
+          __typename: '{{modelName}}',
+          id: Math.floor(Math.random() * 1000).toString(),
+          text,
+        },
+      },
+      updateQueries: {
+        all{{modelName}}s: updateQueryAfterCreate,
+      },
+    }),
+  }),
+});
+
+function updateQueryAfterDelete(prev, { mutationResult }) {
+  const deleted{{modelName}} = mutationResult.data.delete{{modelName}};
+  return update(prev, {
+    {{camelCase modelName}}s: {
+      $set: prev.{{camelCase modelName}}s.filter(t => t.id !== deleted{{modelName}}.id),
+    },
+  });
+}
+
+const delete{{modelName}}Mutation = gql`
+  mutation delete{{modelName}}($id: ID!) {
+    delete{{modelName}}(id: $id) {
+      ...{{modelName}}Fields
+    }
+  }
+  ${ {{modelName}}Fields }
+`;
+
+export const withDelete{{modelName}} = graphql(delete{{modelName}}Mutation, {
+  props: ({ mutate }) => ({
+    delete{{modelName}}: ({ {{camelCase modelName}} }) => mutate({
+      variables: { id: {{camelCase modelName}}.id },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        delete{{modelName}}: Object.assign({
+          __typename: '{{modelName}}',
+        }, {{camelCase modelName}}),
+      },
+      updateQueries: {
+        all{{modelName}}s: updateQueryAfterDelete,
+      },
+    }),
+  }),
+});
