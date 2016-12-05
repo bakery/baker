@@ -1,5 +1,4 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import devTools from 'remote-redux-devtools';
 import Parse from 'parse/react-native';
@@ -14,7 +13,7 @@ Parse.serverURL = settings.parseServerURL;
 
 const sagaMiddleware = createSagaMiddleware();
 
-function configureStore(initialState = fromJS({})) {
+function configureStore(initialState = {}) {
   const enhancers = [
     applyMiddleware(sagaMiddleware),
   ];

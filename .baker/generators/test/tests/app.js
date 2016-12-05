@@ -23,6 +23,8 @@ describe('generator-rn:app', () => {
   const applicationFiles = [
     'app/src/state/index.js',
     'app/src/state/action-types.js',
+    'app/src/state/apollo.js',
+    'app/src/state/auth.js',
     'app/src/state/reducers.js',
     'app/src/settings.js',
     'app/src/setup.js',
