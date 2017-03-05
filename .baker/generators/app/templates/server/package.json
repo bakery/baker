@@ -16,18 +16,18 @@
     "body-parser": "^1.15.2",
     "express": "^4.13.4",
     "gql-merge": "0.0.4",
-    "graphql": "^0.6.2",
-    "graphql-server-express": "^0.4.3",
-    "graphql-tools": "^0.8.3",
+    "graphql": "^0.7.2",
+    "graphql-server-express": "^0.6.0",
+    "graphql-tools": "^0.10.0",
     "lodash": "^4.17.2",
     "parse": "1.9.2",
-    "parse-dashboard": "^1.0.13",
+    "parse-dashboard": "^1.0.22",
     "parse-graphql-server": "git://github.com/bakery/parse-graphql-server.git#feature/apollo",
-    "parse-server": "^2.2.25-beta.1"
+    "parse-server": "^2.3.1",
   },
   "devDependencies": {
-    "babel-jest": "^17.0.0",
-    "babel-polyfill": "^6.16.0",
-    "jest": "^17.0.0"
+    "babel-jest": "^18.0.0",
+    "babel-polyfill": "^6.20.0",
+    "jest": "^18.1.0"
   }
 }    
