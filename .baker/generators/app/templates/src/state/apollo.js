@@ -14,7 +14,12 @@ networkInterface.use([{
     }
 
     getCurrentUser().then(user => {
-      req.options.headers.authorization = user && user.getSessionToken();
+      const sessionToken = user && user.getSessionToken();
+      
+      if (sessionToken) {
+        req.options.headers.authorization = sessionToken;
+      }
+
       next();
     }, error => {
       next();
