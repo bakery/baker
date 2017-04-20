@@ -13,18 +13,21 @@
     "node": ">=4.5"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.13.4",
-    "graphql": "^0.7.0",
-    "immutable": "^3.8.1",
+    "gql-merge": "^0.0.6",
+    "graphql": "^0.9.3",
+    "graphql-server-express": "^0.7.1",
+    "graphql-tools": "^0.11.0",
+    "lodash": "^4.17.2",
     "parse": "1.9.2",
-    "parse-dashboard": "^1.0.13",
-    "parse-graphql-client": "^0.2.0",
-    "parse-graphql-server": "^0.3.0",
-    "parse-server": "^2.2.25-beta.1"
+    "parse-dashboard": "^1.0.22",
+    "parse-graphql-server": "git://github.com/bakery/parse-graphql-server.git#feature/apollo",
+    "parse-server": "^2.3.1"
   },
   "devDependencies": {
-    "babel-jest": "^17.0.0",
-    "babel-polyfill": "^6.16.0",
-    "jest": "^17.0.0"
+    "babel-jest": "^19.0.0",
+    "babel-polyfill": "^6.20.0",
+    "jest": "^19.0.2"
   }
-}
+}    

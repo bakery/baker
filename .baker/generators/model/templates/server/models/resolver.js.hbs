@@ -1,0 +1,32 @@
+import Parse from 'parse/node';
+import {{modelName}} from './model';
+
+export default {
+  {{modelName}}: {
+    text: (root) => root.get('text'),
+  },
+  Query: {
+    {{camelCase modelName}}s(root, _, { Query, user }) {
+      const query = new Query({{modelName}});
+      return query.find();
+    },
+  },
+  Mutation: {
+    add{{modelName}}(_, { text }, { Query, user }) {
+      const {{camelCase modelName}} = new Query({{modelName}}).create({ text });
+      if (user) {
+        {{camelCase modelName}}.setACL(new Parse.ACL(user));
+      }
+      return {{camelCase modelName}}.save().then({{camelCase modelName}} => {{camelCase modelName}});
+    },
+
+    delete{{modelName}}(_, { id }, { Query }) {
+      return new Query({{modelName}}).get(id).then({{camelCase modelName}} => {
+        if ({{camelCase modelName}}) {
+          {{camelCase modelName}}.destroy();
+        }
+        return {{camelCase modelName}};
+      });
+    },
+  },
+};

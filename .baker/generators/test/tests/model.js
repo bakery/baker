@@ -23,25 +23,39 @@ describe('generator-rn:model', () => {
     .on('end', done);
   });
 
-  it('creates a model file in server/src/models directory', () => {
+  it('creates model, resolver and schema modules for the model', () => {
     assert.file([
-      `${serverDirectory}/src/models/Todo.js`,
+      `${serverDirectory}/src/api/${modelName}/model.js`,
+      `${serverDirectory}/src/api/${modelName}/resolver.js`,
+      `${serverDirectory}/src/api/${modelName}/schema.js`
     ]);
   });
 
-  it('imports newly created model in server/src/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`,
-      `import ${modelName} from '../models/${modelName}';`
+  it('creates fragments, mutations and queries modules for the model in the app state directory', () => {
+    assert.file([
+      `${appDirectory}/src/state/${modelName}/fragments.js`,
+      `${appDirectory}/src/state/${modelName}/mutations.js`,
+      `${appDirectory}/src/state/${modelName}/queries.js`
+    ]);
+  });
+
+  it('imports newly created model schema and resolvers in server/src/api/schema module', () => {
+    const module = `${serverDirectory}/src/api/schema.js`;
+    assert.fileContent(module,
+      `import ${modelName}Schema from './${modelName}/schema';`
+    );
+    assert.fileContent(module,
+      `import ${modelName}Resolvers from './${modelName}/resolver';`
     );
   });
 
-  it('references new model\'s root query in server/src/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`, 'todo: Todo.RootQuery');
+  it('references new model\'s schema in server/src/api/schema module', () => {
+    assert.fileContent(`${serverDirectory}/src/api/schema.js`, `${modelName}Schema`);
   });
 
-  it('references new model\'s mutations in server/src/graphql/schema module', () => {
-    assert.fileContent(`${serverDirectory}/src/graphql/schema.js`,
-      `${modelName}.Mutations`
+  it('references new model\'s resolvers in server/src/api/schema module', () => {
+    assert.fileContent(`${serverDirectory}/src/api/schema.js`,
+      `${modelName}Resolvers`
     );
   });
 });

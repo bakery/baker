@@ -1,11 +1,11 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import { fromJS } from 'immutable';
 import createSagaMiddleware from 'redux-saga';
 import devTools from 'remote-redux-devtools';
 import Parse from 'parse/react-native';
 import createReducer from './reducers';
 import sagas from '../sagas';
 import Settings from '../settings';
+import apollo from './apollo';
 
 const settings = Settings.load();
 
@@ -14,9 +14,10 @@ Parse.serverURL = settings.parseServerURL;
 
 const sagaMiddleware = createSagaMiddleware();
 
-function configureStore(initialState = fromJS({})) {
+function configureStore(initialState = {}) {
   const enhancers = [
     applyMiddleware(sagaMiddleware),
+    applyMiddleware(apollo.middleware())
   ];
 
   if (__DEV__) {
